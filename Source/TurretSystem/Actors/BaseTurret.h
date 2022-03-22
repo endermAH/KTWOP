@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Bullet.h"
 #include "Components\ArrowComponent.h"
 #include "Components\SphereComponent.h"
 #include "GameFramework\Actor.h"
@@ -12,6 +13,7 @@
 #define LATER_SECS(seconds, ...) \
 FTimerHandle __tempTimerHandle; \
 GetWorldTimerManager().SetTimer(__tempTimerHandle, FTimerDelegate().CreateLambda(__VA_ARGS__), seconds, false);
+
 
 
 UCLASS()
@@ -33,12 +35,29 @@ public:
 	float TurretRadius;
 	
 	UPROPERTY(EditInstanceOnly)
+	float TurretShootAngle = 1.f/360;
+	
+	UPROPERTY(EditInstanceOnly)
 	float RotationSpeed = 5;
+	
+	UPROPERTY(EditInstanceOnly)
+	float ShootDelay = 5;
+
+	/** type of bullet */
+	UPROPERTY(EditDefaultsOnly, Category=Damage)
+	TSubclassOf<ABullet> BulletType;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	USphereComponent* CollisionComponent;
 
 protected:
+
+	UPROPERTY()
+	TSet<AActor*> EnemyActors;
+	
+	UPROPERTY(BlueprintReadOnly)
+	AActor* TargetEnemy;
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -57,12 +76,6 @@ protected:
 		UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex);
 
-	UPROPERTY()
-	TSet<AActor*> EnemyActors;
-	
-	UPROPERTY(BlueprintReadOnly)
-	AActor* TargetEnemy;
-
 	UFUNCTION()
 	void OnBeginOverlap_Implementation(
 		UPrimitiveComponent* OverlappedComponent,
@@ -78,12 +91,16 @@ protected:
 		UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex);
 
-
+	UPROPERTY()
+	TArray<ABullet*> BulletsSet;
+	
+	float Delay = 0;
+	void Shoot(float DeltaTime);
 public:
 	// Called every frame
 	virtual void OnConstruction(const FTransform& Transform) override;
-
-
+	
 	virtual void Tick(float DeltaTime) override;
+	
 	
 };

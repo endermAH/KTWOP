@@ -19,20 +19,46 @@ public:
 
 	UPROPERTY()
 	AActor* TargetEnemy;
+
+	UPROPERTY(BlueprintReadWrite)
+	float BulletSpeed = 5;
 	
-	float BulletSpeed = 1;
+	bool IsReady = false;
 
 	UPROPERTY(BlueprintReadOnly)
 	UBulletAbilitySystemComponent* AbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	USphereComponent* CollisionComponent;
-	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	virtual void OnConstruction(const FTransform& Transform) override;
+
+	UFUNCTION(BlueprintNativeEvent)
+	void OnBeginOverlap(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComponent,
+		int32 OtherBodyIndex, bool bFromSweep,
+		const FHitResult& Hit);
+
+	UFUNCTION()
+	void OnBeginOverlap_Implementation(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComponent,
+		int32 OtherBodyIndex, bool bFromSweep,
+		const FHitResult& Hit);
+
+
 public:
 	// Called every frame
+
+	UFUNCTION()
+	void StartFly();
+
 	virtual void Tick(float DeltaTime) override;
 };

@@ -33,21 +33,44 @@ void ABullet::BeginPlay()
 	
 }
 
+void ABullet::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ABullet::OnBeginOverlap);
+}
+
+void ABullet::OnBeginOverlap_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+                                            UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
+{
+	OtherActor->Destroy();
+	this->Destroy();
+}
+
+void ABullet::StartFly()
+{
+	IsReady = true;
+}
+
 // Called every frame
 void ABullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (!IsReady)
+		return;
 	if ((TargetEnemy == nullptr) || (!IsValid(TargetEnemy)))
 	{
 		this->Destroy();
 	}
-	TargetEnemy->GetActorLocation();
+	
+	FVector targetLocation =  TargetEnemy->GetActorLocation() + FVector(0,0,30);
+	FVector bulletLocation =  RootComponent->GetComponentLocation();
 	FVector newLocation = FMath::VInterpTo(
-		TargetEnemy->GetActorLocation(),
-		RootComponent->GetComponentLocation(),
+		bulletLocation,
+		targetLocation,
 		DeltaTime,
 		BulletSpeed
 		);
+	
 	RootComponent->SetWorldLocation(newLocation);
 	
 }

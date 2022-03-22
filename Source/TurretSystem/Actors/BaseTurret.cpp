@@ -79,11 +79,13 @@ void ABaseTurret::Tick(float DeltaTime)
 	myPosition.Z = 0;
 
 
-	if (TargetEnemy == nullptr)
+	if (!IsValid(TargetEnemy))
 	{
 		float distance = 10000000;
 		for (auto& enemy : EnemyActors)
 		{
+			if (!IsValid(enemy))
+				continue;
 			FVector enemyPosition = enemy->GetActorLocation();
 			enemyPosition.Z = 0;
 			float enemyDistance = (myPosition - enemyPosition).Size();
@@ -95,7 +97,7 @@ void ABaseTurret::Tick(float DeltaTime)
 		}
 	}
 
-	if (TargetEnemy != nullptr && IsValid(TargetEnemy))
+	if (IsValid(TargetEnemy))
 	{
 		FVector enemyPosition = TargetEnemy->GetActorLocation();
 		enemyPosition.Z = 0;
@@ -106,9 +108,43 @@ void ABaseTurret::Tick(float DeltaTime)
 			                                       UKismetMathLibrary::FindLookAtRotation(myPosition, enemyPosition),
 			                                       DeltaTime, RotationSpeed);
 			RootComponent->SetWorldRotation(newRotator);
+			Shoot(DeltaTime);
 		} else
 		{
 			TargetEnemy = nullptr;
 		}
+	}
+}
+
+
+void ABaseTurret::Shoot(float DeltaTime)
+{
+	FVector myPosition = RootComponent->GetComponentLocation();
+	FVector enemyPosition =TargetEnemy->GetActorLocation();
+	
+	Delay -= DeltaTime;
+	if ((Delay < 0))// && (FVector::DotProduct(UKismetMathLibrary::FindLookAtRotation(myPosition, enemyPosition).Vector(),FVector(1,1,1)) < TurretShootAngle))
+	{
+		FActorSpawnParameters SpawnInfo;
+		FVector location = ArrowComponent->GetComponentLocation();
+		location += ArrowComponent->GetForwardVector() * 30;
+		
+		ABullet* bullet = GetWorld()->SpawnActor<ABullet>(BulletType, location, FRotator(), SpawnInfo);
+		bullet->TargetEnemy = TargetEnemy;
+		bullet->StartFly();
+
+		//for (int i = 0; i < BulletsSet.Num(); i++)
+		//{
+		//	if (!IsValid(BulletsSet[i]))
+		//	{
+		//		BulletsSet[i] = bullet;
+		//		bullet = nullptr;
+		//		break;
+		//	}
+		//}
+		//if (bullet != nullptr)
+		//	BulletsSet.Add(bullet);
+		
+		Delay = ShootDelay;
 	}
 }
