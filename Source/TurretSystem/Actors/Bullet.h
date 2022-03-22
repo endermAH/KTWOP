@@ -23,6 +23,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	float BulletSpeed = 5;
 	
+	UPROPERTY(BlueprintReadWrite)
+	float MaxFlyDistance = 500;
+	
 	bool IsReady = false;
 
 	UPROPERTY(BlueprintReadOnly)
@@ -54,11 +57,24 @@ protected:
 		const FHitResult& Hit);
 
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnTargetHit(UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComponent,
+		int32 OtherBodyIndex, bool bFromSweep,
+		const FHitResult& Hit);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnDistanceDeplete();
+
+
 public:
 	// Called every frame
 
 	UFUNCTION()
 	void StartFly();
+
+	float FlyDistance = 0;
 
 	virtual void Tick(float DeltaTime) override;
 };

@@ -42,8 +42,7 @@ void ABullet::OnConstruction(const FTransform& Transform)
 void ABullet::OnBeginOverlap_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                             UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
-	OtherActor->Destroy();
-	this->Destroy();
+	OnTargetHit(OverlappedComponent, OtherActor, OtherComponent,  OtherBodyIndex, bFromSweep, Hit);
 }
 
 void ABullet::StartFly()
@@ -70,6 +69,12 @@ void ABullet::Tick(float DeltaTime)
 		DeltaTime,
 		BulletSpeed
 		);
+	FlyDistance += (bulletLocation - newLocation).Size();
+
+	if (FlyDistance > MaxFlyDistance)
+	{
+		OnDistanceDeplete();
+	}
 	
 	RootComponent->SetWorldLocation(newLocation);
 	

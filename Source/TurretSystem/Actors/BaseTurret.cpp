@@ -47,8 +47,8 @@ void ABaseTurret::OnBeginOverlap_Implementation(UPrimitiveComponent* OverlappedC
                                                 bool bFromSweep, const FHitResult& Hit)
 {
 	EnemyActors.Add(OtherActor);
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red,
-	                                 FString::Printf(TEXT("Add new Actor to pull. Size = %i"), EnemyActors.Num()));
+	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red,
+	//                                 FString::Printf(TEXT("Add new Actor to pull. Size = %i"), EnemyActors.Num()));
 }
 
 void ABaseTurret::OnEndOverlap_Implementation(UPrimitiveComponent* OverlappedComponent,
@@ -59,8 +59,8 @@ void ABaseTurret::OnEndOverlap_Implementation(UPrimitiveComponent* OverlappedCom
 	LATER_SECS(0.2f, [this, OtherActor]()
 	           {
 	           this->EnemyActors.Remove(OtherActor);
-	           GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red,
-		           FString::Printf(TEXT("Remove Actor to pull. Size = %i"), EnemyActors.Num()));
+	           //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red,
+		       //    FString::Printf(TEXT("Remove Actor to pull. Size = %i"), EnemyActors.Num()));
 	           });
 }
 
