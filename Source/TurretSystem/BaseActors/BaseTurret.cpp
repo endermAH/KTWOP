@@ -108,7 +108,7 @@ void ABaseTurret::Tick(float DeltaTime)
 			                                       UKismetMathLibrary::FindLookAtRotation(myPosition, enemyPosition),
 			                                       DeltaTime, RotationSpeed);
 			RootComponent->SetWorldRotation(newRotator);
-			Shoot(DeltaTime);
+			this->Shoot(DeltaTime);
 		} else
 		{
 			TargetEnemy = nullptr;
@@ -116,35 +116,3 @@ void ABaseTurret::Tick(float DeltaTime)
 	}
 }
 
-
-void ABaseTurret::Shoot(float DeltaTime)
-{
-	FVector myPosition = RootComponent->GetComponentLocation();
-	FVector enemyPosition =TargetEnemy->GetActorLocation();
-	
-	Delay -= DeltaTime;
-	if ((Delay < 0))// && (FVector::DotProduct(UKismetMathLibrary::FindLookAtRotation(myPosition, enemyPosition).Vector(),FVector(1,1,1)) < TurretShootAngle))
-	{
-		FActorSpawnParameters SpawnInfo;
-		FVector location = ArrowComponent->GetComponentLocation();
-		location += ArrowComponent->GetForwardVector() * 30;
-		
-		ABullet* bullet = GetWorld()->SpawnActor<ABullet>(BulletType, location, FRotator(), SpawnInfo);
-		bullet->TargetEnemy = TargetEnemy;
-		bullet->StartFly();
-
-		//for (int i = 0; i < BulletsSet.Num(); i++)
-		//{
-		//	if (!IsValid(BulletsSet[i]))
-		//	{
-		//		BulletsSet[i] = bullet;
-		//		bullet = nullptr;
-		//		break;
-		//	}
-		//}
-		//if (bullet != nullptr)
-		//	BulletsSet.Add(bullet);
-		
-		Delay = ShootDelay;
-	}
-}
