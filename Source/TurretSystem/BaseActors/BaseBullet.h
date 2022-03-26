@@ -5,17 +5,17 @@
 #include "CoreMinimal.h"
 #include "GameFramework\Actor.h"
 #include "TurretSystem\AbilitySystems\BulletAbilitySystemComponent.h"
-#include "Bullet.generated.h"
+#include "BaseBullet.generated.h"
 
 class USphereComponent;
 UCLASS()
-class TURRETSYSTEM_API ABullet : public AActor
+class TURRETSYSTEM_API ABaseBullet : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	ABullet();
+	ABaseBullet();
 
 	UPROPERTY()
 	AActor* TargetEnemy;
@@ -40,16 +40,8 @@ protected:
 
 	virtual void OnConstruction(const FTransform& Transform) override;
 
-	UFUNCTION(BlueprintNativeEvent)
-	void OnBeginOverlap(
-		UPrimitiveComponent* OverlappedComponent,
-		AActor* OtherActor,
-		UPrimitiveComponent* OtherComponent,
-		int32 OtherBodyIndex, bool bFromSweep,
-		const FHitResult& Hit);
-
 	UFUNCTION()
-	void OnBeginOverlap_Implementation(
+	void OnBeginOverlap(
 		UPrimitiveComponent* OverlappedComponent,
 		AActor* OtherActor,
 		UPrimitiveComponent* OtherComponent,
