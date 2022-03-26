@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Bullet.h"
+#include "BaseBullet.h"
 #include "Components\ArrowComponent.h"
 #include "Components\SphereComponent.h"
 #include "GameFramework\Actor.h"
 #include "TurretSystem\AbilitySystems\TurretAbilitySystemComponent.h"
+#include "TurretSystem\Interfaces\IShootable.h"
 #include "BaseTurret.generated.h"
 
 #define LATER_SECS(seconds, ...) \
@@ -16,8 +17,8 @@ GetWorldTimerManager().SetTimer(__tempTimerHandle, FTimerDelegate().CreateLambda
 
 
 
-UCLASS()
-class TURRETSYSTEM_API ABaseTurret : public AActor
+UCLASS(Abstract)
+class TURRETSYSTEM_API ABaseTurret : public AActor, public IShootable
 {
 	GENERATED_BODY()
 
@@ -40,12 +41,6 @@ public:
 	UPROPERTY(EditInstanceOnly)
 	float RotationSpeed = 5;
 	
-	UPROPERTY(EditInstanceOnly)
-	float ShootDelay = 5;
-
-	/** type of bullet */
-	UPROPERTY(EditDefaultsOnly, Category=Damage)
-	TSubclassOf<ABullet> BulletType;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	USphereComponent* CollisionComponent;
@@ -53,7 +48,7 @@ public:
 protected:
 
 	UPROPERTY()
-	TSet<AActor*> EnemyActors;
+	TSet<APawn*> EnemyActors;
 	
 	UPROPERTY(BlueprintReadOnly)
 	AActor* TargetEnemy;
@@ -61,6 +56,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+#pragma region CollisionSystem
+	
 	UFUNCTION(BlueprintNativeEvent)
 	void OnBeginOverlap(
 		UPrimitiveComponent* OverlappedComponent,
@@ -91,11 +88,9 @@ protected:
 		UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex);
 
-	UPROPERTY()
-	TArray<ABullet*> BulletsSet;
-	
-	float Delay = 0;
-	void Shoot(float DeltaTime);
+#pragma endregion 
+
+
 public:
 	// Called every frame
 	virtual void OnConstruction(const FTransform& Transform) override;
