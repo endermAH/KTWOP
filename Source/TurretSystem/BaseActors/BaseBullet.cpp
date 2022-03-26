@@ -1,13 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Bullet.h"
+#include "BaseBullet.h"
 
 #include "Components\SphereComponent.h"
 
 
 // Sets default values
-ABullet::ABullet()
+ABaseBullet::ABaseBullet()
 {
 	RootComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Bullet"));
 	
@@ -27,31 +27,31 @@ ABullet::ABullet()
 }
 
 // Called when the game starts or when spawned
-void ABullet::BeginPlay()
+void ABaseBullet::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-void ABullet::OnConstruction(const FTransform& Transform)
+void ABaseBullet::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ABullet::OnBeginOverlap);
+	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ABaseBullet::OnBeginOverlap);
 }
 
-void ABullet::OnBeginOverlap_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                             UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
 	OnTargetHit(OverlappedComponent, OtherActor, OtherComponent,  OtherBodyIndex, bFromSweep, Hit);
 }
 
-void ABullet::StartFly()
+void ABaseBullet::StartFly()
 {
 	IsReady = true;
 }
 
 // Called every frame
-void ABullet::Tick(float DeltaTime)
+void ABaseBullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	if (!IsReady)
