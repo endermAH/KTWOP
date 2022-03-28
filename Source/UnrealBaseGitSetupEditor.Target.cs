@@ -14,7 +14,8 @@ public class UnrealBaseGitSetupEditorTarget : TargetRules
 			"UnrealBaseGitSetup",
 			"DMGSystem",
 			"TurretSystem",
-			"EnemySystem"
+			"EnemySystem",
+			"StatusSystem"
 		} );
 	}
 }
