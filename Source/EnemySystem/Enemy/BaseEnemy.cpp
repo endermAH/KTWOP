@@ -1,17 +1,25 @@
 ﻿#include "BaseEnemy.h"
 
 ABaseEnemy::ABaseEnemy()
-	: Health(MaxHealth)
 {}
 
-void ABaseEnemy::AddStatus(TScriptInterface<IStatusBase> status) {
+void ABaseEnemy::AddStatusInternal(TScriptInterface<IStatusBase> status) {
 	// TODO: check, if this status already exist and so on...
 	EStatusType type = IStatusBase::Execute_GetStatusType(status.GetObject());
 	StatusesMap.Add(type, status);
 }
 
+void ABaseEnemy::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+
+	Health = MaxHealth;
+}
+
 void ABaseEnemy::Tick(float DeltaSeconds)
 {
+	Super::Tick(DeltaSeconds);
+	
 	TScriptInterface<IStatusOwner> statusOwner;
 	statusOwner.SetInterface(this);
 	statusOwner.SetObject(this);
@@ -28,28 +36,41 @@ bool ABaseEnemy::HasStatus_Implementation(EStatusType statusType)
 
 TScriptInterface<IStatusData> ABaseEnemy::GetStatus_Implementation(EStatusType statusType)
 {
-	TScriptInterface<IStatusBase> statusBase = StatusesMap[TEnumAsByte<EStatusType>(statusType)];
-	TScriptInterface<IStatusData> statusData;
-	statusData.SetInterface(statusBase.GetObject());
-	statusData.SetObject(statusBase.GetObject());
-	return statusData;
+	if (StatusesMap.Contains(TEnumAsByte<EStatusType>(statusType)))
+	{
+		TScriptInterface<IStatusBase>& statusBase = StatusesMap[TEnumAsByte<EStatusType>(statusType)];
+		TScriptInterface<IStatusData> statusData;
+		statusData.SetInterface(statusBase.GetObject());
+		statusData.SetObject(statusBase.GetObject());
+		return statusData;
+	}
+	return nullptr;
 }
 
-int ABaseEnemy::GetHealth_Implementation()
+float ABaseEnemy::GetHealth_Implementation()
 {
 	return Health;
 }
 
-void ABaseEnemy::Damage_Implementation(int damage)
+void ABaseEnemy::ApplyDamage_Implementation(float damage)
 {
-	Health = FMath::Clamp(Health - damage, 0, MaxHealth);
+	Health = FMath::Clamp<float>(Health - damage, 0.0f, MaxHealth);
 	TScriptInterface<IStatusOwner> statusOwner;
 	statusOwner.SetInterface(this);
 	statusOwner.SetObject(this);
 	
 	if (Health == 0) {
-		for (const auto& pair : StatusesMap) {
-			pair.Value->OnDie(statusOwner);
+		for (const auto& [key, status ]: StatusesMap) {
+			status->Execute_OnDie(status.GetObject(), statusOwner);
 		}
+		this->Execute_OnDeath(this);
 	}
+}
+
+void ABaseEnemy::AddStatus_Implementation(const TScriptInterface<IStatusData>& status)
+{
+	TScriptInterface<IStatusBase> goodStatus;
+	goodStatus.SetInterface(status.GetObject());
+	goodStatus.SetObject(status.GetObject());
+	AddStatusInternal(goodStatus);
 }

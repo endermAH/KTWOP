@@ -4,6 +4,7 @@
 #include "BaseBullet.h"
 
 #include "Components\SphereComponent.h"
+#include "EnemySystem\Enemy\BaseEnemy.h"
 
 
 // Sets default values
@@ -41,7 +42,18 @@ void ABaseBullet::OnConstruction(const FTransform& Transform)
 void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                             UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
-	OnTargetHit(OverlappedComponent, OtherActor, OtherComponent,  OtherBodyIndex, bFromSweep, Hit);
+	ABaseEnemy* enemy = Cast<ABaseEnemy>(OtherActor);
+	if (IsValid(enemy))
+	{
+		TScriptInterface<IStatusOwner> statusOwner;
+		statusOwner.SetInterface(enemy);
+		statusOwner.SetObject(enemy);
+		for (auto& status :Statuses)
+		{
+			status->Execute_Apply(status.GetObject(), statusOwner);
+		}
+		OnTargetHit(OverlappedComponent, OtherActor, OtherComponent,  OtherBodyIndex, bFromSweep, Hit);
+	}
 }
 
 void ABaseBullet::StartFly()
@@ -68,7 +80,7 @@ void ABaseBullet::Tick(float DeltaTime)
 		return;
 	}
 	
-	FVector targetLocation =  TargetEnemy->GetActorLocation() + FVector(0,0,30) + TargetEnemy->GetVelocity();
+	FVector targetLocation =  TargetEnemy->GetActorLocation() + FVector(0,0,30);// + TargetEnemy->GetVelocity()*DeltaTime;
 	FVector bulletLocation =  RootComponent->GetComponentLocation();
 	FVector newLocation = FMath::VInterpTo(
 		bulletLocation,

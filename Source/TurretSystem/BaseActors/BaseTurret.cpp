@@ -121,8 +121,8 @@ void ABaseTurret::Tick(float DeltaTime)
 			                                       targetRotator,
 			                                       DeltaTime, RotationSpeed);
 			RootComponent->SetWorldRotation(newRotator);
-			float angleBetweenTurretAndTarget = ((RootComponent->GetComponentRotation() - targetRotator).Vector()|FVector(1,1,1));
-			if (angleBetweenTurretAndTarget < TurretShootAngle)
+			float angleBetweenTurretAndTarget = FMath::Abs((RootComponent->GetComponentRotation() - targetRotator).Vector()|FVector(1,1,1));
+			if (angleBetweenTurretAndTarget < TurretShootAngle )
 				this->Shoot(DeltaTime);
 		} else
 		{

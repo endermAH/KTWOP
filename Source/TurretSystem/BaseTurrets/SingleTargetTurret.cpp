@@ -35,7 +35,7 @@ void ASingleTargetTurret::Shoot(float DeltaTime)
 		bullet->TargetEnemy = TargetEnemy;
 		for (auto& status :Statuses)
 		{
-			bullet->Statuses.Add(status->Execute_MakeStatusCopy(status.GetObject(), BaseStatusesMultiplier));
+			bullet->Statuses.Add(status->Execute_MakeStatusCopy(status.GetObject(), BaseStatusesMultiplier, bullet));
 		}
 		bullet->StartFly();
 		

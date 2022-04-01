@@ -16,7 +16,7 @@ void IStatusBase::OnDie_Implementation(const TScriptInterface<IStatusOwner>& sta
 }
 
 
-TScriptInterface<IStatusBase> IStatusBase::MakeStatusCopy_Implementation(float ExternalModifier)
+TScriptInterface<IStatusBase> IStatusBase::MakeStatusCopy_Implementation(float ExternalModifier, UObject* outer)
 {
 	UE_LOG(LogTemp, Error, TEXT("\"MakeStatusCopy\" method isn't implemented."));
 	return nullptr;

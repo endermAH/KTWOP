@@ -38,9 +38,10 @@ public:
 
 	UFUNCTION()
 	virtual void OnDie_Implementation(const TScriptInterface<IStatusOwner>& statusOwner);
+	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	TScriptInterface<IStatusBase> MakeStatusCopy(float ExternalModifier);
-	virtual TScriptInterface<IStatusBase> MakeStatusCopy_Implementation(float ExternalModifier);
+	TScriptInterface<IStatusBase> MakeStatusCopy(float ExternalModifier, UObject* outer);
 	
 	UFUNCTION()
+	virtual TScriptInterface<IStatusBase> MakeStatusCopy_Implementation(float ExternalModifier, UObject* outer);
 };
