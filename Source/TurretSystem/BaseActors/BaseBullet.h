@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components\SphereComponent.h"
 #include "GameFramework\Actor.h"
+#include "StatusSystem\BaseStatuses\IStatusBase.h"
 #include "TurretSystem\AbilitySystems\BulletAbilitySystemComponent.h"
 #include "BaseBullet.generated.h"
 
-class USphereComponent;
 UCLASS()
 class TURRETSYSTEM_API ABaseBullet : public AActor
 {
@@ -19,6 +20,11 @@ public:
 
 	UPROPERTY()
 	AActor* TargetEnemy;
+	
+	UPROPERTY(BlueprintReadOnly)
+	bool IsWorking = false;
+
+#pragma region BulletStats
 
 	UPROPERTY(BlueprintReadWrite)
 	float BulletSpeed = 5;
@@ -26,7 +32,12 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	float MaxFlyDistance = 500;
 	
-	bool IsReady = false;
+	float SpentFlyDistance = 0;
+
+	UPROPERTY(BlueprintReadOnly)
+	TArray<TScriptInterface<IStatusBase>> Statuses;
+
+#pragma endregion
 
 	UPROPERTY(BlueprintReadOnly)
 	UBulletAbilitySystemComponent* AbilitySystemComponent;
@@ -63,10 +74,11 @@ protected:
 public:
 	// Called every frame
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void StartFly();
+	UFUNCTION(BlueprintCallable)
+	void StopFly();
 
-	float FlyDistance = 0;
 
 	virtual void Tick(float DeltaTime) override;
 };

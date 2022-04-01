@@ -9,8 +9,7 @@ public class StatusSystem : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { 
-			"Core", "CoreUObject", "Engine", "InputCore",
-			"GameplayAbilities", "GameplayTags", "GameplayTasks"
+			"Core", "CoreUObject", "Engine", "InputCore"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

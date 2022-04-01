@@ -30,7 +30,6 @@ ABaseBullet::ABaseBullet()
 void ABaseBullet::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void ABaseBullet::OnConstruction(const FTransform& Transform)
@@ -47,21 +46,29 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 void ABaseBullet::StartFly()
 {
-	IsReady = true;
+	IsWorking = true;
+}
+
+void ABaseBullet::StopFly()
+{
+	IsWorking = false;
 }
 
 // Called every frame
 void ABaseBullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (!IsReady)
+	if (!IsWorking)
 		return;
-	if ((TargetEnemy == nullptr) || (!IsValid(TargetEnemy)))
+
+	
+	if (!IsValid(TargetEnemy))
 	{
-		this->Destroy();
+		OnDistanceDeplete();
+		return;
 	}
 	
-	FVector targetLocation =  TargetEnemy->GetActorLocation() + FVector(0,0,30);
+	FVector targetLocation =  TargetEnemy->GetActorLocation() + FVector(0,0,30) + TargetEnemy->GetVelocity();
 	FVector bulletLocation =  RootComponent->GetComponentLocation();
 	FVector newLocation = FMath::VInterpTo(
 		bulletLocation,
@@ -69,11 +76,13 @@ void ABaseBullet::Tick(float DeltaTime)
 		DeltaTime,
 		BulletSpeed
 		);
-	FlyDistance += (bulletLocation - newLocation).Size();
+	
+	SpentFlyDistance += (bulletLocation - newLocation).Size();
 
-	if (FlyDistance > MaxFlyDistance)
+	if (SpentFlyDistance > MaxFlyDistance)
 	{
 		OnDistanceDeplete();
+		return;
 	}
 	
 	RootComponent->SetWorldLocation(newLocation);

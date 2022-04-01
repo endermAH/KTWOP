@@ -3,8 +3,10 @@
 #include "CoreMinimal.h"
 #include "IStatusData.h"
 #include "UObject/Interface.h"
-#include "StatusType.h"
 #include "IStatusOwner.generated.h"
+
+
+
 
 UINTERFACE()
 class UStatusOwner : public UInterface
@@ -15,8 +17,13 @@ class UStatusOwner : public UInterface
 class STATUSSYSTEM_API IStatusOwner
 {
 	GENERATED_BODY()
+
+
 	
 public:
+
+	float Health;
+	
 	// Add here desirable tortures for monsters...
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
@@ -42,4 +49,8 @@ public:
 
 	UFUNCTION()
 	virtual void Damage_Implementation(int damage);
+	
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	void OnDeath(int damage);
+
 };

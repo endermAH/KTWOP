@@ -33,6 +33,10 @@ void ASingleTargetTurret::Shoot(float DeltaTime)
 		
 		ABaseBullet* bullet = GetWorld()->SpawnActor<ABaseBullet>(BulletType, location, FRotator(), SpawnInfo);
 		bullet->TargetEnemy = TargetEnemy;
+		for (auto& status :Statuses)
+		{
+			bullet->Statuses.Add(status->Execute_MakeStatusCopy(status.GetObject(), BaseStatusesMultiplier));
+		}
 		bullet->StartFly();
 		
 		Delay = ShootDelay;

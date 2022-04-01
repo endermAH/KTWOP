@@ -19,6 +19,8 @@ class STATUSSYSTEM_API IStatusData
 	GENERATED_BODY()
 	
 public:
+#pragma region Modifier
+	float Modifier;
 	// Turret modifier.
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	float GetModifier();
@@ -31,7 +33,9 @@ public:
 
 	UFUNCTION()
 	virtual void SetModifier_Implementation(float modifier);
-	
+#pragma endregion 
+#pragma region Power
+	float Power;
 	// Power of status.
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	float GetPower();
@@ -44,7 +48,9 @@ public:
 
 	UFUNCTION()
 	virtual void SetPower_Implementation(float power);
-
+#pragma endregion
+#pragma region Duration
+	float Duration;
 	// Duration of status.
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	float GetDuration();
@@ -57,10 +63,14 @@ public:
 
 	UFUNCTION()
 	virtual void SetDuration_Implementation(float duration);
+#pragma endregion
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	EStatusType GetStatusType();
 	
 	UFUNCTION()
 	virtual EStatusType GetStatusType_Implementation();
+
+	
+
 };
