@@ -2,14 +2,14 @@
 
 using UnrealBuildTool;
 
-public class StatusSystem : ModuleRules
+public class ImplementedStatuses : ModuleRules
 {
-	public StatusSystem(ReadOnlyTargetRules Target) : base(Target)
+	public ImplementedStatuses(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { 
-			"Core", "CoreUObject", "Engine", "InputCore",
+			"Core", "CoreUObject", "Engine", "InputCore"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

@@ -22,27 +22,25 @@ public:
 	// Add all necessary status owner events here.
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void Apply(TScriptInterface<IStatusOwner>& statusOwner);
+	void Apply(const TScriptInterface<IStatusOwner>& statusOwner);
 
 	UFUNCTION()
-	virtual void Apply_Implementation(TScriptInterface<IStatusOwner>& statusOwner);
+	virtual void Apply_Implementation(const TScriptInterface<IStatusOwner>& statusOwner);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void OnTick(TScriptInterface<IStatusOwner>& statusOwner);
+	void OnTick(const TScriptInterface<IStatusOwner>& statusOwner, float dt);
 
 	UFUNCTION()
-	virtual void OnTick_Implementation(TScriptInterface<IStatusOwner>& statusOwner);
+	virtual void OnTick_Implementation(const TScriptInterface<IStatusOwner>& statusOwner, float dt);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void OnDie(TScriptInterface<IStatusOwner>& statusOwner);
+	void OnDie(const TScriptInterface<IStatusOwner>& statusOwner);
 
 	UFUNCTION()
-	virtual void OnDie_Implementation(TScriptInterface<IStatusOwner>& statusOwner);
-
-
+	virtual void OnDie_Implementation(const TScriptInterface<IStatusOwner>& statusOwner);
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	TScriptInterface<IStatusBase> MakeStatusCopy(float ExternalModifier);
+	virtual TScriptInterface<IStatusBase> MakeStatusCopy_Implementation(float ExternalModifier);
 	
 	UFUNCTION()
-	virtual TScriptInterface<IStatusBase> MakeStatusCopy_Implementation(float ExternalModifier);
 };
