@@ -3,8 +3,10 @@
 #include "CoreMinimal.h"
 #include "IStatusData.h"
 #include "UObject/Interface.h"
-#include "StatusType.h"
 #include "IStatusOwner.generated.h"
+
+
+
 
 UINTERFACE()
 class UStatusOwner : public UInterface
@@ -15,31 +17,50 @@ class UStatusOwner : public UInterface
 class STATUSSYSTEM_API IStatusOwner
 {
 	GENERATED_BODY()
+
+
 	
 public:
+
+	
 	// Add here desirable tortures for monsters...
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	bool HasStatus(EStatusType statusType);
-
 	UFUNCTION()
 	virtual bool HasStatus_Implementation(EStatusType statusType);
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	TScriptInterface<IStatusData> GetStatus(EStatusType statusType);
-		
 	UFUNCTION()
 	virtual TScriptInterface<IStatusData> GetStatus_Implementation(EStatusType statusType);
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	int GetHealth();
-
+	void AddStatus(const TScriptInterface<IStatusData>& status);
 	UFUNCTION()
-	virtual int GetHealth_Implementation();
+	virtual void AddStatus_Implementation(const TScriptInterface<IStatusData>& status);
+
+
+#pragma region Health
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void Damage(int damage);
-
+	float GetHealth();
 	UFUNCTION()
-	virtual void Damage_Implementation(int damage);
+	virtual float GetHealth_Implementation();
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void SetHealth(float newHealth);
+	UFUNCTION()
+	virtual void SetHealth_Implementation(float newHealth);
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void ApplyDamage(float damage);
+	UFUNCTION()
+	virtual void ApplyDamage_Implementation(float damage);
+
+#pragma endregion
+	
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	void OnDeath();
+
 };

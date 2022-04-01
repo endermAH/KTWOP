@@ -9,7 +9,7 @@
  * This interface is used by status owners, to apply statuses.
  */
 UINTERFACE()
-class UStatusBase : public UStatusData
+class UStatusBase :  public UStatusData
 {
 	GENERATED_BODY()
 };
@@ -38,4 +38,10 @@ public:
 
 	UFUNCTION()
 	virtual void OnDie_Implementation(const TScriptInterface<IStatusOwner>& statusOwner);
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	TScriptInterface<IStatusBase> MakeStatusCopy(float ExternalModifier, UObject* outer);
+	
+	UFUNCTION()
+	virtual TScriptInterface<IStatusBase> MakeStatusCopy_Implementation(float ExternalModifier, UObject* outer);
 };

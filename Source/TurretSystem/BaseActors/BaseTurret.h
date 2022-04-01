@@ -16,7 +16,9 @@ FTimerHandle __tempTimerHandle; \
 GetWorldTimerManager().SetTimer(__tempTimerHandle, FTimerDelegate().CreateLambda(__VA_ARGS__), seconds, false);
 
 
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FVoidDelegate);
 
+class IStatusData;
 UCLASS(Abstract)
 class TURRETSYSTEM_API ABaseTurret : public AActor, public IShootable
 {
@@ -26,12 +28,17 @@ public:
 	// Sets default values for this actor's properties
 	ABaseTurret();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UTurretAbilitySystemComponent* AbilitySystemComponent;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	//UTurretAbilitySystemComponent* AbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UArrowComponent* ArrowComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
+	USphereComponent* CollisionComponent;
+#pragma region TurretStats
+
+	
 	UPROPERTY(EditInstanceOnly)
 	float TurretRadius;
 	
@@ -40,10 +47,10 @@ public:
 	
 	UPROPERTY(EditInstanceOnly)
 	float RotationSpeed = 5;
-	
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
-	USphereComponent* CollisionComponent;
+	
+	
+#pragma endregion 
 
 protected:
 
@@ -52,6 +59,7 @@ protected:
 	
 	UPROPERTY(BlueprintReadOnly)
 	AActor* TargetEnemy;
+	
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -96,6 +104,18 @@ public:
 	virtual void OnConstruction(const FTransform& Transform) override;
 	
 	virtual void Tick(float DeltaTime) override;
+
+
+#pragma region TurnOnOffSystem
+public:
+	UFUNCTION(BlueprintCallable)
+	void TurnOn();
+	UFUNCTION(BlueprintCallable)
+	void TurnOff();
 	
-	
+	UPROPERTY(BlueprintReadOnly)
+	bool IsWorking = true;
+private:
+
+#pragma endregion 
 };

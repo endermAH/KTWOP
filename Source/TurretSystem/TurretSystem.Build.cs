@@ -11,7 +11,7 @@ public class TurretSystem : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", 
 			"CoreUObject", "Engine", "InputCore",
 			"GameplayAbilities", "GameplayTags", "GameplayTasks",
-			"EnemySystem",
+			"EnemySystem", "StatusSystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

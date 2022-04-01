@@ -3,6 +3,7 @@
 
 #include "BaseTurret.h"
 
+#include "GameFramework\PawnMovementComponent.h"
 #include "Kismet\KismetMathLibrary.h"
 
 
@@ -14,8 +15,8 @@ ABaseTurret::ABaseTurret()
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
 
-	AbilitySystemComponent = CreateDefaultSubobject<UTurretAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
-	AbilitySystemComponent->SetIsReplicated(true);
+	//AbilitySystemComponent = CreateDefaultSubobject<UTurretAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	//AbilitySystemComponent->SetIsReplicated(true);
 
 
 	ArrowComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("Forward Arrow"));
@@ -40,6 +41,8 @@ void ABaseTurret::BeginPlay()
 	Super::BeginPlay();
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ABaseTurret::OnBeginOverlap);
 	CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ABaseTurret::OnEndOverlap);
+	//TurnOffEvent.AddDynamic(this, &ABaseTurret::TurnOff);
+	//TurnOnEvent.AddDynamic(this, &ABaseTurret::TurnOn);
 }
 
 void ABaseTurret::OnBeginOverlap_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -79,6 +82,10 @@ void ABaseTurret::OnConstruction(const FTransform& Transform)
 void ABaseTurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (!IsWorking)
+		return;
+	
 	FVector myPosition = RootComponent->GetComponentLocation();
 	myPosition.Z = 0;
 
@@ -103,20 +110,35 @@ void ABaseTurret::Tick(float DeltaTime)
 
 	if (IsValid(TargetEnemy))
 	{
+		
 		FVector enemyPosition = TargetEnemy->GetActorLocation();
 		enemyPosition.Z = 0;
 		float enemyDistance = (myPosition - enemyPosition).Size();
 		if (enemyDistance < TurretRadius)
 		{
+			auto targetRotator = UKismetMathLibrary::FindLookAtRotation(myPosition, enemyPosition);
 			FRotator newRotator = FMath::RInterpTo(RootComponent->GetComponentRotation(),
-			                                       UKismetMathLibrary::FindLookAtRotation(myPosition, enemyPosition),
+			                                       targetRotator,
 			                                       DeltaTime, RotationSpeed);
 			RootComponent->SetWorldRotation(newRotator);
-			this->Shoot(DeltaTime);
+			float angleBetweenTurretAndTarget = FMath::Abs((RootComponent->GetComponentRotation() - targetRotator).Vector()|FVector(1,1,1));
+			if (angleBetweenTurretAndTarget < TurretShootAngle )
+				this->Shoot(DeltaTime);
 		} else
 		{
 			TargetEnemy = nullptr;
 		}
 	}
+}
+
+void ABaseTurret::TurnOn()
+{
+	IsWorking = true;
+	//SetActorTicksEnabled(true/false);
+}
+
+void ABaseTurret::TurnOff()
+{
+	IsWorking = false;
 }
 

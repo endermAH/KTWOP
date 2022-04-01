@@ -38,3 +38,4 @@ EStatusType IStatusData::GetStatusType_Implementation()
 	UE_LOG(LogTemp, Error, TEXT("\"GetStatus\" method isn't implemented."));
 	return Invalid;
 }
+

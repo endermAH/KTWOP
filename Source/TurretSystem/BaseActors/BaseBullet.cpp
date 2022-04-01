@@ -4,6 +4,7 @@
 #include "BaseBullet.h"
 
 #include "Components\SphereComponent.h"
+#include "EnemySystem\Enemy\BaseEnemy.h"
 
 
 // Sets default values
@@ -30,7 +31,6 @@ ABaseBullet::ABaseBullet()
 void ABaseBullet::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void ABaseBullet::OnConstruction(const FTransform& Transform)
@@ -42,26 +42,45 @@ void ABaseBullet::OnConstruction(const FTransform& Transform)
 void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                             UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
-	OnTargetHit(OverlappedComponent, OtherActor, OtherComponent,  OtherBodyIndex, bFromSweep, Hit);
+	ABaseEnemy* enemy = Cast<ABaseEnemy>(OtherActor);
+	if (IsValid(enemy))
+	{
+		TScriptInterface<IStatusOwner> statusOwner;
+		statusOwner.SetInterface(enemy);
+		statusOwner.SetObject(enemy);
+		for (auto& status :Statuses)
+		{
+			status->Execute_Apply(status.GetObject(), statusOwner);
+		}
+		OnTargetHit(OverlappedComponent, OtherActor, OtherComponent,  OtherBodyIndex, bFromSweep, Hit);
+	}
 }
 
 void ABaseBullet::StartFly()
 {
-	IsReady = true;
+	IsWorking = true;
+}
+
+void ABaseBullet::StopFly()
+{
+	IsWorking = false;
 }
 
 // Called every frame
 void ABaseBullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (!IsReady)
+	if (!IsWorking)
 		return;
-	if ((TargetEnemy == nullptr) || (!IsValid(TargetEnemy)))
+
+	
+	if (!IsValid(TargetEnemy))
 	{
-		this->Destroy();
+		OnDistanceDeplete();
+		return;
 	}
 	
-	FVector targetLocation =  TargetEnemy->GetActorLocation() + FVector(0,0,30);
+	FVector targetLocation =  TargetEnemy->GetActorLocation() + FVector(0,0,30);// + TargetEnemy->GetVelocity()*DeltaTime;
 	FVector bulletLocation =  RootComponent->GetComponentLocation();
 	FVector newLocation = FMath::VInterpTo(
 		bulletLocation,
@@ -69,11 +88,13 @@ void ABaseBullet::Tick(float DeltaTime)
 		DeltaTime,
 		BulletSpeed
 		);
-	FlyDistance += (bulletLocation - newLocation).Size();
+	
+	SpentFlyDistance += (bulletLocation - newLocation).Size();
 
-	if (FlyDistance > MaxFlyDistance)
+	if (SpentFlyDistance > MaxFlyDistance)
 	{
 		OnDistanceDeplete();
+		return;
 	}
 	
 	RootComponent->SetWorldLocation(newLocation);

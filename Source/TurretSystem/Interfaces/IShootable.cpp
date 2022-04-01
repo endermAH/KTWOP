@@ -5,6 +5,4 @@
 
 
 // Add default functionality here for any IShootable functions that are not pure virtual.
-void IShootable::Shoot(float DeltaTime)
-{
-}
+void IShootable::Shoot(float DeltaTime) {}

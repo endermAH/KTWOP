@@ -10,7 +10,8 @@ public class EnemySystem : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
-			"Core", "CoreUObject", "Engine", "InputCore", "StatusSystem"
+			"Core", "CoreUObject", "Engine", "InputCore",
+			"StatusSystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

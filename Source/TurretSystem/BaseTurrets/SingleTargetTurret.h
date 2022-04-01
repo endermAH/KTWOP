@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework\Actor.h"
+#include "StatusSystem\BaseStatuses\IStatusBase.h"
 #include "TurretSystem\BaseActors\BaseTurret.h"
+#include "TurretSystem\BaseActors\BaseBullet.h"
 #include "SingleTargetTurret.generated.h"
 
 UCLASS()
@@ -15,6 +17,12 @@ class TURRETSYSTEM_API ASingleTargetTurret : public ABaseTurret
 public:
 	// Sets default values for this actor's properties
 	ASingleTargetTurret();
+
+	UPROPERTY(BlueprintReadWrite)
+	TArray<TScriptInterface<IStatusBase>> Statuses;
+
+	UPROPERTY(BlueprintReadWrite)
+	float BaseStatusesMultiplier = 1.0;
 
 protected:
 	// Called when the game starts or when spawned
