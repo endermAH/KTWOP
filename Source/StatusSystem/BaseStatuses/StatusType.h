@@ -9,4 +9,6 @@ enum EStatusType
 	Invalid UMETA(DisplayName = "Invalid"),
 	// Default damage effect.
 	BaseDMG UMETA(DisplayName = "BaseDMG"),
+	// Acid damage effect.
+	AcidDMG UMETA(DisplayName = "AcidDMG"),
 };
