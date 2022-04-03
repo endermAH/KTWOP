@@ -45,12 +45,9 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	ABaseEnemy* enemy = Cast<ABaseEnemy>(OtherActor);
 	if (IsValid(enemy))
 	{
-		TScriptInterface<IStatusOwner> statusOwner;
-		statusOwner.SetInterface(enemy);
-		statusOwner.SetObject(enemy);
 		for (auto& status :Statuses)
 		{
-			status->Execute_Apply(status.GetObject(), statusOwner);
+			status->Apply(enemy);
 		}
 		OnTargetHit(OverlappedComponent, OtherActor, OtherComponent,  OtherBodyIndex, bFromSweep, Hit);
 	}

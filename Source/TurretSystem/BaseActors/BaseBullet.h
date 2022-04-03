@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components\SphereComponent.h"
 #include "GameFramework\Actor.h"
-#include "StatusSystem\BaseStatuses\IStatusBase.h"
+#include "ImplementedStatuses/Statuses/BaseStatus.h"
 #include "TurretSystem\AbilitySystems\BulletAbilitySystemComponent.h"
 #include "BaseBullet.generated.h"
 
@@ -35,7 +35,7 @@ public:
 	float SpentFlyDistance = 0;
 
 	UPROPERTY(BlueprintReadOnly)
-	TArray<TScriptInterface<IStatusBase>> Statuses;
+	TArray<UBaseStatus*> Statuses;
 
 #pragma endregion
 

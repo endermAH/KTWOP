@@ -19,7 +19,7 @@ public:
 	ASingleTargetTurret();
 
 	UPROPERTY(BlueprintReadWrite)
-	TArray<TScriptInterface<IStatusBase>> Statuses;
+	TArray<UBaseStatus*> Statuses;
 
 	UPROPERTY(BlueprintReadWrite)
 	float BaseStatusesMultiplier = 1.0;

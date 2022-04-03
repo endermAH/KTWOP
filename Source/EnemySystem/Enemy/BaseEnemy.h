@@ -20,7 +20,7 @@ public:
 	ABaseEnemy();
 	
 	UFUNCTION(BlueprintCallable)
-	void AddStatusInternal(TScriptInterface<IStatusBase> status);
+	void AddStatus(TScriptInterface<IStatusBase> status);
 
 	virtual void OnConstruction(const FTransform& Transform) override;
 	
@@ -36,12 +36,7 @@ public:
 	
 	virtual void ApplyDamage_Implementation(float damage) override;
 
-	virtual void AddStatus_Implementation(const TScriptInterface<IStatusData>& status) override;
-
-
 #pragma endregion
-
-
 	
 protected:
 	UPROPERTY(BlueprintReadWrite)
