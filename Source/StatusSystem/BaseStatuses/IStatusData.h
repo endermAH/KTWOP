@@ -5,11 +5,8 @@
 #include "UObject/Interface.h"
 #include "IStatusData.generated.h"
 
-/**
- * This interface is used by statuses to modify ich other.
- */
 UINTERFACE()
-class UStatusData : public UInterface
+class STATUSSYSTEM_API UStatusData : public UInterface
 {
 	GENERATED_BODY()	
 };
@@ -20,6 +17,7 @@ class STATUSSYSTEM_API IStatusData
 	
 public:
 #pragma region Modifier
+	
 	// Turret modifier.
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	float GetModifier();
@@ -30,8 +28,11 @@ public:
 	void SetModifier(float modifier);
 	UFUNCTION()
 	virtual void SetModifier_Implementation(float modifier);
+
 #pragma endregion 
+
 #pragma region Power
+	
 	// Power of status.
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	float GetPower();
@@ -42,8 +43,11 @@ public:
 	void SetPower(float power);
 	UFUNCTION()
 	virtual void SetPower_Implementation(float power);
+
 #pragma endregion
+
 #pragma region Duration
+
 	// Duration of status.
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	float GetDuration();
@@ -54,6 +58,7 @@ public:
 	void SetDuration(float duration);
 	UFUNCTION()
 	virtual void SetDuration_Implementation(float duration);
+
 #pragma endregion
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
@@ -61,5 +66,4 @@ public:
 	
 	UFUNCTION()
 	virtual EStatusType GetStatusType_Implementation();
-	
 };

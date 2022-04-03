@@ -12,11 +12,6 @@ TScriptInterface<IStatusData> IStatusOwner::GetStatus_Implementation(EStatusType
 	return nullptr;
 }
 
-void IStatusOwner::AddStatus_Implementation(const TScriptInterface<IStatusData>& status)
-{
-	UE_LOG(LogTemp, Error, TEXT("\"AddStatus\" method isn't implemented."));
-}
-
 float IStatusOwner::GetHealth_Implementation()
 {
 	UE_LOG(LogTemp, Error, TEXT("\"GetHealth\" method isn't implemented."));
