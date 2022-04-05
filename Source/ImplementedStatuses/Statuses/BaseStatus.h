@@ -20,7 +20,10 @@ public:
 	float Duration;
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void Apply(ABaseEnemy* enemy);
+	void Apply(ABaseEnemy* enemy, float AdditionalModifier);
+
+	UFUNCTION()
+	void Apply_Implementation(ABaseEnemy* enemy, float AdditionalModifier);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	UBaseStatus* MakeStatusCopy(float ExternalModifier, UObject* outer);

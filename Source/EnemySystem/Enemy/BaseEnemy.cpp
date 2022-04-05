@@ -1,7 +1,16 @@
 ﻿#include "BaseEnemy.h"
 
 ABaseEnemy::ABaseEnemy()
-{}
+{
+
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
+	
+	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphere"));
+	CollisionComponent->SetupAttachment(RootComponent);
+	CollisionComponent->SetHiddenInGame(false);
+	CollisionComponent->SetCollisionProfileName(TEXT("TurretEnemy"));
+	CollisionComponent->SetSphereRadius(CollisionRadius);
+}
 
 void ABaseEnemy::AddStatus(TScriptInterface<IStatusBase> status)
 {
@@ -29,6 +38,11 @@ void ABaseEnemy::Tick(float DeltaSeconds)
 	{
 		IStatusBase::Execute_OnTick(pair.Value.GetObject(), statusOwner, DeltaSeconds);
 	}
+}
+
+FVector ABaseEnemy::GetPosition()
+{
+	return CollisionComponent->GetComponentLocation();
 }
 
 bool ABaseEnemy::HasStatus_Implementation(EStatusType statusType)

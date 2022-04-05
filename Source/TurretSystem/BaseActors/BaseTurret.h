@@ -17,6 +17,25 @@ GetWorldTimerManager().SetTimer(__tempTimerHandle, FTimerDelegate().CreateLambda
 
 
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE(FVoidDelegate);
+USTRUCT(BlueprintType)
+struct FBaseTurretStats
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float TurretRadius;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float TurretShootAngle = 10.f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float RotationSpeed = 5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float BaseStatusesMultiplier = 1.0;
+	
+	
+};
 
 class IStatusData;
 UCLASS(Abstract)
@@ -36,29 +55,18 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	USphereComponent* CollisionComponent;
-#pragma region TurretStats
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Default")
+	FBaseTurretStats BaseStats;
 	
-	UPROPERTY(EditInstanceOnly)
-	float TurretRadius;
-	
-	UPROPERTY(EditInstanceOnly)
-	float TurretShootAngle = 1.f/360;
-	
-	UPROPERTY(EditInstanceOnly)
-	float RotationSpeed = 5;
-
-	
-	
-#pragma endregion 
 
 protected:
 
 	UPROPERTY()
-	TSet<APawn*> EnemyActors;
+	TSet<ABaseEnemy*> EnemyActors;
 	
 	UPROPERTY(BlueprintReadOnly)
-	AActor* TargetEnemy;
+	ABaseEnemy* TargetEnemy;
 	
 	
 	// Called when the game starts or when spawned

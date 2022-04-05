@@ -1,0 +1,7 @@
+#pragma once
+
+
+
+#define TurretEnemyCollisionChannel	ECC_GameTraceChannel1
+#define EnemyDestroyerCollisionChannel	ECC_GameTraceChannel2
+#define TurretCollisionChannel	ECC_GameTraceChannel3
