@@ -25,7 +25,7 @@ void ASingleTargetTurret::Shoot(float DeltaTime)
 	FVector enemyPosition =TargetEnemy->GetActorLocation();
 	
 	Delay -= DeltaTime;
-	if ((Delay < 0))// && (FVector::DotProduct(UKismetMathLibrary::FindLookAtRotation(myPosition, enemyPosition).Vector(),FVector(1,1,1)) < TurretShootAngle))
+	if ((Delay < 0))
 	{
 		FActorSpawnParameters SpawnInfo;
 		FVector location = ArrowComponent->GetComponentLocation();
@@ -33,9 +33,10 @@ void ASingleTargetTurret::Shoot(float DeltaTime)
 		
 		ABaseBullet* bullet = GetWorld()->SpawnActor<ABaseBullet>(BulletType, location, FRotator(), SpawnInfo);
 		bullet->TargetEnemy = TargetEnemy;
+		bullet->Stats = BulletStats;
 		for (auto& status :Statuses)
 		{
-			UBaseStatus* copy = status->MakeStatusCopy(BaseStatusesMultiplier, bullet);
+			UBaseStatus* copy = status->MakeStatusCopy(BaseStats.BaseStatusesMultiplier, bullet);
 			bullet->Statuses.Add(copy);
 		}
 		bullet->StartFly();

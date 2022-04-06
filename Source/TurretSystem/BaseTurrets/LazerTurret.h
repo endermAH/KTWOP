@@ -3,26 +3,24 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework\Actor.h"
-#include "StatusSystem\BaseStatuses\IStatusBase.h"
 #include "TurretSystem\BaseActors\BaseTurret.h"
-#include "TurretSystem\BaseActors\BaseBullet.h"
-#include "SingleTargetTurret.generated.h"
+#include "TurretSystem\BaseActors\LazerBullet.h"
+#include "LazerTurret.generated.h"
 
 UCLASS()
-class TURRETSYSTEM_API ASingleTargetTurret : public ABaseTurret
+class TURRETSYSTEM_API ALazerTurret : public ABaseTurret
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	ASingleTargetTurret();
+	ALazerTurret();
 
 	UPROPERTY(BlueprintReadWrite)
 	TArray<UBaseStatus*> Statuses;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FBulletStats BulletStats;
+	FLazerStats LazerStats;
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,8 +31,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 
-
-
 #pragma region ShootImplement
 	
 	UPROPERTY(EditInstanceOnly)
@@ -42,7 +38,7 @@ public:
 
 	/** type of bullet */
 	UPROPERTY(EditDefaultsOnly, Category=Damage)
-	TSubclassOf<ABaseBullet> BulletType;
+	TSubclassOf<ABaseLazer> LazerType;
 
 	float Delay = 0;
 

@@ -8,30 +8,27 @@
 #include "GameFramework\Actor.h"
 #include "ImplementedStatuses/Statuses/BaseStatus.h"
 #include "TurretSystem\AbilitySystems\BulletAbilitySystemComponent.h"
-#include "BaseBullet.generated.h"
+#include "LazerBullet.generated.h"
 
 USTRUCT(BlueprintType)
-struct FBulletStats
+struct FLazerStats
 {
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float BulletSpeed = 5;
+	float LazerModifier = 1.0;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float LazerWidth = 5;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	int LazerBounceCount = 0;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float BulletModifier = 1.0;
+	float LazerBounceRadius = 1000;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float BulletRadius = 5;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	int BulletBounceCount = 0;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float BulletBounceRadius = 1000;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float BulletBounceModifier = 0.8;
+	float LazerBounceModifier = 0.8;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float MaxFlyDistance = 500;
@@ -39,29 +36,27 @@ struct FBulletStats
 
 
 UCLASS()
-class TURRETSYSTEM_API ABaseBullet : public AActor
+class TURRETSYSTEM_API ABaseLazer : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	ABaseBullet();
+	ABaseLazer();
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	AActor* TargetEnemy;
 	
 	UPROPERTY(BlueprintReadOnly)
 	bool IsWorking = false;
 
-	UPROPERTY()
-	TArray<AActor*> VisitedEnemies;
-#pragma region BulletStats
+
+#pragma region LazerStats
 	
 	float SpentFlyDistance = 0;
-
 	
 	UPROPERTY(BlueprintReadWrite)
-	FBulletStats Stats;
+	FLazerStats Stats;
 
 	UPROPERTY(BlueprintReadOnly)
 	TArray<UBaseStatus*> Statuses;
@@ -70,9 +65,7 @@ public:
 
 	//UPROPERTY(BlueprintReadOnly)
 	//UBulletAbilitySystemComponent* AbilitySystemComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
-	USphereComponent* CollisionComponent;
+	
 
 protected:
 	// Called when the game starts or when spawned
@@ -80,34 +73,12 @@ protected:
 
 	virtual void OnConstruction(const FTransform& Transform) override;
 
-	UFUNCTION()
-	void OnBeginOverlap(
-		UPrimitiveComponent* OverlappedComponent,
-		AActor* OtherActor,
-		UPrimitiveComponent* OtherComponent,
-		int32 OtherBodyIndex, bool bFromSweep,
-		const FHitResult& Hit);
-
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void OnTargetHit(UPrimitiveComponent* OverlappedComponent,
-		AActor* OtherActor,
-		UPrimitiveComponent* OtherComponent,
-		int32 OtherBodyIndex, bool bFromSweep,
-		const FHitResult& Hit);
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void OnDistanceDeplete();
-
-
 public:
 	// Called every frame
 
-	UFUNCTION(BlueprintCallable)
-	void StartFly();
-	UFUNCTION(BlueprintCallable)
-	void StopFly();
-
 
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void Activate();
 };

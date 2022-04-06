@@ -1,6 +1,6 @@
 ﻿#include "BaseStatus.h"
 
-void UBaseStatus::Apply_Implementation(ABaseEnemy* enemy)
+void UBaseStatus::Apply_Implementation(ABaseEnemy* enemy, float AdditionalModifier)
 {
 	UE_LOG(LogTemp, Error, TEXT("\"Apply\" method isn't implemented."));
 }

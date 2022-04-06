@@ -27,10 +27,9 @@ ABaseTurret::ABaseTurret()
 
 	// Our root component will be a sphere that reacts to physics
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphere"));
-	CollisionComponent->InitSphereRadius(TurretRadius);
-	CollisionComponent->SetCollisionProfileName(TEXT("Pawn"));
 	CollisionComponent->SetupAttachment(RootComponent);
 	CollisionComponent->SetHiddenInGame(false);
+	CollisionComponent->SetCollisionProfileName(TEXT("Turret"));
 
 	TargetEnemy = nullptr;
 }
@@ -49,7 +48,7 @@ void ABaseTurret::OnBeginOverlap_Implementation(UPrimitiveComponent* OverlappedC
                                                 UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex,
                                                 bool bFromSweep, const FHitResult& Hit)
 {
-	APawn* buff = Cast<APawn>(OtherActor);
+	auto buff = Cast<ABaseEnemy>(OtherActor);
 	if (buff != nullptr)
 		EnemyActors.Add(buff);
 	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red,
@@ -63,7 +62,7 @@ void ABaseTurret::OnEndOverlap_Implementation(UPrimitiveComponent* OverlappedCom
 {
 	LATER_SECS(0.2f, [this, OtherActor]()
 	           {
-				APawn* buff = Cast<APawn>(OtherActor);
+				auto buff = Cast<ABaseEnemy>(OtherActor);
 				if (buff != nullptr)
 					this->EnemyActors.Remove(buff);
 	           //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red,
@@ -75,7 +74,7 @@ void ABaseTurret::OnEndOverlap_Implementation(UPrimitiveComponent* OverlappedCom
 void ABaseTurret::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	CollisionComponent->InitSphereRadius(TurretRadius);
+	CollisionComponent->InitSphereRadius(BaseStats.TurretRadius);
 }
 
 // Called every frame
@@ -114,15 +113,15 @@ void ABaseTurret::Tick(float DeltaTime)
 		FVector enemyPosition = TargetEnemy->GetActorLocation();
 		enemyPosition.Z = 0;
 		float enemyDistance = (myPosition - enemyPosition).Size();
-		if (enemyDistance < TurretRadius)
+		if (enemyDistance < BaseStats.TurretRadius)
 		{
 			auto targetRotator = UKismetMathLibrary::FindLookAtRotation(myPosition, enemyPosition);
 			FRotator newRotator = FMath::RInterpTo(RootComponent->GetComponentRotation(),
 			                                       targetRotator,
-			                                       DeltaTime, RotationSpeed);
+			                                       DeltaTime, BaseStats.RotationSpeed);
 			RootComponent->SetWorldRotation(newRotator);
 			float angleBetweenTurretAndTarget = FMath::Abs((RootComponent->GetComponentRotation() - targetRotator).Vector()|FVector(1,1,1));
-			if (angleBetweenTurretAndTarget < TurretShootAngle )
+			if (angleBetweenTurretAndTarget < BaseStats.TurretShootAngle )
 				this->Shoot(DeltaTime);
 		} else
 		{
