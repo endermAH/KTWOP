@@ -15,19 +15,24 @@ void UExplodedStatus::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier Ex
 			if (!existingStatus->IsExploded)
 			{
 				StatusStats = ApplyModifiersToStatusStats(StatusStats, ExternalModifies);
-				existingStatus->StatusStats.EffectAccumulation+=
+				existingStatus->AccumulatedEffect+=
 				   StatusStats.EffectAccumulation*StatusStats.EffectAccumulationModifier;
 				existingStatus->StatusStats.Modifier =
 					FMath::Max(StatusStats.Modifier, existingStatus->StatusStats.Modifier);
 				existingStatus->StatusStats.Power =
 					FMath::Max(StatusStats.Power, existingStatus->StatusStats.Power);
 
-				if (existingStatus->StatusStats.EffectAccumulation >= existingStatus->StatusStats.EffectAccumulationMax)
+				if (existingStatus->AccumulatedEffect >= existingStatus->StatusStats.EffectAccumulationMax)
+				{
 					existingStatus->IsExploded = true;
+					GEngine->AddOnScreenDebugMessage(-1, 1.1f, FColor::Red,
+					FString::Printf(TEXT("Effect exploded")
+						));
+				}
 			
-				GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red,
-				    FString::Printf(TEXT("EffectAcc : %f, \n add : %f"), existingStatus->StatusStats.EffectAccumulation,
-				    	StatusStats.EffectAccumulation*StatusStats.EffectAccumulationModifier));
+				GEngine->AddOnScreenDebugMessage(-1, 1.1f, FColor::Red,
+				    FString::Printf(TEXT("EffectAccumulation : %f, \n from : %f"), existingStatus->AccumulatedEffect,
+				    	StatusStats.EffectAccumulationMax));
 				
 			}
 		} else

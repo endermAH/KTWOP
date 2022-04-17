@@ -73,4 +73,6 @@ public:
 protected:
 	UPROPERTY(BlueprintReadWrite)
 	TMap<TEnumAsByte<EStatusType>, TScriptInterface<IStatusBase>> StatusesMap;
+	UPROPERTY(BlueprintReadWrite)
+	TSet<TEnumAsByte<EStatusType>> RemovedStatuses;
 };

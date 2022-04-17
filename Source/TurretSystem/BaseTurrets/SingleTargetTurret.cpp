@@ -36,7 +36,7 @@ void ASingleTargetTurret::Shoot(float DeltaTime)
 		bullet->Stats = BulletStats;
 		if (Statuses.Num() == 0)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red,
+			GEngine->AddOnScreenDebugMessage(-1, 1000.f, FColor::Red,
 			FString::Printf(TEXT("No statuses in turret. WTF.")));
 		}
 		for (auto& status :Statuses)

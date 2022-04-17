@@ -12,13 +12,17 @@ void UToxicDMG::OnTick_Implementation(const TScriptInterface<IStatusOwner>& stat
 {
 	if (IsExploded)
 	{
+		if (ToxicStats.AccumulatedDuration + dt >= StatusStats.Duration)
+		{
+			dt = StatusStats.Duration - ToxicStats.AccumulatedDuration;
+		}
 		ToxicStats.AccumulatedDuration += dt;
-		if (ToxicStats.AccumulatedDuration > StatusStats.Duration)
+		if (ToxicStats.AccumulatedDuration + FLT_EPSILON >= StatusStats.Duration)
 		{
 			statusOwner->Execute_RemoveStatus(statusOwner.GetObject(), ToxicDMG);
 		}
 
-		float dmg = StatusStats.Modifier*StatusStats.Duration*dt;
+		float dmg = StatusStats.Modifier*StatusStats.Power*dt;
 		
 		if (statusOwner->Execute_IsArmored(statusOwner.GetObject()))
 			dmg *= ToxicStats.ArmorDMGMultiplier;
@@ -30,9 +34,12 @@ void UToxicDMG::OnTick_Implementation(const TScriptInterface<IStatusOwner>& stat
 		ABaseEnemy* enemy = Cast<ABaseEnemy>(statusOwner.GetObject());
 		if (IsValid(enemy))
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red,
-			    FString::Printf(TEXT("ToxicDMG : %f, \n New health : %f"),
+			GEngine->AddOnScreenDebugMessage(-1, dt, FColor::Red,
+			    FString::Printf(TEXT("ToxicDMG : %f,  New health : %f"),
 			    	 dmg,  enemy->GetHealth_Implementation()));
+			
+			UE_LOG(LogTemp, Error, TEXT("ToxicDMG : %f,  New health : %f"),
+					 dmg,  enemy->GetHealth_Implementation());
 		}
 	}
 	

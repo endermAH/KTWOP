@@ -15,8 +15,11 @@ class IMPLEMENTEDSTATUSES_API UExplodedStatus : public UBaseStatus
 {
 	GENERATED_BODY()
 protected:
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditInstanceOnly)
 	bool IsExploded = false;
+	
+	UPROPERTY(BlueprintReadWrite, EditInstanceOnly)
+	float AccumulatedEffect = 0;
 
 public:
 	virtual void Apply_Implementation(ABaseEnemy* enemy, FStatusModifier ExternalModifies) override;

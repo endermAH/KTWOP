@@ -34,10 +34,15 @@ void ABaseEnemy::Tick(float DeltaSeconds)
 	statusOwner.SetInterface(this);
 	statusOwner.SetObject(this);
 	
-	for (const TTuple<TEnumAsByte<EStatusType>, TScriptInterface<IStatusBase>>& pair : StatusesMap)
+	for (const auto& pair : StatusesMap)
 	{
 		IStatusBase::Execute_OnTick(pair.Value.GetObject(), statusOwner, DeltaSeconds);
 	}
+	for (auto& removedStatus : RemovedStatuses)
+	{
+		StatusesMap.Remove(removedStatus);
+	}
+	RemovedStatuses.Empty();
 }
 
 FVector ABaseEnemy::GetPosition()
@@ -52,7 +57,7 @@ bool ABaseEnemy::HasStatus_Implementation(EStatusType statusType)
 
 void ABaseEnemy::RemoveStatus_Implementation(EStatusType statusType)
 {
-	StatusesMap.Remove(statusType);
+	RemovedStatuses.Add(statusType);
 }
 
 TScriptInterface<IStatusData> ABaseEnemy::GetStatus_Implementation(EStatusType statusType)
@@ -80,7 +85,7 @@ void ABaseEnemy::ApplyDamage_Implementation(float damage)
 	statusOwner.SetInterface(this);
 	statusOwner.SetObject(this);
 	
-	if (EnemyStats.Health == 0)
+	if (EnemyStats.Health <= 1)
 	{
 		for (const TTuple<TEnumAsByte<EStatusType>, TScriptInterface<IStatusBase>>& pair: StatusesMap)
 		{
