@@ -77,6 +77,5 @@ void UBaseStatus::AddToBullet_Implementation(AActor* bullet, FStatusModifier Ext
 
 UBaseStatus* UBaseStatus::MakeStatusCopy_Implementation(FStatusModifier ExternalModifies, UObject* outer)
 {
-	UE_LOG(LogTemp, Error, TEXT("\"MakeStatusCopy\" method isn't implemented."));
 	return nullptr;
 }

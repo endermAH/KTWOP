@@ -39,6 +39,29 @@ void IStatusOwner::ApplyDamage_Implementation(float damage)
 	UE_LOG(LogTemp, Error, TEXT("\"ApplyDamage\" method isn't implemented."));
 }
 
+void IStatusOwner::ApplySpeedModifier_Implementation(float damage, EStatusType status)
+{
+	UE_LOG(LogTemp, Error, TEXT("\"ApplySpeedModifier\" method isn't implemented."));
+}
+
+void IStatusOwner::ApplyDmgModifier_Implementation(float damage, EStatusType status)
+{
+	UE_LOG(LogTemp, Error, TEXT("\"ApplyDmgModifier\" method isn't implemented."));
+}
+
+float IStatusOwner::GetSpeedModifier_Implementation()
+{
+	UE_LOG(LogTemp, Error, TEXT("\"GetSpeedModifier\" method isn't implemented."));
+	return 0;
+}
+
+float IStatusOwner::GetDmgModifier_Implementation()
+{
+	UE_LOG(LogTemp, Error, TEXT("\"GetSpeedModifier\" method isn't implemented."));
+	return 0;
+}
+
+
 bool IStatusOwner::IsArmored_Implementation()
 {
 	UE_LOG(LogTemp, Error, TEXT("\"IsArmored\" method isn't implemented."));

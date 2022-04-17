@@ -26,6 +26,7 @@ void UExplodedStatus::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier Ex
 				if (existingStatus->AccumulatedEffect >= existingStatus->StatusStats.EffectAccumulationMax)
 				{
 					existingStatus->IsExploded = true;
+					IsExploded = true;
 					GEngine->AddOnScreenDebugMessage(-1, 1.1f, FColor::Red,
 					FString::Printf(TEXT("Effect exploded")
 						));

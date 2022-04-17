@@ -14,6 +14,7 @@ enum EStatusType
 	//Ice Status
 	IceDMG  UMETA(DisplayName = "IceDMG"),
 	
+	LightningDMG  UMETA(DisplayName = "IceDMG"),
 	PlasmaDMG  UMETA(DisplayName = "IceDMG"),
 	AdditionalSoulsST  UMETA(DisplayName = "IceDMG"),
 	PoolDMG  UMETA(DisplayName = "IceDMG"),

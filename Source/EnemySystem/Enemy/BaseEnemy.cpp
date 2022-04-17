@@ -85,7 +85,15 @@ float ABaseEnemy::GetMaxHealth_Implementation()
 
 void ABaseEnemy::ApplyDamage_Implementation(float damage)
 {
-	EnemyStats.Health = FMath::Clamp<float>(EnemyStats.Health - damage, 0.0f, EnemyStats.MaxHealth);
+	damage = EnemyStats.Health - FMath::Clamp<float>(EnemyStats.Health - damage * GetDmgModifier_Implementation(), 0.0f, EnemyStats.MaxHealth );
+	ShowApplyedDamage(damage);
+	
+	for (const TTuple<TEnumAsByte<EStatusType>, TScriptInterface<IStatusBase>>& pair: StatusesMap)
+	{
+		IStatusBase::Execute_ApplyDmg(pair.Value.GetObject(), damage);
+	}
+	EnemyStats.Health -= damage;
+	
 	TScriptInterface<IStatusOwner> statusOwner;
 	statusOwner.SetInterface(this);
 	statusOwner.SetObject(this);
@@ -104,4 +112,41 @@ void ABaseEnemy::ApplyDamage_Implementation(float damage)
 bool ABaseEnemy::IsArmored_Implementation()
 {
 	return EnemyStats.IsArmored;
+}
+
+void ABaseEnemy::SetHealth_Implementation(float newHealth)
+{
+	EnemyStats.Health = newHealth;
+}
+
+void ABaseEnemy::ApplySpeedModifier_Implementation(float modifier, EStatusType status)
+{
+
+	SpeedModifierMap.Add(status, modifier);
+}
+
+void ABaseEnemy::ApplyDmgModifier_Implementation(float modifier, EStatusType status)
+{
+	DmgModifierMap.Add(status, modifier);
+}
+
+float ABaseEnemy::GetSpeedModifier_Implementation()
+{
+	float speed = EnemyStats.SpeedModifier;
+	for (auto sm : SpeedModifierMap)
+	{
+		speed *= sm.Value;
+	}
+	return speed;
+}
+
+float ABaseEnemy::GetDmgModifier_Implementation()
+{
+	
+	float damage = EnemyStats.DmgModifier;
+	for (auto dm : DmgModifierMap)
+	{
+		damage *= dm.Value;
+	}
+	return damage;
 }

@@ -22,6 +22,12 @@ struct FEnemyStats
 	float Health = 100;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float SpeedModifier = 1;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float DmgModifier = 1;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool IsArmored = false;
 };
 
@@ -67,13 +73,25 @@ public:
 	
 	virtual void ApplyDamage_Implementation(float damage) override;
 
-	virtual bool IsArmored_Implementation() override; 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void ShowApplyedDamage(float damage);
+
+	virtual bool IsArmored_Implementation() override;
+	virtual void SetHealth_Implementation(float newHealth) override;
+	virtual void ApplySpeedModifier_Implementation(float modifier, EStatusType status) override;
+	virtual void ApplyDmgModifier_Implementation(float modifier, EStatusType status) override;
+	virtual float GetSpeedModifier_Implementation() override;
+	virtual float GetDmgModifier_Implementation() override;
 
 #pragma endregion
 	
 protected:
 	UPROPERTY(BlueprintReadWrite)
 	TMap<TEnumAsByte<EStatusType>, TScriptInterface<IStatusBase>> StatusesMap;
+	UPROPERTY(BlueprintReadWrite)
+	TMap<TEnumAsByte<EStatusType>, float> SpeedModifierMap;
+	UPROPERTY(BlueprintReadWrite)
+	TMap<TEnumAsByte<EStatusType>, float> DmgModifierMap;
 	UPROPERTY(BlueprintReadWrite)
 	TSet<TEnumAsByte<EStatusType>> RemovedStatuses;
 };

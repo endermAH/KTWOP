@@ -5,33 +5,31 @@
 #include "CoreMinimal.h"
 #include "BaseStatus.h"
 #include "ExplodedStatus.h"
-#include "UObject\Object.h"
-#include "IceDMG.generated.h"
+#include "LightningDMG.generated.h"
 
 USTRUCT(BlueprintType)
-struct FIceStats
+struct FLightningStats
 {
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float MonsterSpeedModifier = 0.66;
+	float MonsterSpeedModifier = 0.;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float HealthDeathLimit = 0.15;
-
+	float MonsterDmgModifier = 1.5;
 };
 
 /**
  * 
  */
 UCLASS()
-class IMPLEMENTEDSTATUSES_API UIceDMG : public UExplodedStatus
+class IMPLEMENTEDSTATUSES_API ULightningDMG : public UExplodedStatus
 {
 	GENERATED_BODY()
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default")
-	FIceStats IceStats;
+	FLightningStats LightningStats;
 	
 	float AccumulatedDuration = 0;
 	

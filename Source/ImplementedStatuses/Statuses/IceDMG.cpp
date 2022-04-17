@@ -20,6 +20,7 @@ void UIceDMG::OnTick_Implementation(const TScriptInterface<IStatusOwner>& status
 		if (AccumulatedDuration + FLT_EPSILON >= StatusStats.Duration)
 		{
 			statusOwner->Execute_RemoveStatus(statusOwner.GetObject(), IceDMG);
+			statusOwner->Execute_ApplySpeedModifier(statusOwner.GetObject(),  1.0, IceDMG);
 		}
 		auto health = statusOwner->Execute_GetHealth(statusOwner.GetObject());
 		auto maxHealth = statusOwner->Execute_GetMaxHealth(statusOwner.GetObject());
@@ -54,12 +55,14 @@ void UIceDMG::OnTick_Implementation(const TScriptInterface<IStatusOwner>& status
 	
 }
 
-void UIceDMG::OnDie_Implementation(const TScriptInterface<IStatusOwner>& statusOwner)
-{}
-
 void UIceDMG::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier ExternalModifies)
 {
 	Super::Apply_Implementation(enemy, ExternalModifies);
+	
+	if (IsExploded)
+	{
+		enemy->Execute_ApplyDmgModifier(enemy, IceStats.MonsterSpeedModifier, IceDMG);
+	}
 }
 
 void UIceDMG::AddToBullet_Implementation(AActor* enemy, FStatusModifier ExternalModifies)

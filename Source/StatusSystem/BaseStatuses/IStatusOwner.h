@@ -57,8 +57,30 @@ public:
 
 #pragma endregion
 
-#pragma region Armored
 
+#pragma region Modifiers
+
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void ApplySpeedModifier(float modifier, EStatusType status);
+	UFUNCTION()
+	virtual void ApplySpeedModifier_Implementation(float modifier, EStatusType status);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void ApplyDmgModifier(float modifier, EStatusType status);
+	UFUNCTION()
+	virtual void ApplyDmgModifier_Implementation(float modifier, EStatusType status);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	float GetSpeedModifier();
+	UFUNCTION()
+	virtual float GetSpeedModifier_Implementation();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	float GetDmgModifier();
+	UFUNCTION()
+	virtual float GetDmgModifier_Implementation();
+	
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	bool IsArmored();

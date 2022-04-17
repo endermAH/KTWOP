@@ -32,6 +32,7 @@ void ASingleTargetTurret::Shoot(float DeltaTime)
 		location += ArrowComponent->GetForwardVector() * 30;
 		
 		ABaseBullet* bullet = GetWorld()->SpawnActor<ABaseBullet>(BulletType, location, FRotator(), SpawnInfo);
+		if (!IsValid(bullet)) return;
 		bullet->TargetEnemy = TargetEnemy;
 		bullet->Stats = BulletStats;
 		if (Statuses.Num() == 0)

@@ -34,12 +34,12 @@ void UToxicDMG::OnTick_Implementation(const TScriptInterface<IStatusOwner>& stat
 		ABaseEnemy* enemy = Cast<ABaseEnemy>(statusOwner.GetObject());
 		if (IsValid(enemy))
 		{
-			GEngine->AddOnScreenDebugMessage(-1, dt, FColor::Red,
-			    FString::Printf(TEXT("ToxicDMG : %f,  New health : %f"),
-			    	 dmg,  enemy->Execute_GetHealth(enemy)));
-			
-			UE_LOG(LogTemp, Error, TEXT("ToxicDMG : %f,  New health : %f"),
-					 dmg,  enemy->Execute_GetHealth(enemy));
+			//GEngine->AddOnScreenDebugMessage(-1, dt, FColor::Red,
+			//    FString::Printf(TEXT("ToxicDMG : %f,  New health : %f"),
+			//    	 dmg,  enemy->Execute_GetHealth(enemy)));
+			//
+			//UE_LOG(LogTemp, Error, TEXT("ToxicDMG : %f,  New health : %f"),
+			//		 dmg,  enemy->Execute_GetHealth(enemy));
 		}
 	}
 	
