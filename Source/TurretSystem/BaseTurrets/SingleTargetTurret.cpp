@@ -34,9 +34,15 @@ void ASingleTargetTurret::Shoot(float DeltaTime)
 		ABaseBullet* bullet = GetWorld()->SpawnActor<ABaseBullet>(BulletType, location, FRotator(), SpawnInfo);
 		bullet->TargetEnemy = TargetEnemy;
 		bullet->Stats = BulletStats;
+		if (Statuses.Num() == 0)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red,
+			FString::Printf(TEXT("No statuses in turret. WTF.")));
+		}
 		for (auto& status :Statuses)
 		{
 			UBaseStatus* copy = status->MakeStatusCopy(BaseStats.BaseStatusesMultiplier, bullet);
+			copy->AddToBullet_Implementation(bullet, BaseStats.BaseStatusesMultiplier);
 			bullet->Statuses.Add(copy);
 		}
 		bullet->StartFly();

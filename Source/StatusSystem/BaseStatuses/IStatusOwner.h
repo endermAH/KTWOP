@@ -27,6 +27,11 @@ public:
 	TScriptInterface<IStatusData> GetStatus(EStatusType statusType);
 	UFUNCTION()
 	virtual TScriptInterface<IStatusData> GetStatus_Implementation(EStatusType statusType);
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void RemoveStatus(EStatusType statusType);
+	UFUNCTION()
+	virtual void RemoveStatus_Implementation(EStatusType statusType);
 
 #pragma region Health
 	
@@ -46,6 +51,17 @@ public:
 	virtual void ApplyDamage_Implementation(float damage);
 
 #pragma endregion
+
+#pragma region Armored
+
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	bool IsArmored();
+	UFUNCTION()
+	virtual bool IsArmored_Implementation();
+
+#pragma endregion 
+	
 	
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 	void OnDeath();

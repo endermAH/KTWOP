@@ -74,7 +74,7 @@ void ABaseTurret::OnEndOverlap_Implementation(UPrimitiveComponent* OverlappedCom
 void ABaseTurret::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	CollisionComponent->InitSphereRadius(BaseStats.TurretRadius);
+	CollisionComponent->SetSphereRadius(BaseStats.TurretRadius);
 }
 
 // Called every frame

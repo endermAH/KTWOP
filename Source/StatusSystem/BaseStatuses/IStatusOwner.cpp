@@ -12,6 +12,11 @@ TScriptInterface<IStatusData> IStatusOwner::GetStatus_Implementation(EStatusType
 	return nullptr;
 }
 
+void IStatusOwner::RemoveStatus_Implementation(EStatusType statusType)
+{
+	UE_LOG(LogTemp, Error, TEXT("\"RemoveStatus\" method isn't implemented."));
+}
+
 float IStatusOwner::GetHealth_Implementation()
 {
 	UE_LOG(LogTemp, Error, TEXT("\"GetHealth\" method isn't implemented."));
@@ -25,5 +30,11 @@ void IStatusOwner::SetHealth_Implementation(float newHealth)
 void IStatusOwner::ApplyDamage_Implementation(float damage)
 {
 	UE_LOG(LogTemp, Error, TEXT("\"ApplyDamage\" method isn't implemented."));
+}
+
+bool IStatusOwner::IsArmored_Implementation()
+{
+	UE_LOG(LogTemp, Error, TEXT("\"IsArmored\" method isn't implemented."));
+	return false;
 }
 

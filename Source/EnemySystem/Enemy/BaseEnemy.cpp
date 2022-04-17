@@ -9,7 +9,7 @@ ABaseEnemy::ABaseEnemy()
 	CollisionComponent->SetupAttachment(RootComponent);
 	CollisionComponent->SetHiddenInGame(false);
 	CollisionComponent->SetCollisionProfileName(TEXT("TurretEnemy"));
-	CollisionComponent->SetSphereRadius(CollisionRadius);
+	CollisionComponent->SetSphereRadius(EnemyStats.CollisionRadius);
 }
 
 void ABaseEnemy::AddStatus(TScriptInterface<IStatusBase> status)
@@ -23,7 +23,7 @@ void ABaseEnemy::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 
-	Health = MaxHealth;
+	EnemyStats.Health = EnemyStats.MaxHealth;
 }
 
 void ABaseEnemy::Tick(float DeltaSeconds)
@@ -50,6 +50,11 @@ bool ABaseEnemy::HasStatus_Implementation(EStatusType statusType)
 	return StatusesMap.Contains(statusType);
 }
 
+void ABaseEnemy::RemoveStatus_Implementation(EStatusType statusType)
+{
+	StatusesMap.Remove(statusType);
+}
+
 TScriptInterface<IStatusData> ABaseEnemy::GetStatus_Implementation(EStatusType statusType)
 {
 	if (StatusesMap.Contains(TEnumAsByte<EStatusType>(statusType)))
@@ -65,17 +70,17 @@ TScriptInterface<IStatusData> ABaseEnemy::GetStatus_Implementation(EStatusType s
 
 float ABaseEnemy::GetHealth_Implementation()
 {
-	return Health;
+	return EnemyStats.Health;
 }
 
 void ABaseEnemy::ApplyDamage_Implementation(float damage)
 {
-	Health = FMath::Clamp<float>(Health - damage, 0.0f, MaxHealth);
+	EnemyStats.Health = FMath::Clamp<float>(EnemyStats.Health - damage, 0.0f, EnemyStats.MaxHealth);
 	TScriptInterface<IStatusOwner> statusOwner;
 	statusOwner.SetInterface(this);
 	statusOwner.SetObject(this);
 	
-	if (Health == 0)
+	if (EnemyStats.Health == 0)
 	{
 		for (const TTuple<TEnumAsByte<EStatusType>, TScriptInterface<IStatusBase>>& pair: StatusesMap)
 		{
@@ -84,4 +89,9 @@ void ABaseEnemy::ApplyDamage_Implementation(float damage)
 		
 		this->Execute_OnDeath(this);
 	}
+}
+
+bool ABaseEnemy::IsArmored_Implementation()
+{
+	return EnemyStats.IsArmored;
 }
