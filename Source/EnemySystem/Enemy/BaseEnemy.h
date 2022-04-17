@@ -63,6 +63,7 @@ public:
 	virtual TScriptInterface<IStatusData> GetStatus_Implementation(EStatusType statusType) override;
 	
 	virtual float GetHealth_Implementation() override;
+	virtual float GetMaxHealth_Implementation() override;
 	
 	virtual void ApplyDamage_Implementation(float damage) override;
 

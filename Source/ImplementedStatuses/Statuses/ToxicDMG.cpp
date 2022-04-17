@@ -12,12 +12,12 @@ void UToxicDMG::OnTick_Implementation(const TScriptInterface<IStatusOwner>& stat
 {
 	if (IsExploded)
 	{
-		if (ToxicStats.AccumulatedDuration + dt >= StatusStats.Duration)
+		if (AccumulatedDuration + dt >= StatusStats.Duration)
 		{
-			dt = StatusStats.Duration - ToxicStats.AccumulatedDuration;
+			dt = StatusStats.Duration - AccumulatedDuration;
 		}
-		ToxicStats.AccumulatedDuration += dt;
-		if (ToxicStats.AccumulatedDuration + FLT_EPSILON >= StatusStats.Duration)
+		AccumulatedDuration += dt;
+		if (AccumulatedDuration + FLT_EPSILON >= StatusStats.Duration)
 		{
 			statusOwner->Execute_RemoveStatus(statusOwner.GetObject(), ToxicDMG);
 		}
@@ -36,10 +36,10 @@ void UToxicDMG::OnTick_Implementation(const TScriptInterface<IStatusOwner>& stat
 		{
 			GEngine->AddOnScreenDebugMessage(-1, dt, FColor::Red,
 			    FString::Printf(TEXT("ToxicDMG : %f,  New health : %f"),
-			    	 dmg,  enemy->GetHealth_Implementation()));
+			    	 dmg,  enemy->Execute_GetHealth(enemy)));
 			
 			UE_LOG(LogTemp, Error, TEXT("ToxicDMG : %f,  New health : %f"),
-					 dmg,  enemy->GetHealth_Implementation());
+					 dmg,  enemy->Execute_GetHealth(enemy));
 		}
 	}
 	

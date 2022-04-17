@@ -7,6 +7,7 @@
 
 void UExplodedStatus::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier ExternalModifies)
 {
+	Super::Apply_Implementation(enemy, ExternalModifies);
 	if (IsValid(enemy))
 	{
 		auto* existingStatus = Cast<UExplodedStatus>(enemy->Execute_GetStatus(enemy, this->Execute_GetStatusType(this)).GetObject());

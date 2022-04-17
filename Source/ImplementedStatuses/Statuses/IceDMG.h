@@ -6,15 +6,18 @@
 #include "BaseStatus.h"
 #include "ExplodedStatus.h"
 #include "UObject\Object.h"
-#include "ToxicDMG.generated.h"
+#include "IceDMG.generated.h"
 
 USTRUCT(BlueprintType)
-struct FToxicStats
+struct FIceStats
 {
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float ArmorDMGMultiplier = 1.5;
+	float MonsterSpeedModifier = 0.66;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float HealthDeathLimit = 0.15;
 
 };
 
@@ -22,13 +25,13 @@ struct FToxicStats
  * 
  */
 UCLASS()
-class IMPLEMENTEDSTATUSES_API UToxicDMG : public UExplodedStatus
+class IMPLEMENTEDSTATUSES_API UIceDMG : public UExplodedStatus
 {
 	GENERATED_BODY()
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default")
-	FToxicStats ToxicStats;
+	FIceStats IceStats;
 	
 	float AccumulatedDuration = 0;
 	

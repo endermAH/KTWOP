@@ -42,6 +42,12 @@ struct FStatusStats
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float EffectAccumulation;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<UActorComponent> BulletComponent;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<UActorComponent> EnemyComponent;
+
 	
 };
 
@@ -76,7 +82,7 @@ public:
 	
 public:
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Dafault")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default")
 	FStatusStats StatusStats;
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
@@ -86,7 +92,7 @@ public:
 	virtual void Apply_Implementation(ABaseEnemy* enemy, FStatusModifier ExternalModifies);
 	
 	UFUNCTION()
-	virtual void AddToBullet_Implementation(AActor* enemy, FStatusModifier ExternalModifies);
+	virtual void AddToBullet_Implementation(AActor* bullet, FStatusModifier ExternalModifies);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	UBaseStatus* MakeStatusCopy(FStatusModifier ExternalModifies, UObject* outer);

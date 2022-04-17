@@ -78,6 +78,11 @@ float ABaseEnemy::GetHealth_Implementation()
 	return EnemyStats.Health;
 }
 
+float ABaseEnemy::GetMaxHealth_Implementation()
+{
+	return EnemyStats.MaxHealth;
+}
+
 void ABaseEnemy::ApplyDamage_Implementation(float damage)
 {
 	EnemyStats.Health = FMath::Clamp<float>(EnemyStats.Health - damage, 0.0f, EnemyStats.MaxHealth);

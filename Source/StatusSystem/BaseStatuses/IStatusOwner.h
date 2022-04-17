@@ -41,6 +41,11 @@ public:
 	virtual float GetHealth_Implementation();
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	float GetMaxHealth();
+	UFUNCTION()
+	virtual float GetMaxHealth_Implementation();
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void SetHealth(float newHealth);
 	UFUNCTION()
 	virtual void SetHealth_Implementation(float newHealth);

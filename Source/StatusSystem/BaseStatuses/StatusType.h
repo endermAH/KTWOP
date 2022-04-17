@@ -11,8 +11,9 @@ enum EStatusType
 	BaseDMG UMETA(DisplayName = "BaseDMG"),
 	// Acid damage effect.
 	ToxicDMG UMETA(DisplayName = "AcidDMG"),
-	
+	//Ice Status
 	IceDMG  UMETA(DisplayName = "IceDMG"),
+	
 	PlasmaDMG  UMETA(DisplayName = "IceDMG"),
 	AdditionalSoulsST  UMETA(DisplayName = "IceDMG"),
 	PoolDMG  UMETA(DisplayName = "IceDMG"),
