@@ -26,4 +26,9 @@ public:
 	void OnDie(const TScriptInterface<IStatusOwner>& statusOwner);
 	UFUNCTION()
 	virtual void OnDie_Implementation(const TScriptInterface<IStatusOwner>& statusOwner);
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void ApplyDmg(float damage);
+	UFUNCTION()
+	virtual void ApplyDmg_Implementation(float damage);
 };

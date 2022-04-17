@@ -55,7 +55,7 @@ public:
 	
 	float SpentFlyDistance = 0;
 	
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default")
 	FLazerStats Stats;
 
 	UPROPERTY(BlueprintReadOnly)
