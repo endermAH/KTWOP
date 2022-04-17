@@ -19,7 +19,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	TArray<UBaseStatus*> Statuses;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Default")
 	FLazerStats LazerStats;
 
 protected:
