@@ -23,9 +23,9 @@ void UBaseDMG::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier ExternalM
 		enemy->ApplyDamage_Implementation( dmg );
 		if (IsValid(enemy))
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red,
-			    FString::Printf(TEXT("BaseDMG : %f, \n New health : %f"),
-			    	 dmg,  enemy->GetHealth_Implementation()));
+			//GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red,
+			//    FString::Printf(TEXT("BaseDMG : %f, \n New health : %f"),
+			//    	 dmg,  enemy->GetHealth_Implementation()));
 		}
 	}
 	
@@ -34,30 +34,7 @@ void UBaseDMG::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier ExternalM
 void UBaseDMG::AddToBullet_Implementation(AActor* enemy, FStatusModifier ExternalModifies)
 {}
 
-float UBaseDMG::GetModifier_Implementation()
-{
-	return Super::GetModifier_Implementation();
-}
 
-void UBaseDMG::SetModifier_Implementation(float inModifier)
-{
-	Super::SetModifier_Implementation(inModifier);
-}
-
-float UBaseDMG::GetPower_Implementation()
-{
-	return Super::GetPower_Implementation();
-}
-
-void UBaseDMG::SetPower_Implementation(float inPower)
-{
-	Super::SetPower_Implementation(inPower);
-}
-
-float UBaseDMG::GetDuration_Implementation()
-{
-	return Super::GetDuration_Implementation();
-}
 
 void UBaseDMG::SetDuration_Implementation(float inDuration)
 {

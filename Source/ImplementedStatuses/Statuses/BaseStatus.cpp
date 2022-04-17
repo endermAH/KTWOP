@@ -21,6 +21,36 @@ FStatusModifier UBaseStatus::CombineStatusModifier(const FStatusModifier& Status
 	return result;
 }
 
+float UBaseStatus::GetModifier_Implementation()
+{
+	return StatusStats.Modifier;
+}
+
+void UBaseStatus::SetModifier_Implementation(float inModifier)
+{
+	StatusStats.Modifier = inModifier;
+}
+
+float UBaseStatus::GetPower_Implementation()
+{
+	return StatusStats.Power;
+}
+
+void UBaseStatus::SetPower_Implementation(float inPower)
+{
+	StatusStats.Power = inPower;
+}
+
+float UBaseStatus::GetDuration_Implementation()
+{
+	return StatusStats.Duration;
+}
+
+void UBaseStatus::SetDuration_Implementation(float inDuration)
+{
+	StatusStats.Duration = (inDuration);
+}
+
 void UBaseStatus::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier ExternalModifies)
 {
 	UE_LOG(LogTemp, Error, TEXT("\"Apply\" method isn't implemented."));

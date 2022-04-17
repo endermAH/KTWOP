@@ -7,6 +7,26 @@
 #include "StatusSystem/BaseStatuses/IStatusBase.h"
 #include "BaseEnemy.generated.h"
 
+USTRUCT(BlueprintType)
+struct FEnemyStats
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float MaxHealth = 100;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float CollisionRadius = 50;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float Health = 100;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool IsArmored = false;
+};
+
+
+
 UCLASS()
 class ENEMYSYSTEM_API ABaseEnemy : public APawn, public IStatusOwner
 {
@@ -19,13 +39,7 @@ public:
 	USphereComponent* CollisionComponent;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float MaxHealth;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float CollisionRadius;
-	
-	UPROPERTY(BlueprintReadWrite)
-	float Health;
+	FEnemyStats EnemyStats;
 
 	ABaseEnemy();
 	
@@ -44,12 +58,15 @@ public:
 #pragma region  IStatusOwner
 	
 	virtual bool HasStatus_Implementation(EStatusType statusType) override;
+	virtual void RemoveStatus_Implementation(EStatusType statusType) override;
 	
 	virtual TScriptInterface<IStatusData> GetStatus_Implementation(EStatusType statusType) override;
 	
 	virtual float GetHealth_Implementation() override;
 	
 	virtual void ApplyDamage_Implementation(float damage) override;
+
+	virtual bool IsArmored_Implementation() override; 
 
 #pragma endregion
 	

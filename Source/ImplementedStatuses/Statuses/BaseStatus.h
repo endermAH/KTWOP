@@ -36,10 +36,12 @@ struct FStatusStats
 	float EffectAccumulationModifier;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float EffectAccumulation;
+	float EffectAccumulationMax;
+
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float EffectAccumulationMax;
+	float EffectAccumulation;
+
 	
 };
 
@@ -52,6 +54,8 @@ class IMPLEMENTEDSTATUSES_API UBaseStatus : public UDataAsset, public IStatusBas
 
 public:
 
+
+
 #pragma region StatusStatsFunctions
 
 	UFUNCTION(BlueprintCallable)
@@ -60,12 +64,19 @@ public:
 	UFUNCTION(BlueprintCallable)
 	static FStatusModifier CombineStatusModifier(const FStatusModifier& StatusModifierLeft,  const FStatusModifier& StatusModifierRight);
 
+	virtual float GetModifier_Implementation() override;
+	virtual void SetModifier_Implementation(float inModifier) override;
+	virtual float GetPower_Implementation() override;
+	virtual void SetPower_Implementation(float inPower) override;
+	virtual float GetDuration_Implementation() override;
+	virtual void SetDuration_Implementation(float inDuration) override;
+
 
 #pragma endregion 
 	
 public:
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Dafault")
 	FStatusStats StatusStats;
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)

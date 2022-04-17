@@ -10,7 +10,7 @@ enum EStatusType
 	// Default damage effect.
 	BaseDMG UMETA(DisplayName = "BaseDMG"),
 	// Acid damage effect.
-	AcidDMG UMETA(DisplayName = "AcidDMG"),
+	ToxicDMG UMETA(DisplayName = "AcidDMG"),
 	
 	IceDMG  UMETA(DisplayName = "IceDMG"),
 	PlasmaDMG  UMETA(DisplayName = "IceDMG"),
