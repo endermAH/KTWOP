@@ -87,7 +87,14 @@ public:
 	UFUNCTION()
 	virtual bool IsArmored_Implementation();
 
-#pragma endregion 
+#pragma endregion
+
+
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	FVector GetLocation();
+	UFUNCTION()
+	virtual FVector GetLocation_Implementation();
 	
 	
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)

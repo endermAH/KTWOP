@@ -19,3 +19,9 @@ enum EStatusType
 	AdditionalSoulsST  UMETA(DisplayName = "IceDMG"),
 	PoolDMG  UMETA(DisplayName = "IceDMG"),
 };
+
+
+
+#define TurretEnemyCollisionChannel	ECC_GameTraceChannel1
+#define EnemyDestroyerCollisionChannel	ECC_GameTraceChannel2
+#define TurretCollisionChannel	ECC_GameTraceChannel3

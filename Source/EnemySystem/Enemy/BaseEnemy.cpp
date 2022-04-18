@@ -24,6 +24,16 @@ void ABaseEnemy::OnConstruction(const FTransform& Transform)
 	Super::OnConstruction(Transform);
 
 	EnemyStats.Health = EnemyStats.MaxHealth;
+	HashedSpeedModifier = EnemyStats.SpeedModifier;
+	HashedDmgModifier = EnemyStats.DmgModifier;
+}
+
+void ABaseEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	HashedSpeedModifier = EnemyStats.SpeedModifier;
+	HashedDmgModifier = EnemyStats.DmgModifier;
 }
 
 void ABaseEnemy::Tick(float DeltaSeconds)
@@ -121,32 +131,37 @@ void ABaseEnemy::SetHealth_Implementation(float newHealth)
 
 void ABaseEnemy::ApplySpeedModifier_Implementation(float modifier, EStatusType status)
 {
-
 	SpeedModifierMap.Add(status, modifier);
+	float speedM = EnemyStats.SpeedModifier;
+	for (auto sm : SpeedModifierMap)
+	{
+		speedM *= sm.Value;
+	}
+	HashedSpeedModifier = speedM;
 }
 
 void ABaseEnemy::ApplyDmgModifier_Implementation(float modifier, EStatusType status)
 {
 	DmgModifierMap.Add(status, modifier);
+	float damageM = EnemyStats.DmgModifier;
+	for (auto dm : DmgModifierMap)
+	{
+		damageM *= dm.Value;
+	}
+	HashedDmgModifier = damageM;
+}
+
+FVector ABaseEnemy::GetLocation_Implementation()
+{
+	return GetPosition();
 }
 
 float ABaseEnemy::GetSpeedModifier_Implementation()
 {
-	float speed = EnemyStats.SpeedModifier;
-	for (auto sm : SpeedModifierMap)
-	{
-		speed *= sm.Value;
-	}
-	return speed;
+	return HashedSpeedModifier;
 }
 
 float ABaseEnemy::GetDmgModifier_Implementation()
 {
-	
-	float damage = EnemyStats.DmgModifier;
-	for (auto dm : DmgModifierMap)
-	{
-		damage *= dm.Value;
-	}
-	return damage;
+	return HashedDmgModifier;
 }
