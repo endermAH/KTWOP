@@ -9,7 +9,7 @@ ABaseEnemy::ABaseEnemy()
 	CollisionComponent->SetupAttachment(RootComponent);
 	CollisionComponent->SetHiddenInGame(false);
 	CollisionComponent->SetCollisionProfileName(TEXT("TurretEnemy"));
-	CollisionComponent->SetSphereRadius(CollisionRadius);
+	CollisionComponent->SetSphereRadius(EnemyStats.CollisionRadius);
 }
 
 void ABaseEnemy::AddStatus(TScriptInterface<IStatusBase> status)
@@ -23,7 +23,7 @@ void ABaseEnemy::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 
-	Health = MaxHealth;
+	EnemyStats.Health = EnemyStats.MaxHealth;
 }
 
 void ABaseEnemy::Tick(float DeltaSeconds)
@@ -34,10 +34,15 @@ void ABaseEnemy::Tick(float DeltaSeconds)
 	statusOwner.SetInterface(this);
 	statusOwner.SetObject(this);
 	
-	for (const TTuple<TEnumAsByte<EStatusType>, TScriptInterface<IStatusBase>>& pair : StatusesMap)
+	for (const auto& pair : StatusesMap)
 	{
 		IStatusBase::Execute_OnTick(pair.Value.GetObject(), statusOwner, DeltaSeconds);
 	}
+	for (auto& removedStatus : RemovedStatuses)
+	{
+		StatusesMap.Remove(removedStatus);
+	}
+	RemovedStatuses.Empty();
 }
 
 FVector ABaseEnemy::GetPosition()
@@ -48,6 +53,11 @@ FVector ABaseEnemy::GetPosition()
 bool ABaseEnemy::HasStatus_Implementation(EStatusType statusType)
 {
 	return StatusesMap.Contains(statusType);
+}
+
+void ABaseEnemy::RemoveStatus_Implementation(EStatusType statusType)
+{
+	RemovedStatuses.Add(statusType);
 }
 
 TScriptInterface<IStatusData> ABaseEnemy::GetStatus_Implementation(EStatusType statusType)
@@ -65,17 +75,30 @@ TScriptInterface<IStatusData> ABaseEnemy::GetStatus_Implementation(EStatusType s
 
 float ABaseEnemy::GetHealth_Implementation()
 {
-	return Health;
+	return EnemyStats.Health;
+}
+
+float ABaseEnemy::GetMaxHealth_Implementation()
+{
+	return EnemyStats.MaxHealth;
 }
 
 void ABaseEnemy::ApplyDamage_Implementation(float damage)
 {
-	Health = FMath::Clamp<float>(Health - damage, 0.0f, MaxHealth);
+	damage = EnemyStats.Health - FMath::Clamp<float>(EnemyStats.Health - damage * GetDmgModifier_Implementation(), 0.0f, EnemyStats.MaxHealth );
+	ShowApplyedDamage(damage);
+	
+	for (const TTuple<TEnumAsByte<EStatusType>, TScriptInterface<IStatusBase>>& pair: StatusesMap)
+	{
+		IStatusBase::Execute_ApplyDmg(pair.Value.GetObject(), damage);
+	}
+	EnemyStats.Health -= damage;
+	
 	TScriptInterface<IStatusOwner> statusOwner;
 	statusOwner.SetInterface(this);
 	statusOwner.SetObject(this);
 	
-	if (Health == 0)
+	if (EnemyStats.Health <= 1)
 	{
 		for (const TTuple<TEnumAsByte<EStatusType>, TScriptInterface<IStatusBase>>& pair: StatusesMap)
 		{
@@ -84,4 +107,46 @@ void ABaseEnemy::ApplyDamage_Implementation(float damage)
 		
 		this->Execute_OnDeath(this);
 	}
+}
+
+bool ABaseEnemy::IsArmored_Implementation()
+{
+	return EnemyStats.IsArmored;
+}
+
+void ABaseEnemy::SetHealth_Implementation(float newHealth)
+{
+	EnemyStats.Health = newHealth;
+}
+
+void ABaseEnemy::ApplySpeedModifier_Implementation(float modifier, EStatusType status)
+{
+
+	SpeedModifierMap.Add(status, modifier);
+}
+
+void ABaseEnemy::ApplyDmgModifier_Implementation(float modifier, EStatusType status)
+{
+	DmgModifierMap.Add(status, modifier);
+}
+
+float ABaseEnemy::GetSpeedModifier_Implementation()
+{
+	float speed = EnemyStats.SpeedModifier;
+	for (auto sm : SpeedModifierMap)
+	{
+		speed *= sm.Value;
+	}
+	return speed;
+}
+
+float ABaseEnemy::GetDmgModifier_Implementation()
+{
+	
+	float damage = EnemyStats.DmgModifier;
+	for (auto dm : DmgModifierMap)
+	{
+		damage *= dm.Value;
+	}
+	return damage;
 }

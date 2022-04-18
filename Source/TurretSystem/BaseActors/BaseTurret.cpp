@@ -40,6 +40,33 @@ void ABaseTurret::BeginPlay()
 	Super::BeginPlay();
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ABaseTurret::OnBeginOverlap);
 	CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ABaseTurret::OnEndOverlap);
+
+	TArray<FOverlapResult> EnemyOverlaps;
+	FCollisionQueryParams QueryParams(false);
+			
+	FCollisionResponseParams ResponseParams;
+	ResponseParams.CollisionResponse.SetAllChannels(ECR_Ignore);
+	ResponseParams.CollisionResponse.SetResponse(EnemyDestroyerCollisionChannel, ECR_Overlap);
+	ResponseParams.CollisionResponse.SetResponse(TurretEnemyCollisionChannel, ECR_Overlap);
+
+	GetWorld()->OverlapMultiByChannel(
+		EnemyOverlaps,
+		RootComponent->GetComponentLocation(),
+		FQuat::Identity,
+		EnemyDestroyerCollisionChannel,
+		FCollisionShape::MakeSphere(BaseStats.TurretRadius),
+		QueryParams,
+		ResponseParams
+		);
+
+	for (auto& collision : EnemyOverlaps)
+	{
+		ABaseEnemy* enemyActor = Cast<ABaseEnemy>(collision.GetActor());
+		if (IsValid(enemyActor))
+		{
+			EnemyActors.Add(enemyActor);
+		}
+	}
 	//TurnOffEvent.AddDynamic(this, &ABaseTurret::TurnOff);
 	//TurnOnEvent.AddDynamic(this, &ABaseTurret::TurnOn);
 }
@@ -49,7 +76,7 @@ void ABaseTurret::OnBeginOverlap_Implementation(UPrimitiveComponent* OverlappedC
                                                 bool bFromSweep, const FHitResult& Hit)
 {
 	auto buff = Cast<ABaseEnemy>(OtherActor);
-	if (buff != nullptr)
+	if (IsValid(buff))
 		EnemyActors.Add(buff);
 	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red,
 	//                                 FString::Printf(TEXT("Add new Actor to pull. Size = %i"), EnemyActors.Num()));
@@ -74,7 +101,7 @@ void ABaseTurret::OnEndOverlap_Implementation(UPrimitiveComponent* OverlappedCom
 void ABaseTurret::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	CollisionComponent->InitSphereRadius(BaseStats.TurretRadius);
+	CollisionComponent->SetSphereRadius(BaseStats.TurretRadius);
 }
 
 // Called every frame
@@ -120,7 +147,7 @@ void ABaseTurret::Tick(float DeltaTime)
 			                                       targetRotator,
 			                                       DeltaTime, BaseStats.RotationSpeed);
 			RootComponent->SetWorldRotation(newRotator);
-			float angleBetweenTurretAndTarget = FMath::Abs((RootComponent->GetComponentRotation() - targetRotator).Vector()|FVector(1,1,1));
+			float angleBetweenTurretAndTarget = FMath::Abs(newRotator.Yaw - targetRotator.Yaw);
 			if (angleBetweenTurretAndTarget < BaseStats.TurretShootAngle )
 				this->Shoot(DeltaTime);
 		} else

@@ -52,7 +52,7 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		
 		for (auto& status :Statuses)
 		{
-			status->Apply(enemy, Stats.BulletModifier);
+			status->Apply(enemy, Stats.StatusModifies);
 		}
 		if (Stats.BulletBounceCount > 0)
 		{
@@ -106,7 +106,7 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 				Stats.BulletBounceCount = 0;
 			} else
 			{
-				Stats.BulletModifier *= Stats.BulletBounceModifier;
+				Stats.StatusModifies = UBaseStatus::CombineStatusModifier(Stats.StatusModifies, Stats.BulletBounceModifier);
 				Stats.BulletBounceCount--;
 			}
 		}

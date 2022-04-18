@@ -32,7 +32,7 @@ struct FBaseTurretStats
 	float RotationSpeed = 5;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float BaseStatusesMultiplier = 1.0;
+	FStatusModifier BaseStatusesMultiplier;
 	
 	
 };

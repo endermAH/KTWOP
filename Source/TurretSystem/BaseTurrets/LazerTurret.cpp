@@ -28,6 +28,7 @@ void ALazerTurret::Shoot(float DeltaTime)
 	if ((Delay < 0))
 	{
 		FLazerStats lazerStats = LazerStats;
+		lazerStats.LazerModifier = BaseStats.BaseStatusesMultiplier;
 		ABaseEnemy* lastHit = nullptr;
 		TArray<ABaseEnemy*> VisitedEnemies;
 		auto enemy = TargetEnemy;
@@ -51,7 +52,8 @@ void ALazerTurret::Shoot(float DeltaTime)
 			
 			for (auto& status :Statuses)
 			{
-				status->Apply(enemy, BaseStats.BaseStatusesMultiplier * lazerStats.LazerModifier);
+				status->Apply(enemy,
+					UBaseStatus::CombineStatusModifier(BaseStats.BaseStatusesMultiplier, lazerStats.LazerModifier));
 			}
 			
 			lazer->Activate();
@@ -60,7 +62,7 @@ void ALazerTurret::Shoot(float DeltaTime)
 			else
 				spendDistance += (location-enemy->GetPosition()).Size();
 
-			lazerStats.LazerModifier *= lazerStats.LazerBounceModifier;
+			lazerStats.LazerModifier = UBaseStatus::CombineStatusModifier(lazerStats.LazerModifier, lazerStats.LazerBounceModifier);
 			lastHit = enemy;
 			
 			if (lazerStats.LazerBounceCount > 0)
