@@ -9,6 +9,7 @@
 #include "GameFramework\Actor.h"
 #include "TurretSystem\AbilitySystems\TurretAbilitySystemComponent.h"
 #include "TurretSystem\Interfaces\IShootable.h"
+#include "TurretSystem\ModulesSystem\ModuleSystem.h"
 #include "BaseTurret.generated.h"
 
 #define LATER_SECS(seconds, ...) \
@@ -55,6 +56,13 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	USphereComponent* CollisionComponent;
+
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UModuleSystem* ModuleSystemComponent;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UModuleSystem> ModuleSystemType = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Default")
 	FBaseTurretStats BaseStats;
@@ -121,7 +129,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void TurnOff();
 	
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	bool IsWorking = true;
 private:
 

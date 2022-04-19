@@ -32,6 +32,22 @@ ABaseTurret::ABaseTurret()
 	CollisionComponent->SetCollisionProfileName(TEXT("Turret"));
 
 	TargetEnemy = nullptr;
+
+
+	if (IsValid(ModuleSystemType))
+	{
+		if (IsValid(ModuleSystemComponent))
+		{
+			ModuleSystemComponent->DestroyComponent(true);
+		}
+		
+		auto component = CreateComponentFromTemplate(ModuleSystemType.GetDefaultObject(), FName(FString(TEXT("ModuleSystem"))));
+		ModuleSystemComponent = Cast<UModuleSystem>(component);
+		
+	} else
+	{
+		//UE_LOG(LogTemp,Warning, TEXT("Actor %s may not have module system!!!!"), *GetName());
+	}
 }
 
 // Called when the game starts or when spawned
@@ -92,8 +108,6 @@ void ABaseTurret::OnEndOverlap_Implementation(UPrimitiveComponent* OverlappedCom
 				auto buff = Cast<ABaseEnemy>(OtherActor);
 				if (buff != nullptr)
 					this->EnemyActors.Remove(buff);
-	           //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red,
-		       //    FString::Printf(TEXT("Remove Actor to pull. Size = %i"), EnemyActors.Num()));
 	           });
 }
 
@@ -102,6 +116,24 @@ void ABaseTurret::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 	CollisionComponent->SetSphereRadius(BaseStats.TurretRadius);
+
+
+	if (IsValid(ModuleSystemType))
+	{
+		if (IsValid(ModuleSystemComponent))
+		{
+			ModuleSystemComponent->DestroyComponent(true);
+		}
+		
+			auto component = CreateComponentFromTemplate(ModuleSystemType.GetDefaultObject(), FName(FString(TEXT("ModuleSystem"))));
+			ModuleSystemComponent = Cast<UModuleSystem>(component);
+	} else
+	{
+		
+		GEngine->AddOnScreenDebugMessage(-1, 1000.f, FColor::Red,
+		                                 FString::Printf(TEXT("Actor %s dont have module system!!!!"),
+		                                 	*GetName()));
+	}
 }
 
 // Called every frame
