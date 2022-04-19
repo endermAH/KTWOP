@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "../BaseDefines.h"
-#include "Components\SphereComponent.h"
-#include "GameFramework\Actor.h"
+#include "Components/SphereComponent.h"
+#include "GameFramework/Actor.h"
 #include "ImplementedStatuses/Statuses/BaseStatus.h"
-#include "TurretSystem\AbilitySystems\BulletAbilitySystemComponent.h"
+#include "TurretSystem/AbilitySystems/BulletAbilitySystemComponent.h"
 #include "LazerBullet.generated.h"
 
 USTRUCT(BlueprintType)

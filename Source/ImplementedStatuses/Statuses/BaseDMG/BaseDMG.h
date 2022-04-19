@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "..\BaseStatus.h"
-#include "UObject\Object.h"
+#include "../BaseStatus.h"
+#include "UObject/Object.h"
 #include "BaseDMG.generated.h"
 
 /**

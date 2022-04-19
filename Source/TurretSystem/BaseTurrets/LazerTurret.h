@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TurretSystem\BaseActors\BaseTurret.h"
-#include "TurretSystem\BaseActors\LazerBullet.h"
+#include "TurretSystem/BaseActors/BaseTurret.h"
+#include "TurretSystem/BaseActors/LazerBullet.h"
 #include "LazerTurret.generated.h"
 
 UCLASS()

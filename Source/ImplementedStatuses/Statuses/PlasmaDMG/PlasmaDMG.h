@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "PlasmaExplosion.h"
-#include "..\ExplodedStatus.h"
+#include "../ExplodedStatus.h"
 #include "PlasmaDMG.generated.h"
 
 USTRUCT(BlueprintType)

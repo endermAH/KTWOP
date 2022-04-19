@@ -3,9 +3,9 @@
 
 #include "BaseBullet.h"
 
-#include "Components\SphereComponent.h"
-#include "EnemySystem\Enemy\BaseEnemy.h"
-#include "Kismet\KismetSystemLibrary.h"
+#include "Components/SphereComponent.h"
+#include "EnemySystem/Enemy/BaseEnemy.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 
 // Sets default values

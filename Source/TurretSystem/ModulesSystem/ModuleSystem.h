@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components\ActorComponent.h"
+#include "Components/ActorComponent.h"
 #include "ModulesBase.h"
-#include "ImplementedStatuses\Statuses\BaseStatus.h"
-#include "StatusSystem\BaseStatuses\StatusType.h"
+#include "ImplementedStatuses/Statuses/BaseStatus.h"
+#include "StatusSystem/BaseStatuses/StatusType.h"
 #include "ModuleSystem.generated.h"
 
 
