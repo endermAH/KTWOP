@@ -3,40 +3,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BaseStatus.h"
-#include "ExplodedStatus.h"
-#include "LightningDMG.generated.h"
-
-USTRUCT(BlueprintType)
-struct FLightningStats
-{
-	GENERATED_BODY()
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float MonsterSpeedModifier = 0.;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float MonsterDmgModifier = 1.5;
-};
+#include "..\BaseStatus.h"
+#include "UObject\Object.h"
+#include "BaseDMG.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IMPLEMENTEDSTATUSES_API ULightningDMG : public UExplodedStatus
+class IMPLEMENTEDSTATUSES_API UBaseDMG : public UBaseStatus
 {
 	GENERATED_BODY()
 public:
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default")
-	FLightningStats LightningStats;
-	
-	float AccumulatedDuration = 0;
-	
 	virtual EStatusType GetStatusType_Implementation() override;
 	virtual void OnTick_Implementation(const TScriptInterface<IStatusOwner>& statusOwner, float dt) override;
+	virtual void OnDie_Implementation(const TScriptInterface<IStatusOwner>& statusOwner) override;
 	virtual void Apply_Implementation(ABaseEnemy* enemy, FStatusModifier ExternalModifies) override;
 	virtual void AddToBullet_Implementation(AActor* enemy, FStatusModifier ExternalModifies) override;
+	
+	virtual void SetDuration_Implementation(float inDuration) override;
 	
 	virtual UBaseStatus* MakeStatusCopy_Implementation(FStatusModifier ExternalModifies, UObject* outer) override;
 };

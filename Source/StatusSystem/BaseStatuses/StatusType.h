@@ -10,12 +10,18 @@ enum EStatusType
 	// Default damage effect.
 	BaseDMG UMETA(DisplayName = "BaseDMG"),
 	// Acid damage effect.
-	ToxicDMG UMETA(DisplayName = "AcidDMG"),
+	ToxicDMG UMETA(DisplayName = "ToxicDMG"),
 	//Ice Status
 	IceDMG  UMETA(DisplayName = "IceDMG"),
 	
-	LightningDMG  UMETA(DisplayName = "IceDMG"),
-	PlasmaDMG  UMETA(DisplayName = "IceDMG"),
-	AdditionalSoulsST  UMETA(DisplayName = "IceDMG"),
-	PoolDMG  UMETA(DisplayName = "IceDMG"),
+	LightningDMG  UMETA(DisplayName = "LightningDMG"),
+	PlasmaDMG  UMETA(DisplayName = "PlasmaDMG"),
+	AdditionalSoulsST  UMETA(DisplayName = "AdditionalSoulsDMG"),
+	PoolDMG  UMETA(DisplayName = "PoolDMG"),
 };
+
+
+
+#define TurretEnemyCollisionChannel	ECC_GameTraceChannel1
+#define EnemyDestroyerCollisionChannel	ECC_GameTraceChannel2
+#define TurretCollisionChannel	ECC_GameTraceChannel3

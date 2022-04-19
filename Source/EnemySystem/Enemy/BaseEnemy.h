@@ -53,6 +53,7 @@ public:
 	void AddStatus(TScriptInterface<IStatusBase> status);
 
 	virtual void OnConstruction(const FTransform& Transform) override;
+	virtual void BeginPlay() override;
 	
 	virtual void Tick(float DeltaSeconds) override;
 
@@ -80,6 +81,11 @@ public:
 	virtual void SetHealth_Implementation(float newHealth) override;
 	virtual void ApplySpeedModifier_Implementation(float modifier, EStatusType status) override;
 	virtual void ApplyDmgModifier_Implementation(float modifier, EStatusType status) override;
+	virtual FVector GetLocation_Implementation() override;
+
+	float HashedSpeedModifier;
+	float HashedDmgModifier;
+	
 	virtual float GetSpeedModifier_Implementation() override;
 	virtual float GetDmgModifier_Implementation() override;
 
