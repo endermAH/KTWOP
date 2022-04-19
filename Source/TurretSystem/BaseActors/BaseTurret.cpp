@@ -127,7 +127,6 @@ void ABaseTurret::OnConstruction(const FTransform& Transform)
 		
 			auto component = CreateComponentFromTemplate(ModuleSystemType.GetDefaultObject(), FName(FString(TEXT("ModuleSystem"))));
 			ModuleSystemComponent = Cast<UModuleSystem>(component);
-			ModuleSystemComponent->SetupAttachment(RootComponent);
 	} else
 	{
 		
