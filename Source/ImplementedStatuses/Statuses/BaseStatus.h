@@ -37,8 +37,7 @@ struct FStatusStats
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float EffectAccumulationMax;
-
-
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float EffectAccumulation;
 

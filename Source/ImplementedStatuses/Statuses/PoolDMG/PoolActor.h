@@ -3,29 +3,29 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components\SphereComponent.h"
-#include "Components\TimelineComponent.h"
-#include "StatusSystem\BaseStatuses\IStatusOwner.h"
 #include "GameFramework\Actor.h"
-#include "PlasmaExplosion.generated.h"
+#include "Components\TimelineComponent.h"
+#include "ImplementedStatuses\Statuses\BaseStatus.h"
+#include "PoolActor.generated.h"
 
 
 USTRUCT(BlueprintType)
-struct FPlasmaExplosionStats
+struct FPoolStats
 {
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
-	float Damage;
+	float Modifier;
+	
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float Duration;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	UCurveFloat* RadiusCurve;
-	
+	float Radius;
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	UCurveFloat* DamageCurveModifier;
+	TArray<UBaseStatus*> Statuses;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UActorComponent> DamagedEnemyComponent;
@@ -35,13 +35,13 @@ struct FPlasmaExplosionStats
 	//UPROPERTY(BlueprintReadWrite, EditAnywhere)
 };
 
-UCLASS()
-class IMPLEMENTEDSTATUSES_API APlasmaExplosion : public AActor
+
+
+UCLASS(BlueprintType)
+class IMPLEMENTEDSTATUSES_API APoolActor : public AActor
 {
 	GENERATED_BODY()
 public:
-
-	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	USphereComponent* CollisionComponent;
 
@@ -49,47 +49,44 @@ public:
 	FRichCurve  ZeroOneCurve;
 	
 	UPROPERTY()
-	FPlasmaExplosionStats SavedExplosionStats;
-	
-	UPROPERTY()
 	UTimelineComponent* ExplosionTimeline = nullptr;
 
 	float CurrentDamage;
-
 	
 	UPROPERTY()
 	TArray<AActor*> DamagedEnemies;
-
 	
-	virtual void OnConstruction(const FTransform& Transform) override;
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	FPoolStats Stats;
 
+	bool IsStarted = false;
+public:
+	// Sets default values for this actor's properties
+	APoolActor();
+
+protected:
+	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
+public:
+	UFUNCTION(BlueprintCallable)
+	void Start(const FPoolStats& ExplosionStats);
+
+	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	
-	
-
-	// Sets default values for this actor's properties
-	APlasmaExplosion();
-
-	UPROPERTY(BlueprintReadOnly)
-	bool ExplosionStarted = false;
-
-	UFUNCTION(BlueprintCallable)
-	void StartExplosion(const FPlasmaExplosionStats& ExplosionStats);
 
 	UFUNCTION()
 	void TimelineCallback(float Alpha);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void UpdateRadius(float alpha, float NewRadius, float Damage);
+	void Update(float alpha, float Radius);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void EndExplosion();
+	void EndPool();
 	
 	UFUNCTION()
-	void EndExplosion_Implementation();
+	void EndPool_Implementation();
 	
 
 #pragma region CollisionSystem
@@ -125,5 +122,6 @@ public:
 		int32 OtherBodyIndex);
 
 #pragma endregion 
-
+private:
+	void DamageEnemy(ABaseEnemy* enemy);
 };

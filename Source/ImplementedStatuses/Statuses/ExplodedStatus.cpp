@@ -39,7 +39,17 @@ void UExplodedStatus::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier Ex
 			}
 		} else
 		{
-			enemy->AddStatus(this->MakeStatusCopy(ExternalModifies, enemy));
+			existingStatus = Cast<UExplodedStatus>(this->MakeStatusCopy(ExternalModifies, enemy));
+			enemy->AddStatus(existingStatus);
 		}
+		
+		if (IsValid(existingStatus) && existingStatus->AccumulatedEffect >= existingStatus->StatusStats.EffectAccumulationMax)
+        {
+        	existingStatus->IsExploded = true;
+        	IsExploded = true;
+        	GEngine->AddOnScreenDebugMessage(-1, 1.1f, FColor::Red,
+        	FString::Printf(TEXT("Effect exploded")
+        		));
+        }
 	}
 }
