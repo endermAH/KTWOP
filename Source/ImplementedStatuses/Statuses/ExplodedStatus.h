@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BaseStatus.h"
-#include "UObject\Object.h"
+#include "UObject/Object.h"
 #include "ExplodedStatus.generated.h"
 
 /**

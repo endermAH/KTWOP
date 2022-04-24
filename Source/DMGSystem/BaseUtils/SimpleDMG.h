@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject\ObjectMacros.h"
+#include "UObject/ObjectMacros.h"
 
 
 #include "SimpleDMG.generated.h"

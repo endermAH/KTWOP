@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "..\ExplodedStatus.h"
+#include "../ExplodedStatus.h"
 #include "ToxicDMG.generated.h"
 
 USTRUCT(BlueprintType)

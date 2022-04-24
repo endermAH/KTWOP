@@ -3,8 +3,8 @@
 
 #include "BaseTurret.h"
 
-#include "GameFramework\PawnMovementComponent.h"
-#include "Kismet\KismetMathLibrary.h"
+#include "GameFramework/PawnMovementComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 
 // Sets default values

@@ -20,5 +20,4 @@ struct FModuleDescription
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TEnumAsByte<EModuleType> Module;
 	// TODO //
-	
 };

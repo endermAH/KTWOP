@@ -3,7 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "..\ExplodedStatus.h"
+// #include 
+#include "../ExplodedStatus.h"
 #include "LightningDMG.generated.h"
 
 USTRUCT(BlueprintType)

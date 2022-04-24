@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "..\ExplodedStatus.h"
+#include "../ExplodedStatus.h"
 #include "IceDMG.generated.h"
 
 USTRUCT(BlueprintType)

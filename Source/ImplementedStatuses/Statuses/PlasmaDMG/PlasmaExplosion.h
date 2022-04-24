@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components\SphereComponent.h"
-#include "Components\TimelineComponent.h"
-#include "StatusSystem\BaseStatuses\IStatusOwner.h"
-#include "GameFramework\Actor.h"
+#include "Components/SphereComponent.h"
+#include "Components/TimelineComponent.h"
+#include "StatusSystem/BaseStatuses/IStatusOwner.h"
+#include "GameFramework/Actor.h"
 #include "PlasmaExplosion.generated.h"
 
 

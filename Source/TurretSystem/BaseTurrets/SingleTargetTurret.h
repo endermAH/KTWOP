@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework\Actor.h"
-#include "StatusSystem\BaseStatuses\IStatusBase.h"
-#include "TurretSystem\BaseActors\BaseTurret.h"
-#include "TurretSystem\BaseActors\BaseBullet.h"
+#include "GameFramework/Actor.h"
+#include "StatusSystem/BaseStatuses/IStatusBase.h"
+#include "TurretSystem/BaseActors/BaseTurret.h"
+#include "TurretSystem/BaseActors/BaseBullet.h"
 #include "SingleTargetTurret.generated.h"
 
 UCLASS()

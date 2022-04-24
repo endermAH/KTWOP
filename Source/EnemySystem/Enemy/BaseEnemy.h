@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
-#include "Components\SphereComponent.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/Pawn.h"
 #include "StatusSystem/BaseStatuses/IStatusOwner.h"
 #include "StatusSystem/BaseStatuses/IStatusBase.h"

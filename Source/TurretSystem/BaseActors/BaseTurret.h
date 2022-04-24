@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "BaseBullet.h"
-#include "Components\ArrowComponent.h"
-#include "Components\SphereComponent.h"
-#include "GameFramework\Actor.h"
-#include "TurretSystem\AbilitySystems\TurretAbilitySystemComponent.h"
-#include "TurretSystem\Interfaces\IShootable.h"
-#include "TurretSystem\ModulesSystem\ModuleSystem.h"
+#include "Components/ArrowComponent.h"
+#include "Components/SphereComponent.h"
+#include "GameFramework/Actor.h"
+#include "TurretSystem/AbilitySystems/TurretAbilitySystemComponent.h"
+#include "TurretSystem/Interfaces/IShootable.h"
+#include "TurretSystem/ModulesSystem/ModuleSystem.h"
 #include "BaseTurret.generated.h"
 
 #define LATER_SECS(seconds, ...) \
