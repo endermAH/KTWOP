@@ -18,32 +18,16 @@ GetWorldTimerManager().SetTimer(__tempTimerHandle, FTimerDelegate().CreateLambda
 
 
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE(FVoidDelegate);
-USTRUCT(BlueprintType)
-struct FBaseTurretStats
-{
-	GENERATED_BODY()
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float TurretRadius;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float TurretShootAngle = 10.f;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float RotationSpeed = 5;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FStatusModifier BaseStatusesMultiplier;
-	
-	
-};
+
 
 class IStatusData;
 UCLASS(Abstract)
 class TURRETSYSTEM_API ABaseTurret : public AActor, public IShootable
 {
 	GENERATED_BODY()
-
+private:
+	
 public:
 	// Sets default values for this actor's properties
 	ABaseTurret();
@@ -67,7 +51,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Default")
 	FBaseTurretStats BaseStats;
 	
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Default")
+	FBaseTurretStats ModifiedStats;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Default")
+	FBaseTurretStats StatsModification;
+	
+	UPROPERTY(BlueprintReadWrite)
+	TArray<UBaseStatus*> Statuses;
 protected:
 
 	UPROPERTY()
@@ -130,7 +121,7 @@ public:
 	void TurnOff();
 	
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
-	bool IsWorking = true;
+	bool IsWorking = false;
 private:
 
 #pragma endregion 

@@ -37,4 +37,5 @@ public:
 	virtual void AddToBullet_Implementation(AActor* enemy, FStatusModifier ExternalModifies) override;
 	
 	virtual UBaseStatus* MakeStatusCopy_Implementation(FStatusModifier ExternalModifies, UObject* outer) override;
+	virtual void CombineWithStatus_Implementation(UBaseStatus* Status) override;
 };

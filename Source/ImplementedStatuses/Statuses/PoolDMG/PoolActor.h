@@ -17,7 +17,6 @@ struct FPoolStats
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	float Modifier;
 	
-	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float Duration;
 	

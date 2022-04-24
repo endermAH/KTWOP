@@ -5,10 +5,15 @@
 
 
 UENUM(BlueprintType)
-enum EModuleType
+enum EStatusModuleType
 {
-	VoidModule  UMETA(DisplayName = "VoidModule"),
-	RockModule  UMETA(DisplayName = "RockModule"),
+	VoidModule        UMETA(DisplayName = "VoidModule"),
+	RockModule        UMETA(DisplayName = "RockModule"),
+	IceModule         UMETA(DisplayName = "IceModule"),
+	LightningModule   UMETA(DisplayName = "LightnibgModule"),
+	PlasmaModule      UMETA(DisplayName = "PlasmaModule"),
+	SkeletonModule    UMETA(DisplayName = "SkeletonModule"),
+	PoolModule        UMETA(DisplayName = "SkeletonModule"),
 };
 
 
@@ -18,6 +23,9 @@ struct FModuleDescription
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TEnumAsByte<EModuleType> Module;
+	TEnumAsByte<EStatusModuleType> Module;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	bool IsBurned;
 	// TODO //
 };

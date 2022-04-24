@@ -44,4 +44,5 @@ public:
 	virtual void OnDie_Implementation(const TScriptInterface<IStatusOwner>& statusOwner) override;
 	
 	virtual UBaseStatus* MakeStatusCopy_Implementation(FStatusModifier ExternalModifies, UObject* outer) override;
+	virtual void CombineWithStatus_Implementation(UBaseStatus* Status) override;
 };

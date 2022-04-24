@@ -47,3 +47,4 @@ UBaseStatus* UBaseDMG::MakeStatusCopy_Implementation(FStatusModifier ExternalMod
 	newStatus->StatusStats = ApplyModifiersToStatusStats(StatusStats, ExternalModifies);
 	return newStatus;
 }
+

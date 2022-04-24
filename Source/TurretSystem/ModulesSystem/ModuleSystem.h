@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ModulesBase.h"
+#include "ModuleTemplate.h"
 #include "ImplementedStatuses/Statuses/BaseStatus.h"
 #include "StatusSystem/BaseStatuses/StatusType.h"
 #include "ModuleSystem.generated.h"
@@ -20,9 +21,35 @@ public:
 	UModuleSystem();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TMap<TEnumAsByte<EStatusType>, UBaseStatus*> StatusesList;
+	TMap<TEnumAsByte<EStatusModuleType>, UModuleTemplate*> ModulesList;
 	
-protected:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UModuleTemplate* BurnedModulesReplacer;
+	
+private:
+
+	UPROPERTY()
+	TArray<FModuleDescription> AddedModules;
+	
+	UPROPERTY()
+	TArray<UBaseStatus*> Statuses;
+	
+	UPROPERTY()
+	TMap<TEnumAsByte<EStatusModuleType>, bool> IsModuleBurned;
+	
+	UPROPERTY()
+	TMap<TEnumAsByte<EStatusModuleType>, int> ModuleBurnedCount;
+	
+	
+	TMap<UModuleTemplate*, int> ModulesMap;
+	
+	UPROPERTY()
+	FBaseTurretStats TurretStatsDelta = FBaseTurretStats(0);
+
+	void AddStatusesToMap(TMap<TEnumAsByte<EStatusType>, UBaseStatus*>& StatusesMap, UModuleTemplate* Module, int Count);
+	void AddStatsToTurret(UModuleTemplate* Module,  int count);
+	
+public:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
@@ -31,6 +58,12 @@ protected:
 	
 	UFUNCTION(BlueprintCallable)
 	TArray<FModuleDescription> GetAllModules();
+	
+	UFUNCTION(BlueprintCallable)
+	TArray<UBaseStatus*> GetAllStatuses();
+	
+	UFUNCTION(BlueprintCallable)
+	FBaseTurretStats GetTurretStatsDelta();
 	
 	UFUNCTION(BlueprintCallable)
 	void ClearModules();

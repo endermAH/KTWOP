@@ -77,3 +77,14 @@ UBaseStatus* UIceDMG::MakeStatusCopy_Implementation(FStatusModifier ExternalModi
 	newStatus->IceStats = IceStats;
 	return newStatus;
 }
+
+void UIceDMG::CombineWithStatus_Implementation(UBaseStatus* Status)
+{
+	Super::CombineWithStatus_Implementation(Status);
+	auto realStatus = Cast<UIceDMG>(Status);
+	if (IsValid(realStatus))
+	{
+		IceStats.HealthDeathLimit = FMath::Max(realStatus->IceStats.HealthDeathLimit, IceStats.HealthDeathLimit);
+		IceStats.MonsterSpeedModifier = FMath::Max(realStatus->IceStats.MonsterSpeedModifier, IceStats.MonsterSpeedModifier);
+	}
+}

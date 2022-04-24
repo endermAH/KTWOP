@@ -75,3 +75,13 @@ UBaseStatus* UPoolDMG::MakeStatusCopy_Implementation(FStatusModifier ExternalMod
 	newStatus->PoolStats = PoolStats;
 	return newStatus;
 }
+
+void UPoolDMG::CombineWithStatus_Implementation(UBaseStatus* Status)
+{
+	Super::CombineWithStatus_Implementation(Status);
+	auto realStatus = Cast<UPoolDMG>(Status);
+	if (IsValid(realStatus))
+	{
+		PoolStats.AdditionalModifier = FMath::Max(realStatus->PoolStats.AdditionalModifier, PoolStats.AdditionalModifier);
+	}
+}

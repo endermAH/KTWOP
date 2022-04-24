@@ -14,24 +14,12 @@ USTRUCT(BlueprintType)
 struct FLazerStats
 {
 	GENERATED_BODY()
-
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float LazerWidth = 5;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	int LazerBounceCount = 0;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float LazerBounceRadius = 1000;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float MaxFlyDistance = 500;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FStatusModifier LazerBounceModifier;
-
-	FStatusModifier LazerModifier;
+	float  LazerWidthModifier;
 };
 
 
