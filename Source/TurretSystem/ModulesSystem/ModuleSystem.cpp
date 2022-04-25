@@ -18,6 +18,7 @@ UModuleSystem::UModuleSystem()
 void UModuleSystem::AddStatusesToMap(TMap<TEnumAsByte<EStatusType>, UBaseStatus*>& StatusesMap, UModuleTemplate* Module,
 	int Count)
 {
+	if (Count == 0) return;
 	for (auto status: Module->Statuses)
 	{
 		int cCount = Count;
@@ -57,32 +58,39 @@ void UModuleSystem::BeginPlay()
 void UModuleSystem::AddModule(const FModuleDescription& NewModule)
 {
 	
-	AddedModules.Add(NewModule);
 	auto ModuleDescription = ModulesList[NewModule.Module];
-	if (IsValid(ModuleDescription))
+
+	if (!IsValid(ModuleDescription)) return;
+	
+	AddedModules.Add(NewModule);
+	
+	if (!ModulesMap.Contains(ModuleDescription))
+		ModulesMap.Add(ModuleDescription,0);
+	
+	if (!ModuleBurnedCount.Contains(ModuleDescription->Type))
+		ModuleBurnedCount.Add(ModuleDescription->Type,0);
+	
+	
+	ModulesMap[ModuleDescription]++;
+	
+	for (auto burenedModule : ModuleDescription->BurnedModules)
 	{
-		if (!ModulesMap.Contains(ModuleDescription))
-			ModulesMap.Add(ModuleDescription,0);
-		ModulesMap[ModuleDescription]++;
+		if (!ModuleBurnedCount.Contains(burenedModule))
+			ModuleBurnedCount.Add(burenedModule,0);
 		
-		for (auto burenedModule : ModuleDescription->BurnedModules)
-		{
-			
-			if (!ModuleBurnedCount.Contains(burenedModule))
-				ModuleBurnedCount.Add(burenedModule,0);
-			ModuleBurnedCount[burenedModule]++;
-		}
-		
+		ModuleBurnedCount[burenedModule]++;
 	}
+		
 
 	int burnedModulesCount = 0;
 	
 	for(auto& desc : AddedModules)
 	{
+		desc.IsBurned = false;
 		
 		if (!ModuleBurnedCount.Contains(desc.Module))
 			ModuleBurnedCount.Add(desc.Module,0);
-		desc.IsBurned = false; 
+		
 		if (ModuleBurnedCount[desc.Module])
 		{
 			desc.IsBurned = true;
@@ -100,7 +108,7 @@ void UModuleSystem::AddModule(const FModuleDescription& NewModule)
 	{
 		auto module = moduleInt.Key;
 		auto count = moduleInt.Value;
-		if (count > 0 && (!IsModuleBurned[module->Type]))
+		if (count > 0 && (!ModuleBurnedCount[module->Type]))
 		{
 			AddStatusesToMap(StatusesMap, module, count);
 			AddStatsToTurret(module, count);
@@ -130,6 +138,11 @@ FBaseTurretStats UModuleSystem::GetTurretStatsDelta()
 
 void UModuleSystem::ClearModules()
 {
+	AddedModules.Empty();
+	Statuses.Empty();
+	ModuleBurnedCount.Empty();
+	ModulesMap.Empty();
+	TurretStatsDelta = FBaseTurretStats(0);
 }
 
 

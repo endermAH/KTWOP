@@ -16,7 +16,7 @@ FStatusStats UBaseStatus::CombineStatusStats(const FStatusStats& StatusStats1, c
 
 	result.Duration =					FMath::Max(StatusStats1.Duration, StatusStats2.Duration);
 	result.Modifier =					FMath::Max(StatusStats1.Modifier, StatusStats2.Modifier);
-	result.Power =						StatusStats1.Power + StatusStats2.Power;
+	result.Power =						StatusStats1.Power + StatusStats2.Power*StatusStats2.Modifier/StatusStats1.Modifier;
 	result.EffectAccumulation = 		StatusStats1.EffectAccumulation + StatusStats2.EffectAccumulation;
 	result.EffectAccumulationMax = 		FMath::Min(StatusStats1.EffectAccumulationMax, StatusStats2.EffectAccumulationMax);
 	result.EffectAccumulationModifier = FMath::Max(StatusStats1.EffectAccumulationModifier, StatusStats2.EffectAccumulationModifier);

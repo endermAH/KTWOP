@@ -35,11 +35,7 @@ private:
 	TArray<UBaseStatus*> Statuses;
 	
 	UPROPERTY()
-	TMap<TEnumAsByte<EStatusModuleType>, bool> IsModuleBurned;
-	
-	UPROPERTY()
 	TMap<TEnumAsByte<EStatusModuleType>, int> ModuleBurnedCount;
-	
 	
 	TMap<UModuleTemplate*, int> ModulesMap;
 	

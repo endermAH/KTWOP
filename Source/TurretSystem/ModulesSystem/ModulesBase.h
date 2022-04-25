@@ -9,11 +9,12 @@ enum EStatusModuleType
 {
 	VoidModule        UMETA(DisplayName = "VoidModule"),
 	RockModule        UMETA(DisplayName = "RockModule"),
+	ToxicModule       UMETA(DisplayName = "ToxicModule"),
 	IceModule         UMETA(DisplayName = "IceModule"),
 	LightningModule   UMETA(DisplayName = "LightnibgModule"),
 	PlasmaModule      UMETA(DisplayName = "PlasmaModule"),
 	SkeletonModule    UMETA(DisplayName = "SkeletonModule"),
-	PoolModule        UMETA(DisplayName = "SkeletonModule"),
+	PoolModule        UMETA(DisplayName = "PoolModule"),
 };
 
 
