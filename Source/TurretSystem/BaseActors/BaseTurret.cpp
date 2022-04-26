@@ -191,6 +191,10 @@ void ABaseTurret::Tick(float DeltaTime)
 
 void ABaseTurret::TurnOn()
 {
+	Statuses = ModuleSystemComponent->GetAllStatuses();
+	StatsModification = ModuleSystemComponent->GetTurretStatsDelta();
+	ModifiedStats =  BaseStats + StatsModification;
+	CollisionComponent->SetSphereRadius(ModifiedStats.TurretRadius);
 	IsWorking = true;
 	//SetActorTicksEnabled(true/false);
 }

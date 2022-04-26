@@ -19,7 +19,6 @@ public:
 	virtual void OnTick_Implementation(const TScriptInterface<IStatusOwner>& statusOwner, float dt) override;
 	virtual void OnDie_Implementation(const TScriptInterface<IStatusOwner>& statusOwner) override;
 	virtual void Apply_Implementation(ABaseEnemy* enemy, FStatusModifier ExternalModifies) override;
-	virtual void AddToBullet_Implementation(AActor* enemy, FStatusModifier ExternalModifies) override;
 	
 	virtual void SetDuration_Implementation(float inDuration) override;
 	

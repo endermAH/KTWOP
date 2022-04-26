@@ -10,8 +10,24 @@ FStatusStats UBaseStatus::ApplyModifiersToStatusStats(const FStatusStats& Status
 	return result;
 }
 
+FStatusStats UBaseStatus::CombineStatusStats(const FStatusStats& StatusStats1, const FStatusStats& StatusStats2)
+{
+	FStatusStats result;
+
+	result.Duration =					FMath::Max(StatusStats1.Duration, StatusStats2.Duration);
+	result.Modifier =					FMath::Max(StatusStats1.Modifier, StatusStats2.Modifier);
+	result.Power =						StatusStats1.Power + StatusStats2.Power*StatusStats2.Modifier/StatusStats1.Modifier;
+	result.EffectAccumulation = 		StatusStats1.EffectAccumulation + StatusStats2.EffectAccumulation;
+	result.EffectAccumulationMax = 		FMath::Min(StatusStats1.EffectAccumulationMax, StatusStats2.EffectAccumulationMax);
+	result.EffectAccumulationModifier = FMath::Max(StatusStats1.EffectAccumulationModifier, StatusStats2.EffectAccumulationModifier);
+	result.BulletComponent =			StatusStats1.BulletComponent;
+	result.EnemyComponent =				StatusStats1.EnemyComponent;
+	
+	return result;
+}
+
 FStatusModifier UBaseStatus::CombineStatusModifier(const FStatusModifier& StatusModifierLeft,
-	const FStatusModifier& StatusModifierRight)
+                                                   const FStatusModifier& StatusModifierRight)
 {
 	FStatusModifier result = StatusModifierLeft;
 
@@ -57,9 +73,14 @@ void UBaseStatus::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier Extern
 	{
 		auto component = enemy->GetComponentByClass(StatusStats.EnemyComponent);
 		if (!IsValid(component))
-			enemy->AddComponent(FName(FString::Printf(TEXT("Status_%i"), (int32)this->GetStatusType_Implementation())),
+		{
+			auto c = enemy->AddComponentByClass(
+				*StatusStats.EnemyComponent,
 				false, FTransform(),
-				StatusStats.EnemyComponent);
+				false);
+			
+			c->RegisterComponent();
+		}
 	}
 }
 
@@ -69,13 +90,23 @@ void UBaseStatus::AddToBullet_Implementation(AActor* bullet, FStatusModifier Ext
 	{
 		auto component = bullet->GetComponentByClass(StatusStats.BulletComponent);
 		if (!IsValid(component))
-			bullet->AddComponent(FName(FString::Printf(TEXT("Status_%i"), (int32)this->GetStatusType_Implementation())),
+		{
+			auto c = bullet->AddComponentByClass(
+				*StatusStats.BulletComponent,
 				false, FTransform(),
-				StatusStats.BulletComponent);
+				false);
+			
+			c->RegisterComponent();
+		}
 	}
 }
 
 UBaseStatus* UBaseStatus::MakeStatusCopy_Implementation(FStatusModifier ExternalModifies, UObject* outer)
 {
 	return nullptr;
+}
+
+void UBaseStatus::CombineWithStatus_Implementation(UBaseStatus* Status)
+{
+	this->StatusStats = CombineStatusStats(this->StatusStats, Status->StatusStats);
 }

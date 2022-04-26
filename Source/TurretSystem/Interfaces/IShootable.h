@@ -24,4 +24,6 @@ class TURRETSYSTEM_API IShootable
 public:
 	
 	virtual void Shoot(float DeltaTime);
+
+	
 };

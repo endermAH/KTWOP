@@ -54,7 +54,7 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		{
 			status->Apply(enemy, Stats.StatusModifies);
 		}
-		if (Stats.BulletBounceCount > 0)
+		if (Stats.BulletStats.BounceCount > 0)
 		{
 			TArray<FOverlapResult> EnemyOverlaps;
 			FCollisionQueryParams QueryParams(false);
@@ -69,7 +69,7 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 				RootComponent->GetComponentLocation(),
 				FQuat::Identity,
 				EnemyDestroyerCollisionChannel,
-				FCollisionShape::MakeSphere(FMath::Max(Stats.BulletBounceRadius, Stats.MaxFlyDistance - SpentFlyDistance)),
+				FCollisionShape::MakeSphere(FMath::Max(Stats.BulletStats.BounceRadius, Stats.BulletStats.MaxFlyDistance - SpentFlyDistance)),
 				QueryParams,
 				ResponseParams
 				);
@@ -89,7 +89,7 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			{
 				FVector position = RootComponent->GetComponentLocation();
 				
-				float distance = Stats.MaxFlyDistance - SpentFlyDistance;
+				float distance = Stats.BulletStats.MaxFlyDistance - SpentFlyDistance;
 				for (auto&  enemyActor : GoodEnemies)
 				{
 					if ((position-enemyActor->GetPosition()).Size() < distance)
@@ -103,11 +103,12 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			
 			if (!foundTarget)
 			{
-				Stats.BulletBounceCount = 0;
+				Stats.BulletStats.BounceCount = 0;
 			} else
 			{
-				Stats.StatusModifies = UBaseStatus::CombineStatusModifier(Stats.StatusModifies, Stats.BulletBounceModifier);
-				Stats.BulletBounceCount--;
+				Stats.StatusModifies = UBaseStatus::CombineStatusModifier(Stats.StatusModifies,
+					Stats.BulletStats.BounceModifier);
+				Stats.BulletStats.BounceCount--;
 			}
 		}
 		OnTargetHit(OverlappedComponent, OtherActor, OtherComponent,  OtherBodyIndex, bFromSweep, Hit);
@@ -150,7 +151,7 @@ void ABaseBullet::Tick(float DeltaTime)
 	
 	SpentFlyDistance += (bulletLocation - newLocation).Size();
 
-	if (SpentFlyDistance > Stats.MaxFlyDistance)
+	if (SpentFlyDistance > Stats.BulletStats.MaxFlyDistance)
 	{
 		OnDistanceDeplete();
 		return;

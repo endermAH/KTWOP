@@ -62,3 +62,14 @@ UBaseStatus* ULightningDMG::MakeStatusCopy_Implementation(FStatusModifier Extern
 	newStatus->LightningStats = LightningStats;
 	return newStatus;
 }
+
+void ULightningDMG::CombineWithStatus_Implementation(UBaseStatus* Status)
+{
+	Super::CombineWithStatus_Implementation(Status);
+	auto realStatus = Cast<ULightningDMG>(Status);
+	if (IsValid(realStatus))
+	{
+		LightningStats.MonsterDmgModifier = FMath::Max(realStatus->LightningStats.MonsterDmgModifier, LightningStats.MonsterDmgModifier);
+		LightningStats.MonsterSpeedModifier = FMath::Max(realStatus->LightningStats.MonsterSpeedModifier, LightningStats.MonsterSpeedModifier);
+	}
+}

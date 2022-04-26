@@ -27,16 +27,16 @@ void ALazerTurret::Shoot(float DeltaTime)
 	Delay -= DeltaTime;
 	if ((Delay < 0))
 	{
-		FLazerStats lazerStats = LazerStats;
-		lazerStats.LazerModifier = BaseStats.BaseStatusesMultiplier;
+		FBaseBulletStats lazerStats = ModifiedStats.BulletStats;
+		FStatusModifier lazerModifier = ModifiedStats.BaseStatusesMultiplier;
 		ABaseEnemy* lastHit = nullptr;
 		TArray<ABaseEnemy*> VisitedEnemies;
 		auto enemy = TargetEnemy;
 		float spendDistance = 0;
 
-		while (lazerStats.LazerBounceCount >= 0)
+		while (ModifiedStats.BulletStats.BounceCount >= 0)
 		{
-			lazerStats.LazerBounceCount--;
+			lazerStats.BounceCount--;
 			FActorSpawnParameters SpawnInfo;
 			FVector location;
 			if (!IsValid(lastHit))
@@ -48,12 +48,10 @@ void ALazerTurret::Shoot(float DeltaTime)
 			
 			auto* lazer = GetWorld()->SpawnActor<ABaseLazer>(LazerType, location, FRotator(), SpawnInfo);
 			lazer->TargetEnemy = enemy;
-			lazer->Stats = lazerStats;
 			
 			for (auto& status :Statuses)
 			{
-				status->Apply(enemy,
-					UBaseStatus::CombineStatusModifier(BaseStats.BaseStatusesMultiplier, lazerStats.LazerModifier));
+				status->Apply(enemy,ModifiedStats.BaseStatusesMultiplier+lazerModifier);
 			}
 			
 			lazer->Activate();
@@ -62,10 +60,11 @@ void ALazerTurret::Shoot(float DeltaTime)
 			else
 				spendDistance += (location-enemy->GetPosition()).Size();
 
-			lazerStats.LazerModifier = UBaseStatus::CombineStatusModifier(lazerStats.LazerModifier, lazerStats.LazerBounceModifier);
+			lazerModifier = UBaseStatus::CombineStatusModifier(
+				lazerModifier, lazerStats.BounceModifier);
 			lastHit = enemy;
 			
-			if (lazerStats.LazerBounceCount > 0)
+			if (lazerStats.BounceCount > 0)
 			{
 				VisitedEnemies.Add(enemy);
 				TArray<FOverlapResult> EnemyOverlaps;
@@ -81,7 +80,7 @@ void ALazerTurret::Shoot(float DeltaTime)
 					RootComponent->GetComponentLocation(),
 					FQuat::Identity,
 					EnemyDestroyerCollisionChannel,
-					FCollisionShape::MakeSphere(FMath::Max(lazerStats.LazerBounceRadius, lazerStats.MaxFlyDistance - spendDistance)),
+					FCollisionShape::MakeSphere(FMath::Max(lazerStats.BounceRadius, lazerStats.MaxFlyDistance - spendDistance)),
 					QueryParams,
 					ResponseParams
 					);
@@ -116,26 +115,10 @@ void ALazerTurret::Shoot(float DeltaTime)
 				if (!foundTarget)
 				{
 					
-					lazerStats.LazerBounceCount = -1;
+					lazerStats.BounceCount = -1;
 				}
 			}
-			
 		}
-		//FActorSpawnParameters SpawnInfo;
-		//FVector location = ArrowComponent->GetComponentLocation();
-		//location += ArrowComponent->GetForwardVector() * 30;
-		//
-		//ABaseBullet* bullet = GetWorld()->SpawnActor<ABaseBullet>(BulletType, location, FRotator(), SpawnInfo);
-		//bullet->TargetEnemy = TargetEnemy;
-		//bullet->Stats = BaseStats.BulletStats;
-		//for (auto& status :Statuses)
-		//{
-		//	UBaseStatus* copy = status->MakeStatusCopy(BaseStats.BaseStatusesMultiplier, bullet);
-		//	bullet->Statuses.Add(copy);
-		//}
-		//bullet->StartFly();
-		//
-		//Delay = ShootDelay;
-			Delay = ShootDelay;
+		Delay = ShootDelay;
 	}
 }

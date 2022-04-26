@@ -18,11 +18,6 @@ public:
 	// Sets default values for this actor's properties
 	ASingleTargetTurret();
 
-	UPROPERTY(BlueprintReadWrite)
-	TArray<UBaseStatus*> Statuses;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FBulletStats BulletStats;
 
 protected:
 	// Called when the game starts or when spawned

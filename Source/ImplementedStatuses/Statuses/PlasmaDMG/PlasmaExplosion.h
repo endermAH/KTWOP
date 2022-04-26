@@ -15,7 +15,7 @@ struct FPlasmaExplosionStats
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	float Damage;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)

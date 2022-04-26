@@ -39,7 +39,7 @@ void ASingleTargetTurret::Shoot(float DeltaTime)
 		}
 		
 		bullet->TargetEnemy = TargetEnemy;
-		bullet->Stats = BulletStats;
+		bullet->Stats.BulletStats = ModifiedStats.BulletStats;
 		if (Statuses.Num() == 0)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 1000.f, FColor::Red,
@@ -47,8 +47,8 @@ void ASingleTargetTurret::Shoot(float DeltaTime)
 		}
 		for (auto& status :Statuses)
 		{
-			UBaseStatus* copy = status->MakeStatusCopy(BaseStats.BaseStatusesMultiplier, bullet);
-			copy->AddToBullet_Implementation(bullet, BaseStats.BaseStatusesMultiplier);
+			UBaseStatus* copy = status->MakeStatusCopy(ModifiedStats.BaseStatusesMultiplier, bullet);
+			copy->AddToBullet_Implementation(bullet, ModifiedStats.BaseStatusesMultiplier);
 			bullet->Statuses.Add(copy);
 		}
 		bullet->StartFly();
