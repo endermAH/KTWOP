@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "PoolActor.h"
-#include "..\ExplodedStatus.h"
+#include "../ExplodedStatus.h"
 #include "PoolDMG.generated.h"
 
 USTRUCT(BlueprintType)

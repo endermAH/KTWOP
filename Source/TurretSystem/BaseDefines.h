@@ -1,5 +1,5 @@
 #pragma once
-#include "ImplementedStatuses\Statuses\BaseStatus.h"
+#include "ImplementedStatuses/Statuses/BaseStatus.h"
 #include "BaseDefines.generated.h"
 
 USTRUCT(BlueprintType)
