@@ -57,7 +57,14 @@ void UModuleSystem::BeginPlay()
 
 void UModuleSystem::AddModule(const FModuleDescription& NewModule)
 {
-	
+	if (!ModulesList.Contains(NewModule.Module))
+	{
+		UEnum* MyEnum = FindObject<UEnum>(ANY_PACKAGE, TEXT("EStatusModuleType"), true);
+		FString DisplayString = MyEnum->GetNameByValue((int64)NewModule.Module).ToString();
+		GEngine->AddOnScreenDebugMessage(-1, 1000.f, FColor::Red,
+			FString::Printf(TEXT("Add %s to Modules map in ModulesSystemBP."), *DisplayString));
+		return;
+	}	
 	auto ModuleDescription = ModulesList[NewModule.Module];
 
 	if (!IsValid(ModuleDescription)) return;
