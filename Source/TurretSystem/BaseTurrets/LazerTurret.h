@@ -16,11 +16,7 @@ public:
 	// Sets default values for this actor's properties
 	ALazerTurret();
 
-	UPROPERTY(BlueprintReadWrite)
-	TArray<UBaseStatus*> Statuses;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Default")
-	FLazerStats LazerStats;
 
 protected:
 	// Called when the game starts or when spawned

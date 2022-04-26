@@ -22,19 +22,11 @@ struct FBulletStats
 	float BulletRadius = 5;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	int BulletBounceCount = 0;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float BulletBounceRadius = 1000;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float MaxFlyDistance = 500;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FStatusModifier BulletBounceModifier;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FStatusModifier StatusModifies;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	FBaseBulletStats BulletStats;
+	
 };
 
 

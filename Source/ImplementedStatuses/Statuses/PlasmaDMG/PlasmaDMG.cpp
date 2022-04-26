@@ -79,3 +79,8 @@ UBaseStatus* UPlasmaDMG::MakeStatusCopy_Implementation(FStatusModifier ExternalM
 	newStatus->PlasmaStats = PlasmaStats;
 	return newStatus;
 }
+
+void UPlasmaDMG::CombineWithStatus_Implementation(UBaseStatus* Status)
+{
+	Super::CombineWithStatus_Implementation(Status);
+}

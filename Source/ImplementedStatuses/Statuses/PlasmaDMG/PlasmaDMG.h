@@ -46,4 +46,5 @@ public:
 	virtual void ApplyDmg_Implementation(float damage) override;
 	
 	virtual UBaseStatus* MakeStatusCopy_Implementation(FStatusModifier ExternalModifies, UObject* outer) override;
+	virtual void CombineWithStatus_Implementation(UBaseStatus* Status) override;
 };

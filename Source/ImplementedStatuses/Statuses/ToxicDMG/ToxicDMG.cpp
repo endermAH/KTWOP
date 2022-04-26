@@ -65,3 +65,13 @@ UBaseStatus* UToxicDMG::MakeStatusCopy_Implementation(FStatusModifier ExternalMo
 	newStatus->ToxicStats = ToxicStats;
 	return newStatus;
 }
+
+void UToxicDMG::CombineWithStatus_Implementation(UBaseStatus* Status)
+{
+	Super::CombineWithStatus_Implementation(Status);
+	auto realStatus = Cast<UToxicDMG>(Status);
+	if (IsValid(realStatus))
+	{
+		ToxicStats.ArmorDMGMultiplier = FMath::Max(realStatus->ToxicStats.ArmorDMGMultiplier, ToxicStats.ArmorDMGMultiplier);
+	}
+}

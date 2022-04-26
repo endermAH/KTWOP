@@ -7,6 +7,7 @@
 #include "UObject/Object.h"
 #include "ExplodedStatus.generated.h"
 
+
 /**
  * 
  */
@@ -15,10 +16,10 @@ class IMPLEMENTEDSTATUSES_API UExplodedStatus : public UBaseStatus
 {
 	GENERATED_BODY()
 protected:
-	UPROPERTY(BlueprintReadWrite, EditInstanceOnly)
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	bool IsExploded = false;
 	
-	UPROPERTY(BlueprintReadWrite, EditInstanceOnly)
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	float AccumulatedEffect = 0;
 
 public:
