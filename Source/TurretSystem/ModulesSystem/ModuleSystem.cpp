@@ -57,15 +57,15 @@ void UModuleSystem::BeginPlay()
 
 void UModuleSystem::AddModule(const FModuleDescription& NewModule)
 {
-	if (!ModulesList.Contains(NewModule.Module))
-	{
-		UEnum* MyEnum = FindObject<UEnum>(ANY_PACKAGE, TEXT("EStatusModuleType"), true);
-		FString DisplayString = MyEnum->GetNameByValue((int64)NewModule.Module).ToString();
-		GEngine->AddOnScreenDebugMessage(-1, 1000.f, FColor::Red,
-			FString::Printf(TEXT("Add %s to Modules map in ModulesSystemBP."), *DisplayString));
-		return;
-	}	
-	auto ModuleDescription = ModulesList[NewModule.Module];
+	//if (!ModulesList.Contains(NewModule.Module))
+	//{
+	//	UEnum* MyEnum = FindObject<UEnum>(ANY_PACKAGE, TEXT("EStatusModuleType"), true);
+	//	FString DisplayString = MyEnum->GetNameByValue((int64)NewModule.Module).ToString();
+	//	GEngine->AddOnScreenDebugMessage(-1, 1000.f, FColor::Red,
+	//		FString::Printf(TEXT("Add %s to Modules map in ModulesSystemBP."), *DisplayString));
+	//	return;
+	//}	
+	auto ModuleDescription = NewModule.Module;
 
 	if (!IsValid(ModuleDescription)) return;
 	
@@ -95,10 +95,10 @@ void UModuleSystem::AddModule(const FModuleDescription& NewModule)
 	{
 		desc.IsBurned = false;
 		
-		if (!ModuleBurnedCount.Contains(desc.Module))
-			ModuleBurnedCount.Add(desc.Module,0);
+		if (!ModuleBurnedCount.Contains(desc.Module->Type))
+			ModuleBurnedCount.Add(desc.Module->Type, 0);
 		
-		if (ModuleBurnedCount[desc.Module])
+		if (ModuleBurnedCount[desc.Module->Type])
 		{
 			desc.IsBurned = true;
 			burnedModulesCount++;

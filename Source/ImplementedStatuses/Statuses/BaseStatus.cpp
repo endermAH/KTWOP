@@ -73,9 +73,14 @@ void UBaseStatus::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier Extern
 	{
 		auto component = enemy->GetComponentByClass(StatusStats.EnemyComponent);
 		if (!IsValid(component))
-			enemy->AddComponent(FName(FString::Printf(TEXT("Status_%i"), (int32)this->GetStatusType_Implementation())),
+		{
+			auto c = enemy->AddComponentByClass(
+				*StatusStats.EnemyComponent,
 				false, FTransform(),
-				StatusStats.EnemyComponent);
+				false);
+			
+			c->RegisterComponent();
+		}
 	}
 }
 
@@ -85,9 +90,14 @@ void UBaseStatus::AddToBullet_Implementation(AActor* bullet, FStatusModifier Ext
 	{
 		auto component = bullet->GetComponentByClass(StatusStats.BulletComponent);
 		if (!IsValid(component))
-			bullet->AddComponent(FName(FString::Printf(TEXT("Status_%i"), (int32)this->GetStatusType_Implementation())),
+		{
+			auto c = bullet->AddComponentByClass(
+				*StatusStats.BulletComponent,
 				false, FTransform(),
-				StatusStats.BulletComponent);
+				false);
+			
+			c->RegisterComponent();
+		}
 	}
 }
 

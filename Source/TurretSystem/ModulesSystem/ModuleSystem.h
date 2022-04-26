@@ -5,14 +5,13 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ModulesBase.h"
-#include "ModuleTemplate.h"
 #include "ImplementedStatuses/Statuses/BaseStatus.h"
 #include "StatusSystem/BaseStatuses/StatusType.h"
 #include "ModuleSystem.generated.h"
 
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Abstract)
-class TURRETSYSTEM_API UModuleSystem : public UActorComponent
+class TURRETSYSTEM_API UModuleSystem : public USceneComponent
 {
 	GENERATED_BODY()
 
@@ -20,8 +19,6 @@ public:
 	// Sets default values for this component's properties
 	UModuleSystem();
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TMap<TEnumAsByte<EStatusModuleType>, UModuleTemplate*> ModulesList;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UModuleTemplate* BurnedModulesReplacer;
@@ -52,10 +49,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddModule(const FModuleDescription& NewModule);
 	
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	TArray<FModuleDescription> GetAllModules();
 	
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	TArray<UBaseStatus*> GetAllStatuses();
 	
 	UFUNCTION(BlueprintCallable)

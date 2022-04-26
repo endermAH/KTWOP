@@ -16,6 +16,7 @@ void UBaseDMG::OnDie_Implementation(const TScriptInterface<IStatusOwner>& status
 
 void UBaseDMG::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier ExternalModifies)
 {
+	Super::Apply_Implementation(enemy, ExternalModifies);
 	if (IsValid(enemy))
 	{
 		StatusStats = ApplyModifiersToStatusStats(StatusStats, ExternalModifies);
@@ -30,9 +31,6 @@ void UBaseDMG::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier ExternalM
 	}
 	
 }
-
-void UBaseDMG::AddToBullet_Implementation(AActor* enemy, FStatusModifier ExternalModifies)
-{}
 
 
 
