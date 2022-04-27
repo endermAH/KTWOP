@@ -45,6 +45,7 @@ public:
 		TurretRadius = 0.f;
 		TurretShootAngle = 0.f;
 		RotationSpeed = 0;
+		ShootDelay = 0;
 		BaseStatusesMultiplier = {1.0};
 		BulletStats = {0,0,0,{1,1}};
 	};
@@ -58,6 +59,7 @@ public:
 		result.BulletStats.BounceCount*=i;;
 		result.BulletStats.BounceRadius*=i;
 		result.BulletStats.MaxFlyDistance*=i;
+		result.ShootDelay *= i;
 		
 		result.BaseStatusesMultiplier = result.BaseStatusesMultiplier*i;
 		result.BulletStats.BounceModifier = result.BulletStats.BounceModifier*i;
@@ -72,10 +74,13 @@ public:
 		result.TurretRadius				     +=rhs.TurretRadius;
 		result.TurretShootAngle    		     +=rhs.TurretShootAngle;
 		result.RotationSpeed				 +=rhs.RotationSpeed;
+		result.ShootDelay				     +=rhs.ShootDelay;
 		result.BaseStatusesMultiplier        = BaseStatusesMultiplier + rhs.BaseStatusesMultiplier;
 		return result;
 	};
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float ShootDelay = 5;
 
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

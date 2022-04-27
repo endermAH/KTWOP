@@ -29,8 +29,6 @@ public:
 
 #pragma region ShootImplement
 	
-	UPROPERTY(EditInstanceOnly)
-	float ShootDelay = 5;
 
 	/** type of bullet */
 	UPROPERTY(EditDefaultsOnly, Category=Damage)
