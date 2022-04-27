@@ -32,7 +32,7 @@ public:
 
 #pragma region ShootImplement
 	
-	UPROPERTY(EditInstanceOnly)
+	UPROPERTY(BlueprintReadWrite)
 	float ShootDelay = 5;
 
 	/** type of bullet */
