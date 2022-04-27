@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework\Actor.h"
-#include "Components\TimelineComponent.h"
-#include "ImplementedStatuses\Statuses\BaseStatus.h"
+#include "GameFramework/Actor.h"
+#include "Components/TimelineComponent.h"
+#include "ImplementedStatuses/Statuses/BaseStatus.h"
 #include "PoolActor.generated.h"
 
 

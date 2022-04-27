@@ -177,7 +177,7 @@ void ABaseTurret::Tick(float DeltaTime)
 			auto targetRotator = UKismetMathLibrary::FindLookAtRotation(myPosition, enemyPosition);
 			FRotator newRotator = FMath::RInterpTo(RootComponent->GetComponentRotation(),
 			                                       targetRotator,
-			                                       DeltaTime, BaseStats.RotationSpeed);
+			                                       DeltaTime*BaseStats.RotationSpeed, 1);
 			RootComponent->SetWorldRotation(newRotator);
 			float angleBetweenTurretAndTarget = FMath::Abs(newRotator.Yaw - targetRotator.Yaw);
 			if (angleBetweenTurretAndTarget < BaseStats.TurretShootAngle )

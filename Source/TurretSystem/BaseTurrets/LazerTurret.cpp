@@ -34,7 +34,7 @@ void ALazerTurret::Shoot(float DeltaTime)
 		auto enemy = TargetEnemy;
 		float spendDistance = 0;
 
-		while (ModifiedStats.BulletStats.BounceCount >= 0)
+		while (lazerStats.BounceCount >= 0)
 		{
 			lazerStats.BounceCount--;
 			FActorSpawnParameters SpawnInfo;
@@ -119,6 +119,6 @@ void ALazerTurret::Shoot(float DeltaTime)
 				}
 			}
 		}
-		Delay = ShootDelay;
+		Delay = ModifiedStats.ShootDelay;
 	}
 }

@@ -5,6 +5,7 @@
 
 #include "Components/SphereComponent.h"
 #include "EnemySystem/Enemy/BaseEnemy.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 
@@ -118,6 +119,10 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 void ABaseBullet::StartFly()
 {
 	CollisionComponent->InitSphereRadius(Stats.BulletRadius);
+	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(
+		TargetEnemy->GetActorLocation(),
+		GetActorLocation() + FVector(0, 0, 0)); // TODO: CRUTCH! I THINK, THAT ENEMY SHOULD PROVIDE IT'S CENTER!!!
+	SetActorRotation(rotation);
 	IsWorking = true;
 }
 

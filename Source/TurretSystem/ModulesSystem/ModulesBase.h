@@ -1,8 +1,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ImplementedStatuses\Statuses\BaseStatus.h"
-#include "TurretSystem\BaseDefines.h"
+#include "ImplementedStatuses/Statuses/BaseStatus.h"
+#include "TurretSystem/BaseDefines.h"
 #include "ModulesBase.generated.h"
 
 

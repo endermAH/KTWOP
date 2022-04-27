@@ -16,7 +16,8 @@ public class UnrealBaseGitSetupTarget : TargetRules
 			"TurretSystem",
 			"EnemySystem",
 			"StatusSystem",
-			"ImplementedStatuses"
+			"ImplementedStatuses",
+			"GameplaySystem"
 		} );
 	}
 }
