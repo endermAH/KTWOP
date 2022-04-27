@@ -29,7 +29,6 @@ void ASingleTargetTurret::Shoot(float DeltaTime)
 	{
 		FActorSpawnParameters SpawnInfo;
 		FVector location = ArrowComponent->GetComponentLocation();
-		location += ArrowComponent->GetForwardVector() * 30;
 		
 		ABaseBullet* bullet = GetWorld()->SpawnActor<ABaseBullet>(BulletType, location, FRotator(), SpawnInfo);
 		
@@ -53,6 +52,6 @@ void ASingleTargetTurret::Shoot(float DeltaTime)
 		}
 		bullet->StartFly();
 		
-		Delay = ShootDelay;
+		Delay = ModifiedStats.ShootDelay;
 	}
 }
