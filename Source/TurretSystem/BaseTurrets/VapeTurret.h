@@ -3,20 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "StatusSystem/BaseStatuses/IStatusBase.h"
-#include "TurretSystem/BaseActors/BaseTurret.h"
-#include "TurretSystem/BaseActors/BaseBullet.h"
-#include "SingleTargetTurret.generated.h"
+#include "GameFramework\Actor.h"
+#include "TurretSystem\BaseActors\BaseTurret.h"
+#include "TurretSystem\BaseActors\VapeBullet.h"
+#include "VapeTurret.generated.h"
 
 UCLASS(Abstract, Blueprintable)
-class TURRETSYSTEM_API ASingleTargetTurret : public ABaseTurret
-{
+class TURRETSYSTEM_API AVapeTurret : public ABaseTurret {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	ASingleTargetTurret();
+	AVapeTurret();
+
+	FVapeBulletStats ExplosionStats;
+
 
 
 protected:
@@ -30,18 +31,18 @@ public:
 
 #pragma region ShootImplement
 	
-	
-	TSubclassOf<ABaseBullet> BulletType;
-	
-	FBulletStats BulletStats;
+
+	/** type of bullet */
+	UPROPERTY(EditDefaultsOnly, Category=Damage)
+	TSubclassOf<AVapeBullet> VapeType;
 
 	float Delay = 0;
 
-	
 	virtual void RealShoot_Implementation(float DeltaTime) override;
 
 
 
 #pragma endregion 
 	
+
 };

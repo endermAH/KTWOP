@@ -7,7 +7,6 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "ImplementedStatuses/Statuses/BaseStatus.h"
-#include "TurretSystem/AbilitySystems/BulletAbilitySystemComponent.h"
 #include "LazerBullet.generated.h"
 
 USTRUCT(BlueprintType)
@@ -23,7 +22,7 @@ struct FLazerStats
 };
 
 
-UCLASS()
+UCLASS(Abstract)
 class TURRETSYSTEM_API ABaseLazer : public AActor
 {
 	GENERATED_BODY()

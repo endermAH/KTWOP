@@ -7,7 +7,6 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "ImplementedStatuses/Statuses/BaseStatus.h"
-#include "TurretSystem/AbilitySystems/BulletAbilitySystemComponent.h"
 #include "BaseBullet.generated.h"
 
 USTRUCT(BlueprintType)
@@ -24,44 +23,49 @@ struct FBulletStats
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FStatusModifier StatusModifies;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
-	FBaseBulletStats BulletStats;
+	
 	
 };
 
 
-UCLASS()
+UCLASS(Abstract)
 class TURRETSYSTEM_API ABaseBullet : public AActor
 {
 	GENERATED_BODY()
 
-public:
+private:
 	// Sets default values for this actor's properties
 	ABaseBullet();
 
-	UPROPERTY()
-	AActor* TargetEnemy;
+#pragma region BulletStats
+
 	
-	UPROPERTY(BlueprintReadOnly)
-	bool IsWorking = false;
+	UPROPERTY()
+	ABaseEnemy* TargetEnemy;
+	
+	UPROPERTY()
+	FBulletStats BulletStats;
+
+	
+	UPROPERTY()
+	TArray<UBaseStatus*> Statuses;
+	
 
 	UPROPERTY()
 	TArray<AActor*> VisitedEnemies;
-#pragma region BulletStats
+
 	
 	float SpentFlyDistance = 0;
 
-	
-	UPROPERTY(BlueprintReadWrite)
-	FBulletStats Stats;
+#pragma endregion
+public:
+	void Init(const TArray<UBaseStatus*>& Statuses, AActor* TargetEnemy, FBaseBulletStats BaseStats, FBulletStats BulletStats);
 
 	UPROPERTY(BlueprintReadOnly)
-	TArray<UBaseStatus*> Statuses;
+	bool IsWorking = false;
 
-#pragma endregion
-
-	//UPROPERTY(BlueprintReadOnly)
-	//UBulletAbilitySystemComponent* AbilitySystemComponent;
+	UPROPERTY(BlueprintReadWrite)
+	FBaseBulletStats BaseStats;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	USphereComponent* CollisionComponent;
