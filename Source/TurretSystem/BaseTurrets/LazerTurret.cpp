@@ -19,7 +19,7 @@ void ALazerTurret::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ALazerTurret::Shoot(float DeltaTime)
+void ALazerTurret::RealShoot_Implementation(float DeltaTime)
 {
 	FVector myPosition = RootComponent->GetComponentLocation();
 	FVector enemyPosition =TargetEnemy->GetActorLocation();

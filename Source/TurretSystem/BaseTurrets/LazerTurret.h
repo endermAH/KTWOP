@@ -7,7 +7,7 @@
 #include "TurretSystem/BaseActors/LazerBullet.h"
 #include "LazerTurret.generated.h"
 
-UCLASS()
+UCLASS(Abstract, Blueprintable)
 class TURRETSYSTEM_API ALazerTurret : public ABaseTurret
 {
 	GENERATED_BODY()
@@ -36,7 +36,7 @@ public:
 
 	float Delay = 0;
 
-	virtual void Shoot(float DeltaTime) override;
+	virtual void RealShoot_Implementation(float DeltaTime) override;
 
 
 

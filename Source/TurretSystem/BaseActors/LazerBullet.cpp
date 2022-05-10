@@ -4,7 +4,7 @@
 // Sets default values
 ABaseLazer::ABaseLazer()
 {
-	RootComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Lazer"));
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Lazer"));
 	
 	PrimaryActorTick.bCanEverTick = true;
 	

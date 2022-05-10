@@ -32,22 +32,6 @@ ABaseTurret::ABaseTurret()
 	CollisionComponent->SetCollisionProfileName(TEXT("Turret"));
 
 	TargetEnemy = nullptr;
-
-
-	if (IsValid(ModuleSystemType))
-	{
-		if (IsValid(ModuleSystemComponent))
-		{
-			ModuleSystemComponent->DestroyComponent(true);
-		}
-		
-		auto component = CreateComponentFromTemplate(ModuleSystemType.GetDefaultObject(), FName(FString(TEXT("ModuleSystem"))));
-		ModuleSystemComponent = Cast<UModuleSystem>(component);
-		
-	} else
-	{
-		//UE_LOG(LogTemp,Warning, TEXT("Actor %s may not have module system!!!!"), *GetName());
-	}
 }
 
 // Called when the game starts or when spawned
@@ -116,25 +100,9 @@ void ABaseTurret::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 	CollisionComponent->SetSphereRadius(BaseStats.TurretRadius);
-
-
-	if (IsValid(ModuleSystemType))
-	{
-		if (IsValid(ModuleSystemComponent))
-		{
-			ModuleSystemComponent->DestroyComponent(true);
-		}
-		
-			auto component = CreateComponentFromTemplate(ModuleSystemType.GetDefaultObject(), FName(FString(TEXT("ModuleSystem"))));
-			ModuleSystemComponent = Cast<UModuleSystem>(component);
-	} else
-	{
-		
-		GEngine->AddOnScreenDebugMessage(-1, 1000.f, FColor::Red,
-		                                 FString::Printf(TEXT("Actor %s dont have module system!!!!"),
-		                                 	*GetName()));
-	}
 }
+
+
 
 // Called every frame
 void ABaseTurret::Tick(float DeltaTime)
@@ -181,12 +149,35 @@ void ABaseTurret::Tick(float DeltaTime)
 			RootComponent->SetWorldRotation(newRotator);
 			float angleBetweenTurretAndTarget = FMath::Abs(newRotator.Yaw - targetRotator.Yaw);
 			if (angleBetweenTurretAndTarget < BaseStats.TurretShootAngle )
-				this->Shoot(DeltaTime);
+				EventShoot(DeltaTime);
 		} else
 		{
 			TargetEnemy = nullptr;
 		}
 	}
+}
+UModuleSystem* ABaseTurret::InitModuleSystem() {
+	if (IsValid(ModuleSystemType))
+	{
+		if (IsValid(ModuleSystemComponent))
+		{
+			ModuleSystemComponent->DestroyComponent(true);
+		}
+		
+		auto component = AddComponentByClass(ModuleSystemType, false, FTransform::Identity,false);
+		component->RegisterComponent();
+		ModuleSystemComponent = Cast<UModuleSystem>(component);
+	} else
+	{
+		
+		GEngine->AddOnScreenDebugMessage(-1, 1000.f, FColor::Red,
+										 FString::Printf(TEXT("Actor %s dont have module system!!!!"),
+											 *GetName()));
+	}
+	
+	return ModuleSystemComponent;
+
+		
 }
 
 void ABaseTurret::TurnOn()
