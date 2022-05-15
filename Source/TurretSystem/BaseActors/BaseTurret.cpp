@@ -195,3 +195,8 @@ void ABaseTurret::TurnOff()
 	IsWorking = false;
 }
 
+FVector ABaseTurret::GetLocation_Implementation()
+{
+	return ArrowComponent->GetComponentLocation();
+}
+

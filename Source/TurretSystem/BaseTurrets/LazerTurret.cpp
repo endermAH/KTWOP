@@ -29,7 +29,8 @@ void ALazerTurret::RealShoot_Implementation(float DeltaTime)
 	{
 		FBaseBulletStats lazerStats = ModifiedStats.BulletStats;
 		FStatusModifier lazerModifier = ModifiedStats.BaseStatusesMultiplier;
-		ABaseEnemy* lastHit = nullptr;
+		FLazerStats lazerViewStats = LazerStats; 
+		AActor* lastHit = nullptr;
 		TArray<ABaseEnemy*> VisitedEnemies;
 		auto enemy = TargetEnemy;
 		float spendDistance = 0;
@@ -38,33 +39,30 @@ void ALazerTurret::RealShoot_Implementation(float DeltaTime)
 		{
 			lazerStats.BounceCount--;
 			FActorSpawnParameters SpawnInfo;
-			FVector location;
 			if (!IsValid(lastHit))
-			{
-				location = ArrowComponent->GetComponentLocation();
-			}
-			else
-				location = lastHit->GetPosition();
+				lastHit = this;
+
+			auto from = IPositionedActor::Execute_GetLocation(lastHit);
+			auto to = IPositionedActor::Execute_GetLocation(enemy);
 			
-			auto* lazer = GetWorld()->SpawnActor<ABaseLazer>(LazerType, location, FRotator(), SpawnInfo);
+			auto* lazer = GetWorld()->SpawnActor<ABaseLazer>(LazerType, from, FRotator(), SpawnInfo);
+			lazer->SorcePActor = lastHit;
 			lazer->TargetEnemy = enemy;
 			
 			for (auto& status :Statuses)
 			{
 				status->Apply(enemy,ModifiedStats.BaseStatusesMultiplier+lazerModifier);
 			}
+			lazer->Activate(lazerViewStats);
+			lazerViewStats.LazerWidth *= LazerStats.LazerWidthModifier;
 			
-			lazer->Activate();
-			if (IsValid(lastHit))
-				spendDistance += (lastHit->GetPosition()-enemy->GetPosition()).Size();
-			else
-				spendDistance += (location-enemy->GetPosition()).Size();
+			spendDistance += (from-to).Size();
 
 			lazerModifier = UBaseStatus::CombineStatusModifier(
 				lazerModifier, lazerStats.BounceModifier);
 			lastHit = enemy;
 			
-			if (lazerStats.BounceCount > 0)
+			if (lazerStats.BounceCount >= 0)
 			{
 				VisitedEnemies.Add(enemy);
 				TArray<FOverlapResult> EnemyOverlaps;

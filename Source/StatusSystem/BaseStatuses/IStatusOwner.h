@@ -6,12 +6,12 @@
 #include "IStatusOwner.generated.h"
 
 UINTERFACE()
-class STATUSSYSTEM_API UStatusOwner : public UInterface
+class STATUSSYSTEM_API UStatusOwner : public UPositionedActor
 {
 	GENERATED_BODY()	
 };
 
-class STATUSSYSTEM_API IStatusOwner
+class STATUSSYSTEM_API IStatusOwner : public IPositionedActor
 {
 	GENERATED_BODY()
 	
@@ -88,13 +88,6 @@ public:
 	virtual bool IsArmored_Implementation();
 
 #pragma endregion
-
-
-	
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	FVector GetLocation();
-	UFUNCTION()
-	virtual FVector GetLocation_Implementation();
 	
 	
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)

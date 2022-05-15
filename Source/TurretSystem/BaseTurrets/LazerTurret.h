@@ -16,7 +16,8 @@ public:
 	// Sets default values for this actor's properties
 	ALazerTurret();
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FLazerStats LazerStats;
 
 protected:
 	// Called when the game starts or when spawned

@@ -21,7 +21,7 @@ GetWorldTimerManager().SetTimer(__tempTimerHandle, FTimerDelegate().CreateLambda
 
 
 UCLASS(Abstract)
-class TURRETSYSTEM_API ABaseTurret : public AActor, public IShootable
+class TURRETSYSTEM_API ABaseTurret : public AActor, public IShootable, public IPositionedActor
 {
 	GENERATED_BODY()
 private:
@@ -130,5 +130,8 @@ public:
 	bool IsWorking = false;
 private:
 
-#pragma endregion 
+#pragma endregion
+
+
+	FVector GetLocation_Implementation() override;
 };

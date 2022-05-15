@@ -139,6 +139,7 @@ void UModuleSystem::AddModules(const TArray<FModuleDescription>& NewModules) {
 
 
 TArray<FModuleDescription> UModuleSystem::GetAllModules() {
+	if (!WasBuild) BuildModules();
 	return AddedModules;
 }
 

@@ -67,10 +67,3 @@ bool IStatusOwner::IsArmored_Implementation()
 	UE_LOG(LogTemp, Error, TEXT("\"IsArmored\" method isn't implemented."));
 	return false;
 }
-
-FVector IStatusOwner::GetLocation_Implementation()
-{
-	UE_LOG(LogTemp, Error, TEXT("\"GetLocation\" method isn't implemented."));
-	return FVector();
-}
-
