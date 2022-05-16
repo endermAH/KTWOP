@@ -9,7 +9,7 @@
 #include "TurretSystem/BaseActors/BaseBullet.h"
 #include "SingleTargetTurret.generated.h"
 
-UCLASS()
+UCLASS(Abstract, Blueprintable)
 class TURRETSYSTEM_API ASingleTargetTurret : public ABaseTurret
 {
 	GENERATED_BODY()
@@ -28,18 +28,17 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 
-
-
 #pragma region ShootImplement
 	
-
-	/** type of bullet */
-	UPROPERTY(EditDefaultsOnly, Category=Damage)
+	
 	TSubclassOf<ABaseBullet> BulletType;
+	
+	FBulletStats BulletStats;
 
 	float Delay = 0;
 
-	virtual void Shoot(float DeltaTime) override;
+	
+	virtual void RealShoot_Implementation(float DeltaTime) override;
 
 
 

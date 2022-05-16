@@ -7,7 +7,6 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "ImplementedStatuses/Statuses/BaseStatus.h"
-#include "TurretSystem/AbilitySystems/BulletAbilitySystemComponent.h"
 #include "LazerBullet.generated.h"
 
 USTRUCT(BlueprintType)
@@ -23,7 +22,7 @@ struct FLazerStats
 };
 
 
-UCLASS()
+UCLASS(Abstract)
 class TURRETSYSTEM_API ABaseLazer : public AActor
 {
 	GENERATED_BODY()
@@ -32,6 +31,9 @@ public:
 	// Sets default values for this actor's properties
 	ABaseLazer();
 
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	AActor* SorcePActor;
+	
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	AActor* TargetEnemy;
 	
@@ -68,5 +70,5 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void Activate();
+	void Activate(const FLazerStats& ViewStats);
 };

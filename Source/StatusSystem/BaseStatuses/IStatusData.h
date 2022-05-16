@@ -67,3 +67,27 @@ public:
 	UFUNCTION()
 	virtual EStatusType GetStatusType_Implementation();
 };
+
+
+
+UINTERFACE(BlueprintType)
+class STATUSSYSTEM_API UPositionedActor : public UInterface
+{
+	GENERATED_BODY()	
+};
+
+
+class STATUSSYSTEM_API IPositionedActor
+{
+	GENERATED_BODY()
+	
+public:
+
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	FVector GetLocation();
+	
+	UFUNCTION()
+	virtual FVector GetLocation_Implementation();
+
+};

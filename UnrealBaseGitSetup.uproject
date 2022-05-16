@@ -17,10 +17,7 @@
 		{
 			"Name": "TurretSystem",
 			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
-				"GameplayAbilities"
-			]
+			"LoadingPhase": "Default"
 		},
 		{
 			"Name": "EnemySystem",
@@ -41,12 +38,6 @@
 			"Name": "GameplaySystem",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
-		}
-	],
-	"Plugins": [
-		{
-			"Name": "GameplayAbilities",
-			"Enabled": true
 		}
 	]
 }

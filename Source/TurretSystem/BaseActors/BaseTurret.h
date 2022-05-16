@@ -7,7 +7,6 @@
 #include "Components/ArrowComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
-#include "TurretSystem/AbilitySystems/TurretAbilitySystemComponent.h"
 #include "TurretSystem/Interfaces/IShootable.h"
 #include "TurretSystem/ModulesSystem/ModuleSystem.h"
 #include "BaseTurret.generated.h"
@@ -21,9 +20,8 @@ GetWorldTimerManager().SetTimer(__tempTimerHandle, FTimerDelegate().CreateLambda
 
 
 
-class IStatusData;
 UCLASS(Abstract)
-class TURRETSYSTEM_API ABaseTurret : public AActor, public IShootable
+class TURRETSYSTEM_API ABaseTurret : public AActor, public IShootable, public IPositionedActor
 {
 	GENERATED_BODY()
 private:
@@ -40,24 +38,27 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	USphereComponent* CollisionComponent;
-
-
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UModuleSystem* ModuleSystemComponent;
 	
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UModuleSystem> ModuleSystemType = nullptr;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FModuleSystemStats ModuleSystemStats;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Default")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Stats")
 	FBaseTurretStats BaseStats;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Default")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Stats")
 	FBaseTurretStats ModifiedStats;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Default")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Stats")
 	FBaseTurretStats StatsModification;
 	
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Stats")
 	TArray<UBaseStatus*> Statuses;
 protected:
 
@@ -112,6 +113,11 @@ public:
 	
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable)
+	UModuleSystem* InitModuleSystem();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void EventShoot(float DeltaTime);
 
 #pragma region TurnOnOffSystem
 public:
@@ -124,5 +130,8 @@ public:
 	bool IsWorking = false;
 private:
 
-#pragma endregion 
+#pragma endregion
+
+
+	FVector GetLocation_Implementation() override;
 };

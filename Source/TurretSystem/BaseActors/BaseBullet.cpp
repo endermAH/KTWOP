@@ -28,6 +28,15 @@ ABaseBullet::ABaseBullet()
 	
 }
 
+void ABaseBullet::Init(const TArray<UBaseStatus*>& statuses, AActor* targetEnemy, FBaseBulletStats baseStats, FBulletStats bulletStats) {
+
+	this->Statuses = statuses;
+	this->TargetEnemy = Cast<ABaseEnemy>(targetEnemy);
+	this->BaseStats = baseStats;
+	this->BulletStats = bulletStats;
+	CollisionComponent->SetSphereRadius(this->BulletStats.BulletRadius);
+	
+}
 // Called when the game starts or when spawned
 void ABaseBullet::BeginPlay()
 {
@@ -53,9 +62,9 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		
 		for (auto& status :Statuses)
 		{
-			status->Apply(enemy, Stats.StatusModifies);
+			status->Apply(enemy, BulletStats.StatusModifies);
 		}
-		if (Stats.BulletStats.BounceCount > 0)
+		if (BaseStats.BounceCount > 0)
 		{
 			TArray<FOverlapResult> EnemyOverlaps;
 			FCollisionQueryParams QueryParams(false);
@@ -70,7 +79,7 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 				RootComponent->GetComponentLocation(),
 				FQuat::Identity,
 				EnemyDestroyerCollisionChannel,
-				FCollisionShape::MakeSphere(FMath::Max(Stats.BulletStats.BounceRadius, Stats.BulletStats.MaxFlyDistance - SpentFlyDistance)),
+				FCollisionShape::MakeSphere(FMath::Max(BaseStats.BounceRadius, BaseStats.MaxFlyDistance - SpentFlyDistance)),
 				QueryParams,
 				ResponseParams
 				);
@@ -90,7 +99,7 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			{
 				FVector position = RootComponent->GetComponentLocation();
 				
-				float distance = Stats.BulletStats.MaxFlyDistance - SpentFlyDistance;
+				float distance = BaseStats.MaxFlyDistance - SpentFlyDistance;
 				for (auto&  enemyActor : GoodEnemies)
 				{
 					if ((position-enemyActor->GetPosition()).Size() < distance)
@@ -104,12 +113,11 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			
 			if (!foundTarget)
 			{
-				Stats.BulletStats.BounceCount = 0;
+				BaseStats.BounceCount = 0;
 			} else
 			{
-				Stats.StatusModifies = UBaseStatus::CombineStatusModifier(Stats.StatusModifies,
-					Stats.BulletStats.BounceModifier);
-				Stats.BulletStats.BounceCount--;
+				BulletStats.StatusModifies = BulletStats.StatusModifies+BaseStats.BounceModifier;
+				BaseStats.BounceCount--;
 			}
 		}
 		OnTargetHit(OverlappedComponent, OtherActor, OtherComponent,  OtherBodyIndex, bFromSweep, Hit);
@@ -118,7 +126,6 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 void ABaseBullet::StartFly()
 {
-	CollisionComponent->InitSphereRadius(Stats.BulletRadius);
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(
 		TargetEnemy->GetActorLocation(),
 		GetActorLocation() + FVector(0, 0, 0)); // TODO: CRUTCH! I THINK, THAT ENEMY SHOULD PROVIDE IT'S CENTER!!!
@@ -145,24 +152,28 @@ void ABaseBullet::Tick(float DeltaTime)
 		return;
 	}
 	
-	FVector targetLocation =  TargetEnemy->GetActorLocation() + FVector(0,0,30);// + TargetEnemy->GetVelocity()*DeltaTime;
+	FVector targetLocation =  TargetEnemy->GetPosition();
 	FVector bulletLocation =  RootComponent->GetComponentLocation();
-	FVector newLocation = FMath::VInterpTo(
+
+	auto maxDistance = (targetLocation-bulletLocation).Size();
+	auto flyDistance = FMath::Clamp<float>(BulletStats.BulletSpeed*DeltaTime*100, 0, maxDistance); 
+	
+	FVector newLocation = bulletLocation + (targetLocation-bulletLocation).GetSafeNormal()*flyDistance;
+	
+	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(
 		bulletLocation,
-		targetLocation,
-		DeltaTime,
-		Stats.BulletSpeed
-		);
+		targetLocation + FVector(0, 0, 0)); 
 	
 	SpentFlyDistance += (bulletLocation - newLocation).Size();
 
-	if (SpentFlyDistance > Stats.BulletStats.MaxFlyDistance)
+	if (SpentFlyDistance > BaseStats.MaxFlyDistance)
 	{
 		OnDistanceDeplete();
 		return;
 	}
 	
 	RootComponent->SetWorldLocation(newLocation);
+	SetActorRotation(rotation);
 	
 }
 

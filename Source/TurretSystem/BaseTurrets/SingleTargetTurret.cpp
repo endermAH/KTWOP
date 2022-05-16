@@ -19,7 +19,7 @@ void ASingleTargetTurret::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ASingleTargetTurret::Shoot(float DeltaTime)
+void ASingleTargetTurret::RealShoot_Implementation(float DeltaTime)
 {
 	FVector myPosition = RootComponent->GetComponentLocation();
 	FVector enemyPosition =TargetEnemy->GetActorLocation();
@@ -36,20 +36,22 @@ void ASingleTargetTurret::Shoot(float DeltaTime)
 			UE_LOG(LogTemp, Error, TEXT("Bullet is NULL!"));
 			return;
 		}
+		TArray<UBaseStatus*> BStatuses;
+		for (auto& status :Statuses)
+		{
+			UBaseStatus* copy = status->MakeStatusCopy(ModifiedStats.BaseStatusesMultiplier, bullet);
+			copy->AddToBullet_Implementation(bullet, ModifiedStats.BaseStatusesMultiplier);
+			BStatuses.Add(copy);
+		}
 		
-		bullet->TargetEnemy = TargetEnemy;
-		bullet->Stats.BulletStats = ModifiedStats.BulletStats;
+		bullet->Init(BStatuses, TargetEnemy, BaseStats.BulletStats, BulletStats);
+		
 		if (Statuses.Num() == 0)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 1000.f, FColor::Red,
 			FString::Printf(TEXT("No statuses in turret. WTF.")));
 		}
-		for (auto& status :Statuses)
-		{
-			UBaseStatus* copy = status->MakeStatusCopy(ModifiedStats.BaseStatusesMultiplier, bullet);
-			copy->AddToBullet_Implementation(bullet, ModifiedStats.BaseStatusesMultiplier);
-			bullet->Statuses.Add(copy);
-		}
+		
 		bullet->StartFly();
 		
 		Delay = ModifiedStats.ShootDelay;

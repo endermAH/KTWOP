@@ -7,7 +7,7 @@
 #include "TurretSystem/BaseActors/LazerBullet.h"
 #include "LazerTurret.generated.h"
 
-UCLASS()
+UCLASS(Abstract, Blueprintable)
 class TURRETSYSTEM_API ALazerTurret : public ABaseTurret
 {
 	GENERATED_BODY()
@@ -16,7 +16,8 @@ public:
 	// Sets default values for this actor's properties
 	ALazerTurret();
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FLazerStats LazerStats;
 
 protected:
 	// Called when the game starts or when spawned
@@ -36,7 +37,7 @@ public:
 
 	float Delay = 0;
 
-	virtual void Shoot(float DeltaTime) override;
+	virtual void RealShoot_Implementation(float DeltaTime) override;
 
 
 

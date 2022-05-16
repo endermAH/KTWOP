@@ -52,6 +52,7 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TArray<FStatusDescription>  Statuses;
+
 	
 };
 
@@ -67,7 +68,5 @@ struct FModuleDescription
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	bool IsBurned;
 	// TODO //
-
-
 	
 };
