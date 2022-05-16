@@ -62,6 +62,10 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Blueprints")
 	TSubclassOf<ABaseLazer> LazerBP;
+
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Stats")
+	FLazerStats LazerStats;
 	
 	virtual ABaseTurret* SpawnTurret(AActor* Spawner, const FTransform& Transform, const TArray<FModuleDescription>& Modules) override;
 	

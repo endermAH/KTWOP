@@ -154,7 +154,11 @@ void ABaseBullet::Tick(float DeltaTime)
 	
 	FVector targetLocation =  TargetEnemy->GetPosition();
 	FVector bulletLocation =  RootComponent->GetComponentLocation();
-	FVector newLocation = bulletLocation + (targetLocation-bulletLocation).GetSafeNormal()*BulletStats.BulletSpeed*DeltaTime*100;
+
+	auto maxDistance = (targetLocation-bulletLocation).Size();
+	auto flyDistance = FMath::Clamp<float>(BulletStats.BulletSpeed*DeltaTime*100, 0, maxDistance); 
+	
+	FVector newLocation = bulletLocation + (targetLocation-bulletLocation).GetSafeNormal()*flyDistance;
 	
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(
 		bulletLocation,

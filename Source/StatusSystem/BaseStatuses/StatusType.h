@@ -2,7 +2,7 @@
 
 // Our reflection on the minimum wage...
 // Plz, don't forget add new flag for your new status...
-UENUM()
+UENUM(BlueprintType)
 enum EStatusType
 {
 	// Invalid status type.
