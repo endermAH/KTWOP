@@ -17,21 +17,27 @@
 		{
 			"Name": "TurretSystem",
 			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
-				"GameplayAbilities"
-			]
+			"LoadingPhase": "Default"
 		},
 		{
 			"Name": "EnemySystem",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
-		}
-	],
-	"Plugins": [
+		},
 		{
-			"Name": "GameplayAbilities",
-			"Enabled": true
+			"Name": "StatusSystem",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ImplementedStatuses",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "GameplaySystem",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
 		}
 	]
 }
