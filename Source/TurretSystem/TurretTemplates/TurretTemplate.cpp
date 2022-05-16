@@ -41,6 +41,7 @@ ABaseTurret* ULazerTurretTemplate::SpawnTurret(AActor* Spawner, const FTransform
 
 	turret->BaseStats = TurretStats;
 	turret->LazerType = LazerBP;
+	turret->LazerStats = LazerStats;
 	turret->ModuleSystemType = ModuleSystemComponent;
 	auto* ms = turret->InitModuleSystem();
 	

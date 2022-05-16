@@ -32,6 +32,9 @@ public:
 	ABaseLazer();
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	AActor* SorcePActor;
+	
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	AActor* TargetEnemy;
 	
 	UPROPERTY(BlueprintReadOnly)
@@ -67,5 +70,5 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void Activate();
+	void Activate(const FLazerStats& ViewStats);
 };

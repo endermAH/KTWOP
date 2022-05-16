@@ -32,3 +32,9 @@ EStatusType IStatusData::GetStatusType_Implementation()
 	return Invalid;
 }
 
+FVector IPositionedActor::GetLocation_Implementation()
+{
+	check(false);
+	return GetLocation();
+}
+
