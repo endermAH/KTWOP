@@ -44,7 +44,7 @@ void ASingleTargetTurret::RealShoot_Implementation(float DeltaTime)
 			BStatuses.Add(copy);
 		}
 		
-		bullet->Init(BStatuses, TargetEnemy, BaseStats.BulletStats, BulletStats);
+		bullet->Init(BStatuses, TargetEnemy, ModifiedStats.BulletStats, BulletStats);
 		
 		if (Statuses.Num() == 0)
 		{
