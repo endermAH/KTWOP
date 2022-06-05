@@ -3,4 +3,4 @@
 #include "StatusSystem.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, StatusSystem, "StatusSystem" );
+IMPLEMENT_GAME_MODULE( FDefaultGameModuleImpl, StatusSystem );

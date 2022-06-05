@@ -11,7 +11,6 @@ public class UnrealBaseGitSetupTarget : TargetRules
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 		ExtraModuleNames.AddRange( new string[]
 		{
-			"UnrealBaseGitSetup",
 			"DMGSystem",
 			"TurretSystem",
 			"EnemySystem",

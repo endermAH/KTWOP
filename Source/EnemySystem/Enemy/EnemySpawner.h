@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AIController.h"
 #include "BaseEnemy.h"
 #include "UObject/Object.h"
 #include "EnemySpawner.generated.h"
