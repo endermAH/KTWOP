@@ -126,7 +126,7 @@ void ABaseTurret::Tick(float DeltaTime)
 			FVector enemyPosition = enemy->GetActorLocation();
 			enemyPosition.Z = 0;
 			float enemyDistance = (myPosition - enemyPosition).Size();
-			if (enemyDistance < distance)
+			if ((enemyDistance < distance) && (enemyDistance > BaseStats.TurretMinRadius) )
 			{
 				TargetEnemy = enemy;
 				distance = enemyDistance;
@@ -140,7 +140,7 @@ void ABaseTurret::Tick(float DeltaTime)
 		FVector enemyPosition = TargetEnemy->GetActorLocation();
 		enemyPosition.Z = 0;
 		float enemyDistance = (myPosition - enemyPosition).Size();
-		if (enemyDistance < BaseStats.TurretRadius)
+		if ((enemyDistance < BaseStats.TurretRadius) && (enemyDistance > BaseStats.TurretMinRadius))
 		{
 			auto targetRotator = UKismetMathLibrary::FindLookAtRotation(myPosition, enemyPosition);
 			FRotator newRotator = FMath::RInterpTo(RootComponent->GetComponentRotation(),
@@ -187,12 +187,14 @@ void ABaseTurret::TurnOn()
 	ModifiedStats =  BaseStats + StatsModification;
 	CollisionComponent->SetSphereRadius(ModifiedStats.TurretRadius);
 	IsWorking = true;
+	this->BP_TurnOn();
 	//SetActorTicksEnabled(true/false);
 }
 
 void ABaseTurret::TurnOff()
 {
 	IsWorking = false;
+	this->BP_TurnOff();
 }
 
 FVector ABaseTurret::GetLocation_Implementation()
