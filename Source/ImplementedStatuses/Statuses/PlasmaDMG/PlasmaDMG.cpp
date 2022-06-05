@@ -8,7 +8,7 @@ void UPlasmaDMG::StartExplosion(const TScriptInterface<IStatusOwner>& statusOwne
 	FActorSpawnParameters SpawnInfo;
 
 	statusOwner->Execute_RemoveStatus(statusOwner.GetObject(), PlasmaDMG);
-	float dmg = (StatusStats.Power + CollectedDamage) * StatusStats.Modifier;
+	float dmg = (StatusStats.Power + FMath::Min(CollectedDamage, PlasmaStats.MaxCollectedDmg)) * StatusStats.Modifier;
 
 	auto* explosion = GetWorld()->SpawnActor<APlasmaExplosion>(PlasmaStats.ExplosionType,
 	                                                           statusOwner->
@@ -69,7 +69,7 @@ void UPlasmaDMG::OnDie_Implementation(const TScriptInterface<IStatusOwner>& stat
 
 void UPlasmaDMG::ApplyDmg_Implementation(float damage)
 {
-	CollectedDamage += damage;
+	CollectedDamage += damage*PlasmaStats.CollectedDmgModifier;
 }
 
 UBaseStatus* UPlasmaDMG::MakeStatusCopy_Implementation(FStatusModifier ExternalModifies, UObject* outer)

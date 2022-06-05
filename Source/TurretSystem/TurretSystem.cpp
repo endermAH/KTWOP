@@ -3,4 +3,4 @@
 #include "TurretSystem.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, TurretSystem, "TurretSystem" );
+IMPLEMENT_GAME_MODULE( FDefaultGameModuleImpl, TurretSystem );

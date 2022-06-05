@@ -22,16 +22,20 @@ void ABaseEnemy::AddStatus(TScriptInterface<IStatusBase> status)
 void ABaseEnemy::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-
-	EnemyStats.Health = EnemyStats.MaxHealth;
-	HashedSpeedModifier = EnemyStats.SpeedModifier;
-	HashedDmgModifier = EnemyStats.DmgModifier;
 }
 
 void ABaseEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	HashedSpeedModifier = EnemyStats.SpeedModifier;
+	HashedDmgModifier = EnemyStats.DmgModifier;
+}
+
+void ABaseEnemy::Init(const FEnemyStats& Stats)
+{
+	EnemyStats = Stats;
+	EnemyStats.Health = EnemyStats.MaxHealth;
 	HashedSpeedModifier = EnemyStats.SpeedModifier;
 	HashedDmgModifier = EnemyStats.DmgModifier;
 }
