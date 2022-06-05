@@ -54,6 +54,9 @@ public:
 
 	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintCallable)
+	void Init(const FEnemyStats& Stats);
 	
 	virtual void Tick(float DeltaSeconds) override;
 
