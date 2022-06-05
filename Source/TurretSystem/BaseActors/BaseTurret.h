@@ -126,6 +126,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void TurnOff();
 	
+	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName = "TurnOn"))
+	void BP_TurnOn();
+	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName = "TurnOff"))
+	void BP_TurnOff();
+	
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	bool IsWorking = false;
 private:

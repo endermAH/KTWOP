@@ -87,6 +87,9 @@ public:
 	float TurretRadius = 500.f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float TurretMinRadius = 0.f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float TurretShootAngle = 10.f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
