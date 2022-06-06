@@ -15,6 +15,13 @@ struct FPlasmaStats
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FPlasmaExplosionStats ExplosionStats;
 
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float MaxCollectedDmg = 200.f;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float CollectedDmgModifier = 0.5f;
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<APlasmaExplosion> ExplosionType;
 };

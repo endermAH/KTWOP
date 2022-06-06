@@ -48,9 +48,12 @@ void ALazerTurret::RealShoot_Implementation(float DeltaTime)
 			auto* lazer = GetWorld()->SpawnActor<ABaseLazer>(LazerType, from, FRotator(), SpawnInfo);
 			lazer->SorcePActor = lastHit;
 			lazer->TargetEnemy = enemy;
+
+			
 			
 			for (auto& status :Statuses)
 			{
+				status->AddToBullet(lazer,ModifiedStats.BaseStatusesMultiplier+lazerModifier);
 				status->Apply(enemy,ModifiedStats.BaseStatusesMultiplier+lazerModifier);
 			}
 			lazer->Activate(lazerViewStats);

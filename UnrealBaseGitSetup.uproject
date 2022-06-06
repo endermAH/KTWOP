@@ -5,11 +5,6 @@
 	"Description": "",
 	"Modules": [
 		{
-			"Name": "UnrealBaseGitSetup",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		},
-		{
 			"Name": "DMGSystem",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"

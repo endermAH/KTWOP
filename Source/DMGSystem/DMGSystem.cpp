@@ -3,4 +3,4 @@
 #include "DMGSystem.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, DMGSystem, "DMGSystem" );
+IMPLEMENT_GAME_MODULE( FDefaultGameModuleImpl, DMGSystem );

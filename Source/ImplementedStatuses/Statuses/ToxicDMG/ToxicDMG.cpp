@@ -55,7 +55,7 @@ void UToxicDMG::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier External
 
 void UToxicDMG::AddToBullet_Implementation(AActor* enemy, FStatusModifier ExternalModifies)
 {
-	
+	Super::AddToBullet_Implementation(enemy, ExternalModifies);
 }
 
 UBaseStatus* UToxicDMG::MakeStatusCopy_Implementation(FStatusModifier ExternalModifies, UObject* outer)
