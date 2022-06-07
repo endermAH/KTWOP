@@ -10,10 +10,11 @@ public class TurretSystem : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", 
 			"CoreUObject", "Engine", "InputCore",
-			"EnemySystem", "StatusSystem", "ImplementedStatuses"
+			"EnemySystem", "StatusSystem", "ImplementedStatuses",
+			"GameplaySystem"
 		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+		//PrivateDependencyModuleNames.AddRange(new string[] { "GameplaySystem" });
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

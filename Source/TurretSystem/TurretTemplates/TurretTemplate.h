@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TurretSystem/BaseTurrets/TaxTurret.h"
 #include "UObject\Object.h"
 #include "TurretSystem\BaseTurrets\LazerTurret.h"
 #include "TurretSystem\BaseTurrets\SingleTargetTurret.h"
@@ -84,6 +85,22 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Stats")
 	FVapeBulletStats VapeStats;
+	
+	
+	virtual ABaseTurret* SpawnTurret(AActor* Spawner, const FTransform& Transform, const TArray<FModuleDescription>& Modules) override;
+	
+};
+
+UCLASS(BlueprintType)
+class TURRETSYSTEM_API UTaxTurretTemplate : public UTurretTemplate {
+	GENERATED_BODY()
+	
+public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Blueprints")
+	TSubclassOf<ATaxTurret> TurretBP;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Stats")
+	FTaxTurretStats VapeStats;
 	
 	
 	virtual ABaseTurret* SpawnTurret(AActor* Spawner, const FTransform& Transform, const TArray<FModuleDescription>& Modules) override;

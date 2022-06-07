@@ -122,7 +122,7 @@ public:
 #pragma region TurnOnOffSystem
 public:
 	UFUNCTION(BlueprintCallable)
-	void TurnOn();
+	virtual void TurnOn();
 	UFUNCTION(BlueprintCallable)
 	void TurnOff();
 	

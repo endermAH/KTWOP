@@ -74,3 +74,28 @@ ABaseTurret* UVapeTurretTemplate::SpawnTurret(AActor* Spawner, const FTransform&
 	ms->AddModules(Modules);
 	return turret;
 }
+
+ABaseTurret* UTaxTurretTemplate::SpawnTurret(AActor* Spawner, const FTransform& Transform,
+	const TArray<FModuleDescription>& Modules)
+{
+	FActorSpawnParameters SpawnInfo;
+	SpawnInfo.Owner = Spawner;
+	
+	ATaxTurret* turret = Spawner->GetWorld()->SpawnActor<ATaxTurret>(TurretBP, Transform, SpawnInfo);
+	
+	if (!IsValid(turret))
+		return nullptr;
+
+	turret->BaseStats = TurretStats;
+	turret->ModuleSystemType = ModuleSystemComponent;
+	auto* ms = turret->InitModuleSystem();
+	
+	check(IsValid(ms));
+	
+	ms->ModuleSystemStats = ModuleSystemStats;
+
+	ms->AddModules(Modules);
+
+	
+	return turret;
+}
