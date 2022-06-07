@@ -32,6 +32,40 @@ struct FBaseBulletStats
 
 };
 
+USTRUCT(BlueprintType)
+struct FTaxTurretStats
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float SoulsPerTick = 0.0;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float StonesPerTick = 0.0;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float IncomeModifier = 1.0;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float TaxTickDelay = 0.0;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float TaxTickDelayModifier = 1.0;
+	
+	FTaxTurretStats operator*(int32 i) const
+	{
+		auto result = *this;
+		result.SoulsPerTick   *= i;
+		result.StonesPerTick  *= i;
+		result.TaxTickDelay   *= i;
+		result.IncomeModifier = FMath::Pow(IncomeModifier, i);
+		result.TaxTickDelayModifier = FMath::Pow(TaxTickDelayModifier, i);
+		return result;
+	}
+
+	FTaxTurretStats operator+(const FTaxTurretStats& rhs) const;
+};
+
 
 USTRUCT(BlueprintType)
 struct FBaseTurretStats
@@ -50,38 +84,12 @@ public:
 		BulletStats = {0,0,0,{1,1}};
 	};
 
-	FBaseTurretStats operator*(int32 i) const
-	{
-		auto result = *this;
-		result.TurretRadius *=i;
-		result.TurretShootAngle *=i;
-		result.RotationSpeed *=i;
-		result.BulletStats.BounceCount*=i;;
-		result.BulletStats.BounceRadius*=i;
-		result.BulletStats.MaxFlyDistance*=i;
-		result.ShootDelay *= i;
-		
-		result.BaseStatusesMultiplier = result.BaseStatusesMultiplier*i;
-		result.BulletStats.BounceModifier = result.BulletStats.BounceModifier*i;
+	FBaseTurretStats operator*(int32 i) const;
 
-		return result;
-	}
-
-	FBaseTurretStats operator+(const FBaseTurretStats& rhs) const
-	{
-		FBaseTurretStats result = *this;
-		result.BulletStats					 = BulletStats + rhs.BulletStats;
-		result.TurretRadius				     +=rhs.TurretRadius;
-		result.TurretShootAngle    		     +=rhs.TurretShootAngle;
-		result.RotationSpeed				 +=rhs.RotationSpeed;
-		result.ShootDelay				     +=rhs.ShootDelay;
-		result.BaseStatusesMultiplier        = BaseStatusesMultiplier + rhs.BaseStatusesMultiplier;
-		return result;
-	};
+	FBaseTurretStats operator+(const FBaseTurretStats& rhs) const;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float ShootDelay = 5;
-
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float TurretRadius = 500.f;
@@ -100,6 +108,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FBaseBulletStats BulletStats;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FTaxTurretStats  TaxStats;
 	
 };
 

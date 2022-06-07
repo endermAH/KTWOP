@@ -8,7 +8,7 @@
 UModuleSystem::UModuleSystem() {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -81,8 +81,11 @@ void UModuleSystem::BuildModules() {
 	TurretStatsDelta = FBaseTurretStats(0);
 
 	TMap<TEnumAsByte<EStatusType>, UBaseStatus*> StatusesMap;
-	AddStatusesToMap(StatusesMap, ModuleSystemStats.BurnedModulesReplacer, burnedModulesCount);
-	AddStatsToTurret(ModuleSystemStats.BurnedModulesReplacer, burnedModulesCount);
+	if (IsValid(ModuleSystemStats.BurnedModulesReplacer))
+	{
+		AddStatusesToMap(StatusesMap, ModuleSystemStats.BurnedModulesReplacer, burnedModulesCount);
+		AddStatsToTurret(ModuleSystemStats.BurnedModulesReplacer, burnedModulesCount);
+	}
 
 	for (auto moduleInt : ModulesMap)
 	{
