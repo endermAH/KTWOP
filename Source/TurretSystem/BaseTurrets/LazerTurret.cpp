@@ -69,7 +69,7 @@ void ALazerTurret::RealShoot_Implementation(float DeltaTime)
 			{
 				VisitedEnemies.Add(enemy);
 				TArray<FOverlapResult> EnemyOverlaps;
-				FCollisionQueryParams QueryParams(false);
+				FCollisionQueryParams QueryParams("", false);
 			
 				FCollisionResponseParams ResponseParams;
 				ResponseParams.CollisionResponse.SetAllChannels(ECR_Ignore);

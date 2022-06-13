@@ -74,7 +74,7 @@ void APlasmaExplosion::StartExplosion(const FPlasmaExplosionStats& ExplosionStat
 
 		CurrentDamage = SavedExplosionStats.DamageCurveModifier->GetFloatValue(0)*SavedExplosionStats.Damage;
 		TArray<FOverlapResult> EnemyOverlaps;
-		FCollisionQueryParams QueryParams(false);
+		FCollisionQueryParams QueryParams("", false);
 			
 		FCollisionResponseParams ResponseParams;
 		ResponseParams.CollisionResponse.SetAllChannels(ECR_Ignore);

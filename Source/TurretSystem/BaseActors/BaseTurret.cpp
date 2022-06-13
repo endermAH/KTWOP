@@ -42,7 +42,7 @@ void ABaseTurret::BeginPlay()
 	CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ABaseTurret::OnEndOverlap);
 
 	TArray<FOverlapResult> EnemyOverlaps;
-	FCollisionQueryParams QueryParams(false);
+	FCollisionQueryParams QueryParams("", false);
 			
 	FCollisionResponseParams ResponseParams;
 	ResponseParams.CollisionResponse.SetAllChannels(ECR_Ignore);

@@ -74,7 +74,7 @@ void AVapeBullet::StartExplosion(const TArray<UBaseStatus*>& statuses, FVapeBull
 
 
 		TArray<FOverlapResult> EnemyOverlaps;
-		FCollisionQueryParams QueryParams(false);
+		FCollisionQueryParams QueryParams("", false);
 			
 		FCollisionResponseParams ResponseParams;
 		ResponseParams.CollisionResponse.SetAllChannels(ECR_Ignore);

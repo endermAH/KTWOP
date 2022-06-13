@@ -61,7 +61,7 @@ void UIceDMG::Apply_Implementation(ABaseEnemy* enemy, FStatusModifier ExternalMo
 	
 	if (IsExploded)
 	{
-		enemy->Execute_ApplyDmgModifier(enemy, IceStats.MonsterSpeedModifier, IceDMG);
+		enemy->Execute_ApplySpeedModifier(enemy, IceStats.MonsterSpeedModifier, IceDMG);
 	}
 }
 

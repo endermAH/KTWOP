@@ -80,7 +80,7 @@ TScriptInterface<IStatusData> ABaseEnemy::GetStatus_Implementation(EStatusType s
 	{
 		TScriptInterface<IStatusBase>& statusBase = StatusesMap[TEnumAsByte<EStatusType>(statusType)];
 		TScriptInterface<IStatusData> statusData;
-		statusData.SetInterface(statusBase.GetObject());
+		statusData.SetInterface(Cast<IStatusData>(statusBase.GetObject()));
 		statusData.SetObject(statusBase.GetObject());
 		return statusData;
 	}

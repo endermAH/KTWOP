@@ -67,7 +67,7 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		if (BaseStats.BounceCount > 0)
 		{
 			TArray<FOverlapResult> EnemyOverlaps;
-			FCollisionQueryParams QueryParams(false);
+			FCollisionQueryParams QueryParams("", false);
 			
 			FCollisionResponseParams ResponseParams;
 			ResponseParams.CollisionResponse.SetAllChannels(ECR_Ignore);
