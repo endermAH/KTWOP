@@ -104,6 +104,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void StopFly();
 
-
+	FVector LastDirection;
+	
 	virtual void Tick(float DeltaTime) override;
 };

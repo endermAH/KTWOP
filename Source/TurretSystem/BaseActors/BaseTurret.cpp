@@ -126,7 +126,7 @@ void ABaseTurret::Tick(float DeltaTime)
 			FVector enemyPosition = enemy->GetActorLocation();
 			enemyPosition.Z = 0;
 			float enemyDistance = (myPosition - enemyPosition).Size();
-			if ((enemyDistance < distance) && (enemyDistance > BaseStats.TurretMinRadius) )
+			if ((enemyDistance < distance) && (enemyDistance > BaseStats.TurretMinRadius) && (!enemy->IsDead_Implementation()) )
 			{
 				TargetEnemy = enemy;
 				distance = enemyDistance;
@@ -140,7 +140,7 @@ void ABaseTurret::Tick(float DeltaTime)
 		FVector enemyPosition = TargetEnemy->GetActorLocation();
 		enemyPosition.Z = 0;
 		float enemyDistance = (myPosition - enemyPosition).Size();
-		if ((enemyDistance < BaseStats.TurretRadius) && (enemyDistance > BaseStats.TurretMinRadius))
+		if ((enemyDistance < BaseStats.TurretRadius) && (enemyDistance > BaseStats.TurretMinRadius) && (!TargetEnemy->IsDead_Implementation()))
 		{
 			auto targetRotator = UKismetMathLibrary::FindLookAtRotation(myPosition, enemyPosition);
 			FRotator newRotator = FMath::RInterpTo(RootComponent->GetComponentRotation(),
