@@ -60,7 +60,8 @@ public:
 	
 	virtual void Tick(float DeltaSeconds) override;
 
-
+	UFUNCTION(BlueprintImplementableEvent)
+	void BP_DamageApplied(float damage, float healthPercent);
 	
 	UFUNCTION(BlueprintCallable)
 	FVector GetPosition();
