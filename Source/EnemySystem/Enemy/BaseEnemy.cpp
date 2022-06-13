@@ -107,6 +107,7 @@ void ABaseEnemy::ApplyDamage_Implementation(float damage)
 		IStatusBase::Execute_ApplyDmg(pair.Value.GetObject(), damage);
 	}
 	EnemyStats.Health -= damage;
+	BP_DamageApplied(damage, EnemyStats.Health / EnemyStats.MaxHealth);
 	
 	TScriptInterface<IStatusOwner> statusOwner;
 	statusOwner.SetInterface(this);
