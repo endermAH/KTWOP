@@ -88,6 +88,12 @@ public:
 	virtual bool IsArmored_Implementation();
 
 #pragma endregion
+
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	bool IsDead();
+	UFUNCTION()
+	virtual bool IsDead_Implementation();
 	
 	
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)

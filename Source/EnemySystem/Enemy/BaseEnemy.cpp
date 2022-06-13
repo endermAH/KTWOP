@@ -170,3 +170,8 @@ float ABaseEnemy::GetDmgModifier_Implementation()
 {
 	return HashedDmgModifier;
 }
+
+bool ABaseEnemy::IsDead_Implementation()
+{
+	return EnemyStats.Health < FLT_EPSILON;
+}
