@@ -91,6 +91,7 @@ public:
 	
 	virtual float GetSpeedModifier_Implementation() override;
 	virtual float GetDmgModifier_Implementation() override;
+	virtual bool IsDead_Implementation() override;
 
 #pragma endregion
 	

@@ -162,6 +162,7 @@ void UModuleSystem::ClearModules() {
 	ModuleBurnedCount.Empty();
 	ModulesMap.Empty();
 	TurretStatsDelta = FBaseTurretStats(0);
+	
 }
 
 
