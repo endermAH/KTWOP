@@ -67,7 +67,7 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		if (BaseStats.BounceCount > 0)
 		{
 			TArray<FOverlapResult> EnemyOverlaps;
-			FCollisionQueryParams QueryParams(false);
+			FCollisionQueryParams QueryParams("", false);
 			
 			FCollisionResponseParams ResponseParams;
 			ResponseParams.CollisionResponse.SetAllChannels(ECR_Ignore);
@@ -127,9 +127,10 @@ void ABaseBullet::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 void ABaseBullet::StartFly()
 {
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(
-		TargetEnemy->GetActorLocation(),
-		GetActorLocation() + FVector(0, 0, 0)); // TODO: CRUTCH! I THINK, THAT ENEMY SHOULD PROVIDE IT'S CENTER!!!
+		TargetEnemy->GetPosition(),
+		GetActorLocation() + FVector(0, 0, 0));
 	SetActorRotation(rotation);
+	LastDirection = rotation.Vector();
 	IsWorking = true;
 }
 
@@ -146,25 +147,26 @@ void ABaseBullet::Tick(float DeltaTime)
 		return;
 
 	
-	if (!IsValid(TargetEnemy))
+	FVector bulletLocation =  RootComponent->GetComponentLocation();
+	auto flyDistance = BulletStats.BulletSpeed*DeltaTime*100;
+	
+	if (IsValid(TargetEnemy) && !TargetEnemy->IsDead_Implementation())
 	{
-		OnDistanceDeplete();
-		return;
+		
+		FVector targetLocation =  TargetEnemy->GetPosition();
+		auto maxDistance = (targetLocation-bulletLocation).Size();
+
+		LastDirection = (targetLocation-bulletLocation).GetSafeNormal();
+		
+		flyDistance = FMath::Clamp<float>(BulletStats.BulletSpeed*DeltaTime*100, 0, maxDistance);
+		
 	}
 	
-	FVector targetLocation =  TargetEnemy->GetPosition();
-	FVector bulletLocation =  RootComponent->GetComponentLocation();
-
-	auto maxDistance = (targetLocation-bulletLocation).Size();
-	auto flyDistance = FMath::Clamp<float>(BulletStats.BulletSpeed*DeltaTime*100, 0, maxDistance); 
-	
-	FVector newLocation = bulletLocation + (targetLocation-bulletLocation).GetSafeNormal()*flyDistance;
-	
-	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(
-		bulletLocation,
-		targetLocation + FVector(0, 0, 0)); 
+	FVector newLocation = bulletLocation + LastDirection*flyDistance;
 	
 	SpentFlyDistance += (bulletLocation - newLocation).Size();
+	
+	SetActorRotation(LastDirection.Rotation());
 
 	if (SpentFlyDistance > BaseStats.MaxFlyDistance)
 	{
@@ -173,7 +175,6 @@ void ABaseBullet::Tick(float DeltaTime)
 	}
 	
 	RootComponent->SetWorldLocation(newLocation);
-	SetActorRotation(rotation);
 	
 }
 

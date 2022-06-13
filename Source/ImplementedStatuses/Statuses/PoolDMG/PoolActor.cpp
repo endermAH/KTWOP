@@ -60,7 +60,7 @@ void APoolActor::Start(const FPoolStats& ExplosionStats)
 		ExplosionTimeline->Play();
 
 		TArray<FOverlapResult> EnemyOverlaps;
-		FCollisionQueryParams QueryParams(false);
+		FCollisionQueryParams QueryParams("", false);
 
 		FCollisionResponseParams ResponseParams;
 		ResponseParams.CollisionResponse.SetAllChannels(ECR_Ignore);
