@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework\Actor.h"
+#include "TurretSystem/BaseActors/TaxTurret.h"
 #include "TurretSystem\BaseActors\BaseTurret.h"
 #include "TurretSystem\BaseActors\VapeBullet.h"
 #include "VapeTurret.generated.h"
 
 UCLASS(Abstract, Blueprintable)
-class TURRETSYSTEM_API AVapeTurret : public ABaseTurret {
+class TURRETSYSTEM_API AVapeTurret : public ATaxTurret {
 	GENERATED_BODY()
 
 public:

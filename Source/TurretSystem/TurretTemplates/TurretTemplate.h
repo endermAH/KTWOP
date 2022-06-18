@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TurretSystem/BaseTurrets/TaxTurret.h"
 #include "UObject\Object.h"
 #include "TurretSystem\BaseTurrets\LazerTurret.h"
 #include "TurretSystem\BaseTurrets\SingleTargetTurret.h"

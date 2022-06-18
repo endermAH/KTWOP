@@ -88,6 +88,7 @@ ABaseTurret* UTaxTurretTemplate::SpawnTurret(AActor* Spawner, const FTransform& 
 
 	turret->BaseStats = TurretStats;
 	turret->ModuleSystemType = ModuleSystemComponent;
+	turret->CollisionComponent->Deactivate();
 	auto* ms = turret->InitModuleSystem();
 	
 	check(IsValid(ms));
