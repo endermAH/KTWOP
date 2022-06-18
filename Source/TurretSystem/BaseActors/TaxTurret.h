@@ -28,15 +28,15 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="OnTaxCollected"))
 	void BP_OnTaxCollected(float Souls, float Stones);
-
+	
 	UFUNCTION(BlueprintCallable)
-	void GetDelay(float& Seconds, float& Percent);
+	void GetTaxDelay(float& Seconds, float& Percent);
 	
-#pragma region ShootImplement
+#pragma region TaxImplement
 	
 	
 
-	float Delay = 1000000;
+	float TaxDelay = 1000000;
 
 	
 	virtual void RealShoot_Implementation(float DeltaTime) override;

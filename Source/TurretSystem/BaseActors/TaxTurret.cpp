@@ -23,11 +23,11 @@ void ATaxTurret::BeginPlay()
 // Called every frame
 void ATaxTurret::Tick(float DeltaTime)
 {
-	AActor::Tick(DeltaTime);
-	if (IsWorking)
+	Super::Tick(DeltaTime);
+	if (IsWorking && ModifiedStats.TaxStats.CanProduce && !ModifiedStats.TaxStats.CanNotProduce)
 	{
-		Delay -= DeltaTime;
-		if ((Delay < 0))
+		TaxDelay -= DeltaTime;
+		if ((TaxDelay < 0))
 		{
 			auto* Instance = Cast<UKTWOPGameInstance>(GetGameInstance());
 			if (IsValid(Instance))
@@ -38,20 +38,21 @@ void ATaxTurret::Tick(float DeltaTime)
 			BP_OnTaxCollected(ModifiedStats.TaxStats.SoulsPerTick*ModifiedStats.TaxStats.IncomeModifier,
 				ModifiedStats.TaxStats.StonesPerTick*ModifiedStats.TaxStats.IncomeModifier);
 			
-			Delay = ModifiedStats.TaxStats.TaxTickDelay*ModifiedStats.TaxStats.TaxTickDelayModifier;
+			TaxDelay = ModifiedStats.TaxStats.TaxTickDelay*ModifiedStats.TaxStats.TaxTickDelayModifier;
 		}
 	}
 	
 }
 
-void ATaxTurret::GetDelay(float& Seconds, float& Percent)
+void ATaxTurret::GetTaxDelay(float& Seconds, float& Percent)
 {
-	Seconds = FMath::Max(0.f, Delay);
+	Seconds = FMath::Max(0.f, TaxDelay);
 	Percent = Seconds / (ModifiedStats.TaxStats.TaxTickDelay*ModifiedStats.TaxStats.TaxTickDelayModifier);
 }
 
 void ATaxTurret::RealShoot_Implementation(float DeltaTime)
-{auto* Instance = Cast<UKTWOPGameInstance>(GetGameInstance());
+{
+	auto* Instance = Cast<UKTWOPGameInstance>(GetGameInstance());
 	if (IsValid(Instance))
 	{
 		Instance->IncreaseSouls(ModifiedStats.TaxStats.SoulsPerTick*ModifiedStats.TaxStats.IncomeModifier);
@@ -62,8 +63,8 @@ void ATaxTurret::RealShoot_Implementation(float DeltaTime)
 void ATaxTurret::TurnOn()
 {
 	Super::TurnOn();
-	Delay = ModifiedStats.TaxStats.TaxTickDelay*ModifiedStats.TaxStats.TaxTickDelayModifier;
-	check(Delay!=0);
-	CollisionComponent->Deactivate();
+	TaxDelay = ModifiedStats.TaxStats.TaxTickDelay*ModifiedStats.TaxStats.TaxTickDelayModifier;
+	check(TaxDelay!=0 || !ModifiedStats.TaxStats.CanProduce || ModifiedStats.TaxStats.CanNotProduce);
+	//CollisionComponent->Deactivate();
 }
 

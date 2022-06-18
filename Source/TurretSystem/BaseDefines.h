@@ -38,6 +38,12 @@ struct FTaxTurretStats
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool CanProduce = false;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool CanNotProduce = false;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float SoulsPerTick = 0.0;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -88,6 +94,9 @@ public:
 
 	FBaseTurretStats operator+(const FBaseTurretStats& rhs) const;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool CanShoot = true;
+	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float ShootDelay = 5;
 	

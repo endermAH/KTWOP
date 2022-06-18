@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "TurretSystem/BaseActors/BaseTurret.h"
 #include "TurretSystem/BaseActors/LazerBullet.h"
+#include "TurretSystem/BaseActors/TaxTurret.h"
 #include "LazerTurret.generated.h"
 
 UCLASS(Abstract, Blueprintable)
-class TURRETSYSTEM_API ALazerTurret : public ABaseTurret
+class TURRETSYSTEM_API ALazerTurret : public ATaxTurret
 {
 	GENERATED_BODY()
 
