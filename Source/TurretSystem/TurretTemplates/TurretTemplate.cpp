@@ -27,6 +27,7 @@ ABaseTurret* USingleTargetTurretTemplate::SpawnTurret(AActor* Spawner, const FTr
 	
 	ms->ModuleSystemStats = ModuleSystemStats;
 
+	ms->ClearModules();
 	ms->AddModules(Modules);
 	return turret;
 }
@@ -48,6 +49,7 @@ ABaseTurret* ULazerTurretTemplate::SpawnTurret(AActor* Spawner, const FTransform
 	check(IsValid(ms));
 	
 	ms->ModuleSystemStats = ModuleSystemStats;
+	ms->ClearModules();
 
 	ms->AddModules(Modules);
 	return turret;
@@ -70,6 +72,7 @@ ABaseTurret* UVapeTurretTemplate::SpawnTurret(AActor* Spawner, const FTransform&
 	check(IsValid(ms));
 	
 	ms->ModuleSystemStats = ModuleSystemStats;
+	ms->ClearModules();
 
 	ms->AddModules(Modules);
 	return turret;
@@ -94,6 +97,7 @@ ABaseTurret* UTaxTurretTemplate::SpawnTurret(AActor* Spawner, const FTransform& 
 	check(IsValid(ms));
 	
 	ms->ModuleSystemStats = ModuleSystemStats;
+	ms->ClearModules();
 
 	ms->AddModules(Modules);
 

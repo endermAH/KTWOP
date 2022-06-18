@@ -43,7 +43,7 @@ void UModuleSystem::AddStatsToTurret(UModuleTemplate* Module, int count) {
 	TurretStatsDelta = TurretStatsDelta + Module->TurretStatsModification * count;
 }
 void UModuleSystem::BuildModules() {
-	ModuleBurnedCount.Empty();
+	
 
 	for (auto& Module : ModulesMap)
 	{
@@ -162,7 +162,9 @@ void UModuleSystem::ClearModules() {
 	ModuleBurnedCount.Empty();
 	ModulesMap.Empty();
 	TurretStatsDelta = FBaseTurretStats(0);
-	
+
+	for (auto& module : ModuleSystemStats.BaseModules )
+		AddModule(module);
 }
 
 
