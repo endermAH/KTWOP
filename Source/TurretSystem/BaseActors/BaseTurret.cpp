@@ -109,7 +109,7 @@ void ABaseTurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!IsWorking)
+	if (!IsWorking || !ModifiedStats.CanShoot)
 		return;
 	
 	FVector myPosition = RootComponent->GetComponentLocation();
@@ -188,6 +188,11 @@ void ABaseTurret::TurnOn()
 	CollisionComponent->SetSphereRadius(ModifiedStats.TurretRadius);
 	IsWorking = true;
 	this->BP_TurnOn();
+	if (ModifiedStats.CanShoot)
+		CollisionComponent->Activate();
+	else
+		CollisionComponent->Deactivate();
+	
 	//SetActorTicksEnabled(true/false);
 }
 
