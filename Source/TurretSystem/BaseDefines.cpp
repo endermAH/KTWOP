@@ -8,6 +8,8 @@ FTaxTurretStats FTaxTurretStats::operator+(const FTaxTurretStats& rhs) const
 	result.TaxTickDelay += rhs.TaxTickDelay;
 	result.IncomeModifier = IncomeModifier * rhs.IncomeModifier;
 	result.TaxTickDelayModifier = TaxTickDelayModifier * rhs.TaxTickDelayModifier;
+	result.CanProduce |= rhs.CanProduce;
+	result.CanNotProduce |= rhs.CanNotProduce;
 	return result;
 }
 
@@ -35,10 +37,11 @@ FBaseTurretStats FBaseTurretStats::operator+(const FBaseTurretStats& rhs) const
 	FBaseTurretStats result = *this;
 	result.BulletStats					 = BulletStats + rhs.BulletStats;
 	result.TaxStats					     = TaxStats + rhs.TaxStats;
-	result.TurretRadius				     +=rhs.TurretRadius;
-	result.TurretShootAngle    		     +=rhs.TurretShootAngle;
-	result.RotationSpeed				 +=rhs.RotationSpeed;
-	result.ShootDelay				     +=rhs.ShootDelay;
+	result.TurretRadius				    += rhs.TurretRadius;
+	result.TurretShootAngle    		    += rhs.TurretShootAngle;
+	result.RotationSpeed				+= rhs.RotationSpeed;
+	result.ShootDelay				    += rhs.ShootDelay;
 	result.BaseStatusesMultiplier        = BaseStatusesMultiplier + rhs.BaseStatusesMultiplier;
+	result.CanShoot						&= rhs.CanShoot;
 	return result;
 };

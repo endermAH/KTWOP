@@ -7,10 +7,11 @@
 #include "StatusSystem/BaseStatuses/IStatusBase.h"
 #include "TurretSystem/BaseActors/BaseTurret.h"
 #include "TurretSystem/BaseActors/BaseBullet.h"
+#include "TurretSystem/BaseActors/TaxTurret.h"
 #include "SingleTargetTurret.generated.h"
 
 UCLASS(Abstract, Blueprintable)
-class TURRETSYSTEM_API ASingleTargetTurret : public ABaseTurret
+class TURRETSYSTEM_API ASingleTargetTurret : public ATaxTurret
 {
 	GENERATED_BODY()
 

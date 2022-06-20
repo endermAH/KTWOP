@@ -22,6 +22,10 @@ struct FModuleSystemStats {
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FStatusModifier BaseModifier;
+
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FModuleDescription> BaseModules;
 	
 };
 

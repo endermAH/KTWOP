@@ -17,6 +17,7 @@ enum EStatusModuleType
 	PlasmaModule      UMETA(DisplayName = "PlasmaModule"),
 	SkeletonModule    UMETA(DisplayName = "SkeletonModule"),
 	PoolModule        UMETA(DisplayName = "PoolModule"),
+	TaxModule         UMETA(DisplayName = "TaxModule"),
 };
 
 
